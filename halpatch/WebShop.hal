@@ -1,0 +1,397 @@
+external function Boolean ORVc_PasteArtCode(var record ORVc,Integer,var string,var string,Boolean);
+external procedure ORVc_PasteQuant(var record ORVc,Integer,Boolean,var Boolean);
+external procedure ORVc_PastePrice(var record ORVc,Integer,var Boolean);
+external procedure ORVc_PasteSum(var record ORVc,Integer,var Boolean);
+external procedure ORDchsum(var record ORVc,Integer);
+external procedure ORSumup(var record ORVc);
+external function Boolean ORDchrsum(var record ORVc,Integer);
+external procedure ExtractObjWithSeparator(string,string,Boolean,var Integer,var string); //Edit***************************Sasha2,11:03 14.01.2015
+external procedure ORVc_PasteCurncyCode(var record ORVc,string);	//Edit--------------------Dima 23.01.2015
+external function Boolean FindSubString(string,string);	//Edit----------------------Dima  17.09.2015
+external procedure CurValToOtherCur(Date,string,val,string,var val,roundmode);
+external function roundmode SetRoundModeD(Integer);
+external procedure NextM4Number(string,var string);// Edit ************************** Tuesday, 18 October 2016 14:17:18
+external function boolean MySendRawWebRequest(string, string, boolean, string, string, string, string, boolean, area, var area, integer);
+external function string 255 StrReplace(string,string,string);
+external procedure GetAvailableItems(var record ORVc);
+external procedure ORDUpdatePrices(var record ORVc,Boolean);// Edit ************************** Monday, 19 December 2016 11:16:53
+
+SetLangMode(LangRussian,"RUS",0);
+
+
+global //Edit***************************Sasha2,10:17 20.12.2016 {
+function string 255 StripExcessSpacesInString(string inStr)
+begin
+  string 255 resStr,strPart;
+  string 1 splitStr;
+  Integer pos;
+     
+    pos = 0;
+    splitStr = " ";
+    if (len(inStr)>0) then begin
+      ExtractObjWithSeparator(splitStr,inStr,true,pos,strPart);
+      while (NonBlank(strPart)) begin
+        if (Blank(resStr)) then begin
+          resStr = strPart;
+        end else begin
+          resStr = resStr & splitStr & strPart;
+        end;
+        ExtractObjWithSeparator(splitStr,inStr,true,pos,strPart);
+      end;
+    end;
+
+    StripExcessSpacesInString = resStr;
+    return;
+end; //Edit***************************Sasha2,10:17 20.12.2016 }
+
+global webpublic updating Procedure WebGetOrder() //Edit***************************Sasha2,15:18 04.07.2014
+begin
+  record ORVc ORr;
+  row ORVc ORrw;
+  record CUVc Cur;
+  record ModuleBlock OptFeature;
+  record INVc INr;
+  record WebShopSettingsBlock WSSB;
+  area aPost;
+  xml xmlPost;
+  integer nodeORCnt,nodeRowCnt,i,j,rowNr,ORCnt;
+  val qty,price,sum;
+  string 255 artcode,artspec,inwarning,warning,errors;
+  Boolean chsum, chsumConfirm;
+  string 10 rebgroup;
+  record RebVc Rebr,Reb2r;
+  boolean updateflag,recordSaved,testf;
+	string 20 IPaddr;
+  string 200 firsname,lastname,middlename,resstr;
+	record ExportStockCSVBlock ESCb;
+	
+	setcompany(1,false);
+	
+	blockload(ESCb);
+	
+	IPaddr = WebRemoteIPAddress;
+	
+	logtext(0,"Alow for IP " & ESCb.OrdersHostIP);
+	if(IPaddr==ESCb.OrdersHostIP or IPaddr=="127.0.0.1" or IPaddr=="148.251.233.15")then begin
+		logtext(0,"WebordConnectFrom " & IPaddr);
+		if(currenttime<stringtotime("23:59:59") and currenttime>stringtotime("00:30:00"))then begin// Edit ************************** Tuesday, 2 August 2016 10:01:05
+			logText(0,"WebGetOrder");
+			webgetpostdata(aPost); //Edit***************************Sasha2,15:18 04.07.2014
+			WRITEAREATOFILE(aPost,"post.txt",0);///////////////////////////////
+		
+			xmlPost = PARSEXMLAREA(aPost);
+			if (!XmlNodeExists(xmlPost,"messagestart")) then begin
+				logtext(0,"<messagestart> tag is missing. Orders import failed");
+				if (Blank(errors)) then begin errors = "Error3"; end else begin errors = errors & ",Error3"; end;
+				goto LWebGetOrder;
+			end;
+			if (!XmlNodeExists(xmlPost,"messageend")) then begin
+				logtext(0,"<messageend> tag is missing. Orders import failed");
+				if (Blank(errors)) then begin errors = "Error4"; end else begin errors = errors & ",Error4"; end;
+				goto LWebGetOrder;
+			end;
+			BlockLoad(WSSB);
+			nodeORCnt = XmlCountChildren(xmlPost,"orders");
+			ORCnt = 0;
+			for (i=0;i<nodeORCnt;i=i+1) begin 
+				rebgroup = "";
+				if (XmlNodeExists(xmlPost,"orders/order" & i)) then begin
+					ORCnt = ORCnt + 1;
+					ORr.CustOrdNr = XmlGetAttribute(xmlPost,"orders/order" & i,"orderno"); 
+					if(readfirstkey("CustOrdNr",ORr,1,true))then begin
+						updateflag = true;
+					end else begin
+						recordNew(ORr);
+						ORr.SerNr = NextSerNr("ORVc",CurrentDate,-1,false,"");
+						ORr.CustOrdNr = XmlGetAttribute(xmlPost,"orders/order" & i,"orderno"); 
+						updateflag = false;
+					end;
+					ORr.OrdDate = CurrentDate;
+
+					rebgroup = XmlGetAttribute(xmlPost,"orders/order" & i,"group_id");
+					
+					/*CUr.Code = XmlGetAttribute(xmlPost,"orders/order" & i,"clientid");// Edit ************************** Friday, 3 February 2017 15:29:29
+					
+					if (!ReadFirstKey("Code",Cur,1,true)) then begin
+						CUr.Code = "NONAME";
+						readfirstmain(CUr,1,true);
+					end;*/
+					
+					CUr.eMail = XmlGetAttribute(xmlPost,"orders/order" & i,"email");
+					if(nonblank(CUr.eMail))then begin
+						if (!ReadFirstKey("eMail",Cur,1,true)) then begin
+							CUr.Code = "NONAME";
+							CUr.Name = XmlGetAttribute(xmlPost,"orders/order" & i,"name") & " " XmlGetAttribute(xmlPost,"orders/order" & i,"name2")& ;
+							//readfirstmain(CUr,1,true);
+						end;
+					end else begin
+						CUr.Code = "NONAME";
+						CUr.Name = XmlGetAttribute(xmlPost,"orders/order" & i,"name") & " " XmlGetAttribute(xmlPost,"orders/order" & i,"name2")& ;
+					end;
+					
+					ORr.RebCode = CUr.RebCode;
+					ORr.CustCode = Cur.Code;
+					ORr.Addr0 = Cur.Name;
+					ORr.ShipAddr0 = Cur.Name;
+					
+					ORr.ShipAddr1 = XmlGetAttribute(xmlPost,"orders/order" & i ,"delivery");
+					ORr.ShipAddr2 = XmlGetAttribute(xmlPost,"orders/order" & i ,"country") & ", " & XmlGetAttribute(xmlPost,"orders/order" & i ,"city");
+					ORr.ShipAddr3 = XmlGetAttribute(xmlPost,"orders/order" & i ,"address");
+					ORr.Comment = XmlGetAttribute(xmlPost,"orders/order" & i ,"ordercomment");
+					ORr.SalesMan  = CurrentUser;
+					ORr.Location = WSSB.Location;
+					ORr.PayDeal = CUr.PayDeal;
+					if(blank(ORr.PayDeal))then begin
+						ORr.PayDeal = WSSB.PayDeal;
+					end;
+					ORr.ShipDeal = WSSB.ShipDeal;
+					ORr.SyncFlag = 0;
+
+					
+					ORr.CurncyCode = "US$";
+					ORVc_PasteCurncyCode(ORr,"USD");		//Edit--------------------Dima 23.01.2015
+
+
+					nodeRowCnt = XmlCountChildren(xmlPost,"orders/order" & i );
+					rowNr = 0;
+					for (j=0;j<nodeRowCnt;j=j+1) begin
+						if (XmlNodeExists( xmlPost,"orders/order" & i & "/row" & j )) then begin
+							artcode = XmlGetAttribute(xmlPost,"orders/order" & i & "/row" & j,"SKU");
+							if (NonBlank(artcode)) then begin
+								artspec = XmlGetAttribute(xmlPost,"orders/order" & i & "/row" & j,"Name");
+								price = StringToVal(StrReplace(XmlGetAttribute(xmlPost,"orders/order" & i & "/row" & j,"PriceInitial"),".",","),M423Val);
+								qty = StringToVal(StrReplace(XmlGetAttribute(xmlPost,"orders/order" & i & "/row" & j,"Qty"),".",","),M4UVal);
+								sum = StringToVal(StrReplace(XmlGetAttribute(xmlPost,"orders/order" & i & "/row" & j ,"PriceTotal"),".",","),M4Val);
+								chsumConfirm = false;
+								INr.Code = artcode;
+								if (ReadFirstMain(INr,1,true)) then begin
+									
+									ORrw.ArtCode = artcode;
+									MatRowPut(ORr,rowNr,ORrw);
+									ORVc_PasteArtCode(ORr,rowNr,inwarning,warning,false);
+									if (nonblank(inwarning)) then begin
+										//if (Blank(errors)) then begin errors = "Error8"; end else begin errors = errors & ",Error8"; end;
+											logtext(0,"Order #" & ORr.SerNr & ", Artcode #" & ORrw.ArtCode & ": " & inwarning);
+										end;
+										if (nonblank(warning)) then begin
+											//if (Blank(errors)) then begin errors = "Error8"; end else begin errors = errors & ",Error8"; end;
+											logtext(0,"Order #" & ORr.SerNr & ", Artcode #" & ORrw.ArtCode & ": " & warning);
+										end;
+									MatRowGet(ORr,rowNr,ORrw);
+									if (Blank(ORrw.Spec)) then begin
+										ORrw.Spec = artspec;
+									end;
+									ORrw.Quant = qty;
+									MatRowPut(ORr,rowNr,ORrw);
+									if (OptFeature.NoQtyDepPrices==0) then begin
+											ORVc_PasteQuant(ORr,rowNr,true,chsum);
+										end else begin
+											chsum = ORDchrsum(ORr,rowNr);
+										end; 
+										if (chsum) then begin
+											chsumConfirm = true;
+										end;
+								
+										MatRowGet(ORr,rowNr,ORrw);   
+									ORrw.Price = price;
+									MatRowPut(ORr,rowNr,ORrw);
+									ORVc_PastePrice(ORr,rowNr,chsum);
+										if (chsum) then begin
+										chsumConfirm = true;
+										end;
+										MatRowGet(ORr,rowNr,ORrw);
+									ORrw.Sum = sum;
+									MatRowPut(ORr,rowNr,ORrw);
+							
+									ORVc_PasteSum(ORr,rowNr,chsum);
+									if (chsum) then begin
+										chsumConfirm = true;
+									end;
+									if (chsumConfirm) then begin      
+										ORDchsum(ORr,rowNr);
+										ORSumup(ORr);
+									end;
+									rowNr = rowNr + 1;
+								end else begin
+									/*ORrw.Spec = "Товар с кодом " & artcode & " не существует";
+									ORrw.ArtCode = artcode;
+									ORrw.Spec = artspec;
+									ORrw.Quant = qty;
+									ORrw.Price = price;
+									ORrw.Sum = sum;
+									MatRowPut(ORr,rowNr,ORrw);
+									//if (Blank(errors)) then begin errors = "Error7"; end else begin errors = errors & ",Error7"; end;
+									logtext(0,"artcode " & artcode & " is not exists");
+									MatRowPut(ORr,rowNr,ORrw);
+									ORVc_PasteSum(ORr,rowNr,chsum);
+									if (chsum) then begin
+										chsumConfirm = true;
+									end;
+									if (chsumConfirm) then begin      
+										ORDchsum(ORr,rowNr);
+										ORSumup(ORr);
+									end;*/
+									logtext(0,"artcode " & artcode & " is not exists");
+								end;
+								
+							end;
+						end;
+					end;
+					if (rowNr == 0) then begin
+						//if (Blank(errors)) then begin errors = "Error6"; end else begin errors = errors & ",Error6"; end;
+						logtext(0,"no rows in order #" & ORr.SerNr);
+					end;	
+					
+				
+										
+					if(ORr.SerNr>-1)then begin
+						if(updateflag)then begin
+							if (recordStore(ORr,true)) then begin
+							  recordSaved = true;
+								logtext(0,"Successful order import #" & ORr.SerNr);
+							end;
+						end else begin
+							if (recordInsert(ORr,true)) then begin
+							  recordSaved = true;
+								logtext(0,"Successful order import #" & ORr.SerNr);
+							end else begin
+								if (Blank(errors)) then begin errors = "Error1"; end else begin errors = errors & ",Error1"; end;
+								logtext(0,"Error1 Order #" & ORr.SerNr);
+							end;
+						end;
+					end else begin
+						if (Blank(errors)) then begin errors = "Error1"; end else begin errors = errors & ",Error1"; end;
+						logtext(0,"Error1 Order # nosernr" & ORr.SerNr);
+					end;
+					
+					if (recordSaved) then begin //Edit***************************Sasha2,17:49 05.12.2016 {
+					  testf = true;
+
+					end; //Edit***************************Sasha2,17:49 05.12.2016 }
+				end;
+			end;
+			if (ORCnt == 0) then begin
+				//if (Blank(errors)) then begin errors = "Error5"; end else begin errors = errors & ",Error5"; end;
+				logtext(0,"No orders in xml data");
+			end;
+	
+		LWebGetOrder:;	
+		
+			if (Blank(errors)) then begin
+				logtext(0,"Successful import OUT");
+				weboutstring("Successful import"); //Edit***************************Sasha2,15:18 04.07.2014
+			end else begin
+				weboutstring(errors); //Edit***************************Sasha2,15:18 04.07.2014
+			end;
+		end else begin
+	
+		end;
+	end else begin
+		logtext(0,"WebordConnectFrom DISALLOW****************************************" & IPaddr);
+		weboutstring("Access denied"); //Edit***************************Sasha2,15:18 04.07.2014
+	end;
+return;
+end;
+
+global webpublic Procedure WebLookForSync() //Edit***************************Sasha2,17:22 15.07.2014 {
+begin
+record ORVc ORr;
+row ORVc ORrw;
+area aSync;
+boolean TrHs,testf;
+integer i,j,rwcnt,reccnt;
+string 10 nextline;
+
+	logtext(0,"WebLookForSync");
+	nextline = chr(13) & chr(10);
+	AddTextToArea("<?xml version='1.0' encoding='UTF-8'?>" & nextline, aSync);
+	AddTextToArea("<messagestart>START</messagestart>" & nextline, aSync);
+	AddTextToArea("<orders>" & nextline, aSync);
+	
+	ORr.SyncFlag = 1;
+	TrHs = true;
+	j = 0;
+	While(loopkey("SyncFlag",ORr,1,TrHs)) begin 
+		testf = true;
+		if(ORr.SyncFlag!=1)then begin TrHs = false; testf = false; end;
+		
+		if (testf) then begin
+			logtext(0,"Sent order #" & ORr.SerNr & " SF:" & ORr.SyncFlag); //////////////////////
+			AddTextToArea(chr(9) & "<order" & j & " orderno='" & ORr.CustOrdNr & "'" & " status='" & "1" & "'" & ">" & nextline,aSync);
+			AddTextToArea(chr(9) & "</order" & j & ">" & nextline,aSync);
+			j = j + 1;
+		end;
+	end; 
+	
+	AddTextToArea("</orders>" & nextline,aSync);
+	AddTextToArea("<messageend>END</messageend>",aSync);
+	
+	if(j>0)then begin
+		WebOutArea(aSync);
+		logText(0,"Orders are posted");
+		WriteAreaToFile(aSync,"XML.txt",0); /////////////////
+	end else begin
+		weboutstring("Nothing to sync");
+		logtext(0,"Nothing to sync");
+	end;
+
+return;
+end; //Edit***************************Sasha2,17:22 15.07.2014 }
+
+global webpublic updating Procedure WebSyncConfirmed() //Edit***************************Sasha2,17:21 15.07.2014 {
+begin
+record ORVc ORr;
+area aPost;
+xml xmlPost;
+integer nodeORCnt,i,ORCnt;
+string 255 errors;
+
+	logtext(0,"WebSyncConfirmed");
+	webgetpostdata(aPost);
+	xmlPost = PARSEXMLAREA(aPost);
+	
+	if (!XmlNodeExists(xmlPost,"messagestart")) then begin
+		logtext(0,"<messagestart> tag is missing. Orders list import failed");
+		if (Blank(errors)) then begin errors = "Error3"; end else begin errors = errors & ",Error3"; end; 
+  		goto LWebSyncConfirmed;
+	end;
+	if (!XmlNodeExists(xmlPost,"messageend")) then begin
+  		logtext(0,"<messageend> tag is missing. Orders list import failed");
+  		if (Blank(errors)) then begin errors = "Error4"; end else begin errors = errors & ",Error4"; end;
+  		goto LWebSyncConfirmed;
+	end;
+	
+	nodeORCnt = XmlCountChildren(xmlPost,"orders");
+  	ORCnt = 0;
+	for (i=0;i<nodeORCnt;i=i+1) begin
+		if (XmlNodeExists(xmlPost,"orders/order" & i)) then begin
+			ORCnt = ORCnt + 1;
+			ORr.CustOrdNr = XmlGetAttribute(xmlPost,"orders/order" & i,"orderno");
+			if (ReadFirstKey("CustOrdNr",ORr,1,true)) then begin
+				ORr.SyncFlag = 0;
+				if (!RecordStore(ORr,true)) then begin
+					if (Blank(errors)) then begin errors = "Error1"; end else begin errors = errors & ",Error1"; end;
+					logtext(0,"Error1 Order #" & ORr.SerNr);
+				end;
+			end else begin
+				if (Blank(errors)) then begin errors = "Error9"; end else begin errors = errors & ",Error9"; end;
+				logtext(0,"Error9 order WEB #" & XmlGetAttribute(xmlPost,"orders/order" & i,"orderno"));
+			end;
+		end;
+	end;
+	if (ORCnt == 0) then begin
+		if (Blank(errors)) then begin errors = "Error5"; end else begin errors = errors & ",Error5"; end;
+		logtext(0,"No orders in xml data");
+	end;
+
+LWebSyncConfirmed:;
+
+	if (Blank(errors)) then begin
+		weboutstring("Successful");
+		logText(0,"Successful synchronization");
+	end else begin
+		weboutstring(errors);
+	end;
+return;
+end; //Edit***************************Sasha2,17:21 15.07.2014 }
+
