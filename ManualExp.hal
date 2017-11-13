@@ -244,6 +244,7 @@ begin
 	vector boolean custflag;
 	array string 50 acust;
 	record CUVc CUr;
+	area request,reply;
 	
 	setext = WebGetArg("serrnr");
 	setcompany(1,false);
@@ -273,13 +274,35 @@ begin
 						RepSpec.sStartDate = addday(currentdate,-30);
 						RepSpec.sEndDate = currentdate;
 						
-						createfile("CuPerRn_" & CUr.Code & ".txt");
+						createfile("Rep/CuPerRn_" & CUr.Code & "");
 						closefile;
-						openexportfile("CuPerRn_" & CUr.Code & ".txt",true);
+						openexportfile("Rep/CuPerRn_" & CUr.Code & "",true);
 						CuPerRn(RepSpec);
 						closefile;
 						
-						MySendWebRequest("127.0.0.1",1301,1301,false,"GET","/WebSaveExportReportToFileEn.hal?serrnr=" & IPr.SerNr,"text/xml","",false,request,reply,5);
+						runprogram("Rep/iconv.sh","./Rep/CuPerRn_" & CUr.Code & "");
+						//setareazerosize(request);
+						//addtexttoarea(chr(255) & chr(254),request);
+						//addfiletoarea("CuPerRn_" & CUr.Code & ".txt",request,0);
+						//writeareatofile(request,"CuPerRn_" & CUr.Code & ".txt",0);
+						
+						
+						setareazerosize(request);
+						addtexttoarea("{",request);
+						addtexttoarea("\"host\":\"smtp.zoho.eu\",",request);
+						addtexttoarea("\"port\":465,",request);
+						addtexttoarea("\"secure\":true,",request);
+						addtexttoarea("\"user\":\"office@hitmarket.com.ua\",",request);
+						addtexttoarea("\"pass\":\"fgkl7md8fNklmndf\",",request);
+						addtexttoarea("\"from\":\"office@hitmarket.com.ua\",",request);
+						addtexttoarea("\"to\":\"kramar.alexandr@bpi.in.ua\",",request);
+						addtexttoarea("\"subject\":\"office@hitmarket.com.ua\",",request);
+						addtexttoarea("\"message\":\"office@hitmarket.com.ua\",",request);
+						addtexttoarea("\"filename\":\"CuPerRn_" & CUr.Code & ".xls" & "\",",request);
+						addtexttoarea("\"path\":\"/usr/local/bin/TITAREV/Son_Live/" & "Rep/CuPerRn_" & CUr.Code & ".xls" & "\"",request);
+						addtexttoarea("}",request);
+
+						MySendWebRequest("127.0.0.1",1070,1070,false,"POST","/sendMail","application/json","",false,request,reply,5);
 						
 					end;
 				end; 
