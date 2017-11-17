@@ -153,7 +153,6 @@ begin
     OutString(7,0,"",false);// Edit ************************** Monday, 13 November 2017 17:00:28
     OutString(7,0,"",false);// Edit ************************** Monday, 13 November 2017 17:00:30
     OutString(7,0,"",false);// Edit ************************** Monday, 13 November 2017 17:00:30
-    OutString(7,0,"",false);// Edit ************************** Monday, 13 November 2017 17:00:31
     OutVal(9,0,startbalp,M4Val,true);
     EndFormat;
   end;

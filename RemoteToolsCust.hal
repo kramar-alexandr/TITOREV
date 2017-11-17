@@ -1,0 +1,86 @@
+external inner function string 255 StrReplace(string,string,string);
+external procedure CuPerRn(record RcVc);// Edit ************************** Monday, 13 November 2017 13:56:48
+external inner function boolean MySendWebRequest(string,integer,integer,boolean,string,string,string,string,boolean,area,var area,integer);
+
+SetLangMode(LangRussian,"RUS",0);
+
+global webpublic procedure WebSaveExportReportToFileEn()
+begin
+	record RcVc RepSpec;
+	string 50 setext;
+	record IPVc IPr;
+	integer i,mtrw,acnt;
+	row IPVc IPrw;
+	vector boolean custflag;
+	array string 50 acust;
+	record CUVc CUr;
+	area request,reply;
+	string 255 custname;
+	
+	setext = WebGetArg("serrnr");
+	setcompany(1,false);
+		if(nonblank(setext))then begin
+			IPr.SerNr = stringtolongint(setext);
+			if(readfirstmain(IPr,1,true))then begin
+				mtrw = matrowcnt(IPr);
+				For(i=0;i<mtrw;i=i+1) begin
+	  			matrowget(IPr,i,IPrw);
+	  			if(nonblank(IPrw.CustCode))then begin
+	  				if(custflag[IPrw.CustCode]==false)then begin
+	  					custflag[IPrw.CustCode] = true;
+	  					acust[acnt] = IPrw.CustCode;
+	  					acnt = acnt + 1;
+	  				end;
+	  			end;
+				end; 
+				
+				For(i=0;i<acnt;i=i+1) begin
+					CUr.Code = acust[i];
+					if(readfirstmain(CUr,1,true))then begin
+						if(nonblank(CUr.eMail))then begin
+							ReportDefaults(RepSpec,"CuPer2RClass");
+							RepSpec.flags[8] = 1;
+							RepSpec.f1 = CUr.Code;
+							RepSpec.ArtMode = 1;
+							RepSpec.flags[2] = 1;
+							RepSpec.Media = mtExcel;
+							RepSpec.sStartDate = addday(currentdate,-30);
+							RepSpec.sEndDate = currentdate;
+						
+							custname = CUr.Name;
+							CUr.Name = StrReplace(CUr.Name," ", "_");
+							delete_file("Rep/Баланс_" & CUr.Name);
+							delete_file("Rep/Баланс_" & CUr.Name & ".xls");
+							createfile("Rep/Баланс_" & CUr.Name);
+							closefile;
+							openexportfile("Rep/Баланс_" & CUr.Name,true);
+							CuPerRn(RepSpec);
+							closefile;
+						
+							runprogram("Rep/iconv.sh","./Rep/Баланс_" & CUr.Name);
+
+							setareazerosize(request);
+							addtexttoarea("{",request);
+							addtexttoarea("\"host\":\"smtp.zoho.eu\",",request);
+							addtexttoarea("\"port\":465,",request);
+							addtexttoarea("\"secure\":true,",request);
+							addtexttoarea("\"user\":\"office@hitmarket.com.ua\",",request);
+							addtexttoarea("\"pass\":\"fgkl7md8fNklmndf\",",request);
+							addtexttoarea("\"from\":\"office@hitmarket.com.ua\",",request);
+							addtexttoarea("\"to\":\"" & CUr.eMail & "\",",request);
+							addtexttoarea("\"subject\":\"Баланс по клиенту: " & custname & "\",",request);
+							addtexttoarea("\"message\":\"\",",request);
+							addtexttoarea("\"filename\":\"Баланс_" & CUr.Name & ".xls" & "\",",request);
+							addtexttoarea("\"path\":\"/usr/local/bin/TITAREV/Son_Live/" & "Rep/Баланс_" & CUr.Name & ".xls" & "\"",request);
+							addtexttoarea("}",request);
+
+							MySendWebRequest("127.0.0.1",1070,1070,false,"POST","/sendMail","application/json","",false,request,reply,5);
+						end;
+					end;
+				end; 
+			end;
+		end;
+	resetcompany(1);
+	
+return;
+end;
