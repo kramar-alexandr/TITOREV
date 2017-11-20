@@ -217,10 +217,10 @@ begin
 						IPVc_PasteBankVal(IPp,currow);
 						matrowget(IPp,currow,newIPrw);
 						newIPrw.FrRateBankVal = currate;
-						newIPrw.ToRateB1BankVal = 1;
-						newIPrw.BaseRate1BankVal = 1;
+						newIPrw.ToRateB1BankVal = blankval;
+						newIPrw.BaseRate1BankVal = blankval;
 						matrowput(IPp,currow,newIPrw);
-						IPVc_PasteToRateB1BankVal(IPp,currow);// Edit ************************** Tuesday, 12 April 2016 17:39:56
+						//IPVc_PasteToRateB1BankVal(IPp,currow);// Edit ************************** Tuesday, 12 April 2016 17:39:56
 					end;        	
 					
         end;// Edit ************************** Tuesday, 12 April 2016 15:05:58
@@ -250,10 +250,10 @@ begin
 				IPVc_PasteBankVal(IPp,currow);
 				matrowget(IPp,currow,newIPrw);
 				newIPrw.FrRateBankVal = currate;
-				newIPrw.ToRateB1BankVal = 1;
-				newIPrw.BaseRate1BankVal = 1;
+				newIPrw.ToRateB1BankVal = blankval;
+				newIPrw.BaseRate1BankVal = blankval;
 				matrowput(IPp,currow,newIPrw);
-				IPVc_PasteToRateB1BankVal(IPp,currow);
+				//IPVc_PasteToRateB1BankVal(IPp,currow);
 			end;        	
 			
 		end;// Edit ************************** Tuesday, 12 April 2016 15:05:58
