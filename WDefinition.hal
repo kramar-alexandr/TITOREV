@@ -1103,19 +1103,19 @@ begin
   MatCol(1,32,"Товар",0,ArtCode,false,ForSaleINSClass);
 //  MatCol(1,94,"Var",0,VARList,false,VARSClass);
 //  MatCol(1,144,"Описание",0,Spec,false,0);
-  MatCol(1,94,"Наименование",0,Spec,false,0);
+  MatCol(1,170,"Наименование",0,Spec,false,0);
   MatCol(t=kInvoiceRowTypeStructuredItemComponent,32,"Товар",0,ArtCode,false,ForSaleINSClass);
 //  MatCol(t,94,"Var",0,VARList,false,VARSClass);
 //  MatCol(t,144,"Описание",0,Spec,false,0);
-  MatCol(t,94,"Наименование",0,Spec,false,0);
+  MatCol(t,170,"Наименование",0,Spec,false,0);
   flipnr = 1;
   Flip(flipnr); flipnr = flipnr + 1;
   if (HasCustItem) then begin
-    MatCol(1,-230,"Товар кл.",0,CustArtCode,false,CUINSClass);
+    MatCol(1,-160,"Товар кл.",0,CustArtCode,false,CUINSClass);
   end;
-  MatCol(1,-150,"Зак.",0,Ordered,true,0);
-  MatCol(1,-98,"Скл.",0,InStock,true,0);
-  MatCol(1,-50,"Своб.",0,Ship,true,0);
+  MatCol(1,-120,"Зак.",0,Ordered,true,0);
+  MatCol(1,-80,"Скл.",0,InStock,true,0);
+  MatCol(1,-40,"Своб.",0,Ship,true,0);
   if (HasCustItem) then begin
     MatCol(t=kInvoiceRowTypeStructuredItemComponent,-230,"Код товара кл.",0,CustArtCode,false,CUINSClass);
     MatCol(t,-150,"Заказано",0,Ordered,true,0); 
