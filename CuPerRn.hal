@@ -827,6 +827,7 @@ L33:;
   end;  
   if (RepSpec.flags[2]==0) then begin
     StartFormat(15);
+    OutString(0,0,"",false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 20 November
     OutStringAdjust(3,0,USetStr(2495),true,M4Val);
     OutStringAdjust(4,0,USetStr(2496),true,M4Val);
     OutStringAdjust(9,0,USetStr(2489),true,M4Val);
@@ -841,6 +842,7 @@ L33:;
     EndFormat;
   end else begin
     StartFormat(15);
+    OutString(0,0,"",false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 20 November 2017 18:37:32
     OutStringAdjust(3,0,USetStr(2495),true,M4Val);
     OutStringAdjust(4,0,USetStr(2496),true,M4Val);
     OutStringAdjust(9,0,USetStr(2489),true,M4Val);

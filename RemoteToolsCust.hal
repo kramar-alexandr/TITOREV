@@ -50,15 +50,18 @@ begin
 							custname = CUr.Name;
 							CUr.Name = StrReplace(CUr.Name," ", "_");
 							delete_file("Rep/Баланс_" & CUr.Name);
-							delete_file("Rep/Баланс_" & CUr.Name & ".xls");
+							delete_file("Rep/Баланс_" & CUr.Name & ".xlsx");
 							createfile("Rep/Баланс_" & CUr.Name);
 							closefile;
 							openexportfile("Rep/Баланс_" & CUr.Name,true);
 							CuPerRn(RepSpec);
 							closefile;
 						
-							runprogram("Rep/iconv.sh","./Rep/Баланс_" & CUr.Name);
-
+							//runprogram("Rep/iconv.sh","./Rep/Баланс_" & CUr.Name);
+							runprogram("node","CUPrnTabtoXLSX.js ./Rep/Баланс_" & CUr.Name);
+							
+							millisleep(3000);
+							
 							setareazerosize(request);
 							addtexttoarea("{",request);
 							addtexttoarea("\"host\":\"smtp.zoho.eu\",",request);
@@ -70,8 +73,8 @@ begin
 							addtexttoarea("\"to\":\"" & CUr.eMail & "\",",request);
 							addtexttoarea("\"subject\":\"Баланс по клиенту: " & custname & "\",",request);
 							addtexttoarea("\"message\":\"\",",request);
-							addtexttoarea("\"filename\":\"Баланс_" & CUr.Name & ".xls" & "\",",request);
-							addtexttoarea("\"path\":\"/usr/local/bin/TITAREV/Son_Live/" & "Rep/Баланс_" & CUr.Name & ".xls" & "\"",request);
+							addtexttoarea("\"filename\":\"Баланс_" & CUr.Name & ".xlsx" & "\",",request);
+							addtexttoarea("\"path\":\"/usr/local/bin/TITAREV/Son_Live/" & "Rep/Баланс_" & CUr.Name & ".xlsx" & "\"",request);
 							addtexttoarea("}",request);
 
 							MySendWebRequest("127.0.0.1",1070,1070,false,"POST","/sendMail","application/json","",false,request,reply,5);
