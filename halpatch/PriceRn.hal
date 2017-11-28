@@ -352,7 +352,7 @@ begin
   array string 10 apricelist;// Edit ************************** Tuesday, 21 March 2017 10:36:09
   array val aupric;
   integer pos,i,k;// Edit ************************** Tuesday, 21 March 2017 10:37:13
-  
+  record ItemStatusVc ISr;
   
 
   if (nonblank(RepSpec.f2)) begin
@@ -457,7 +457,22 @@ begin
       StartFormat(15);
       OutString(0,"DblINVc",artcode,false);
       OutString(2,0,namestr,false);
-      OutString(3,0,INr.Unittext,false);
+      if(RepSpec.flags[11]==0)then begin
+				OutString(3,0,INr.Unittext,false);
+      end else begin
+      	ISr.Code = INr.Code;
+      	if(nonblank(RepSpec.f6))then begin// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:31:39
+      		ISr.Location = RepSpec.f6;
+      	end else begin
+      		ISr.Location = ";;;";
+      	end;
+      	if(readfirstmain(ISr,2,true))then begin
+      		outval(3,0,ISr.Instock,M4Val,false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:31:37
+      	end else begin
+      		outval(3,0,0,M4Val,false);
+      	end;
+      	
+      end;
       if(k<=1)then begin// Edit ************************** Tuesday, 21 March 2017 10:50:52
 				if (RepSpec.flags[9]==1) then begin
 					OutVal(4,0,upric,M423Val,true);
@@ -908,7 +923,12 @@ begin
   if (RepSpec.flags[3]==0) then begin
     OutString(0,0,USetStr(2325),false);
     OutString(2,0,USetStr(2326),false);
-    OutString(3,0,USetStr(2327),false);
+    if(RepSpec.flags[11]==0)then begin
+			OutString(3,0,USetStr(2327),false);
+    end else begin
+    	OutString(3,0,USetStr(12053),false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:18:30
+    end;
+    
     if(k<=1)then begin
 			OutString(4,0,USetStr(2328),true);
 			OutString(1,0,USetStr(2329),true);

@@ -3403,7 +3403,7 @@ if (HasTouchScreenLook==false) then begin
       SpecialMenu("Создать дебит ноту",' ',20,"CreateDebitNoteIVDsm");
       SpecialMenu("Создать реализацию EDI",' ',9,"DoEDIInvFromIVD");
     end;
-    SpecialMenu("Создать эл. письмо",'m',23,"CreateMailFromIVDsm");
+    SpecialMenu("Создать эл. письмо",'m',23,"CreateMailFromIVDMysm");// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:42:11
     if (HasLocalization("UKR")) then begin
       SpecialMenu("Создать первое событие",' ',18,"FirstEventIVDsm");
     end;

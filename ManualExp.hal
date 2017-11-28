@@ -1,4 +1,5 @@
 external inner function boolean MySendWebRequest(string,integer,integer,boolean,string,string,string,string,boolean,area,var area,integer);
+remote inner updating function Integer CreateMailFromIVDMy(record IVVc,var record MailVc,var string,Boolean,string);
 
 procedure GetCurTimeInStr(var string res)
 BEGIN
@@ -230,4 +231,30 @@ begin
 	MySendWebRequest("127.0.0.1",1301,1301,false,"GET","/WebSaveExportReportToFileEn.hal?serrnr=" & IPr.SerNr,"text/xml","",false,request,reply,5);
 	
 return;
+end;
+
+
+
+global 
+updating procedure CreateMailFromIVDMysm()
+begin
+  Integer wn,nwn;
+  record MailVc Mailr;
+  record IVVc IVr;
+  Integer err;
+  string 255 tstr,docname;
+  record MailSettingsBlock MSb;
+  Boolean testf;
+	
+	
+	
+  wn = CurWindow;
+  if (WindowState(wn)==0) then begin//normalstate
+    testf = true;
+    GetWindowRecord(wn,IVr); 
+    if (testf) then begin
+      err = CreateMailFromIVDMy(IVr,Mailr,tstr,false,WindowFormName(wn));
+    end;
+  end;
+  return;
 end;
