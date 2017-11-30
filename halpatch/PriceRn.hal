@@ -353,6 +353,7 @@ begin
   array val aupric;
   integer pos,i,k;// Edit ************************** Tuesday, 21 March 2017 10:37:13
   record ItemStatusVc ISr;
+  integer repint;
   
 
   if (nonblank(RepSpec.f2)) begin
@@ -467,7 +468,8 @@ begin
       		ISr.Location = ";;;";
       	end;
       	if(readfirstmain(ISr,2,true))then begin
-      		outval(3,0,ISr.Instock,M4Val,false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:31:37
+      		repint = ISr.Instock;
+      		outstring(3,0,repint,false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:31:37
       	end else begin
       		outval(3,0,0,M4Val,false);
       	end;

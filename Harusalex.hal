@@ -1994,9 +1994,9 @@ begin
   RlColKey(96,96,"Дата операции",TransDate,false,TransDate);
   RlColKey(221,221,"Сотрудник",Person,false,Person);
   RlColKey(305,305,"ФИО",Name,false,Name);
-  RlColKey(485,485,"Сумма",PayVal,true,SerNr);
+  RlColKey(-150,-150,"Сумма",PayVal,true,SerNr);
   //RlColKey(550,550,"Объект",Objects,true,SerNr);
-  RlCol(550,550,"Вал.",CurncyCode,true);
+  RlCol(-60,-60,"Вал.",CurncyCode,true);
  
   RlCol(-1,-1,"",Invalid,true);
   SearchField("Найти");
