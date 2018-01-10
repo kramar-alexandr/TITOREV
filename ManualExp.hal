@@ -1,5 +1,5 @@
 external inner function boolean MySendWebRequest(string,integer,integer,boolean,string,string,string,string,boolean,area,var area,integer);
-remote inner updating function Integer CreateMailFromIVDMy(record IVVc,var record MailVc,var string,Boolean,string);
+remote inner function Integer CreateMailFromIVDMy(record IVVc,var record MailVc,var string,Boolean,string);
 
 procedure GetCurTimeInStr(var string res)
 BEGIN
