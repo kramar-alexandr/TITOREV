@@ -65,11 +65,11 @@ begin
 	  		startformat(15);
 	  			inqty = blankval;
 	  			outqty = blankval;
-	  			if(Prodrw.InQty*Prod2r.Qty!=0)then begin
-	  				inqty = Prodrw.InQty*Prod2r.Qty;
+	  			if(Prodrw.InQty*Prodr.Qty!=0)then begin
+	  				inqty = Prodrw.InQty*Prodr.Qty;
 	  			end;
-	  			if(Prodrw.OutQty*Prod2r.Qty!=0)then begin
-	  				outqty = Prodrw.OutQty*Prod2r.Qty;
+	  			if(Prodrw.OutQty*Prodr.Qty!=0)then begin
+	  				outqty = Prodrw.OutQty*Prodr.Qty;
 	  			end;
 					OutString(col[0],0,Prodrw.Item,false);
 					OutString(col[1],0,Prodrw.Comment,false);
@@ -88,8 +88,8 @@ begin
 					
 					OutVal(col[4],0,instock,m4val,false);
 					OutVal(col[5],0,-vArtQtyOut[Prodrw.Item]+vArtQtyIn[Prodrw.Item],M4Val,false);
-					if((instock + vArtQtyOut[Prodrw.Item]-vArtQtyIn[Prodrw.Item]-Prodrw.InQty*Prod2r.Qty)<0 and Prodrw.InQty>0)then begin
-						OutVal(col[6],0,-(instock + vArtQtyOut[Prodrw.Item]-vArtQtyIn[Prodrw.Item]-Prodrw.InQty*Prod2r.Qty),M4Val,false);
+					if((instock + vArtQtyOut[Prodrw.Item]-vArtQtyIn[Prodrw.Item]-Prodrw.InQty*Prodr.Qty)<0 and Prodrw.InQty>0)then begin
+						OutVal(col[6],0,-(instock + vArtQtyOut[Prodrw.Item]-vArtQtyIn[Prodrw.Item]-Prodrw.InQty*Prodr.Qty),M4Val,false);
 					end else begin
 					
 					end;
