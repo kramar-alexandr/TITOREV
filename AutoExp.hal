@@ -144,7 +144,7 @@ string 255 headers,rows;// Edit ************************** BPI Ukraine - KramarA
   CreateFile(tstr);
   	headers = "websites;sku;";
   	for (i=0;i<arcnt+1;i=i+1) begin
-      headers = headers & "group_price:Opt_price_" & i & ";";
+      headers = headers & "group_price:Opt_price_" & plcodes[i] & ";";
     end;
     headers = headers & "qty;in_stock";
   	ExportPadString(headers,len(headers),"",false);
