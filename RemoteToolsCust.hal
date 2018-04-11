@@ -73,6 +73,14 @@ begin
 							addtexttoarea("\"to\":\"" & CUr.eMail & "\",",request);
 							addtexttoarea("\"subject\":\"Баланс по клиенту: " & custname & "\",",request);
 							addtexttoarea("\"message\":\"\",",request);
+							
+							addtexttoarea("\"html\":\"<div><h3>Добрый день!</h3><p>Оплата успешно проведена. Обновленный баланс в прикрепленном файле.</p><img src=\\\"cid:logo.png\\\">",request);
+							addtexttoarea("<p><a href=\\\"http://www.hitmarket.com.ua/\\\">www.hitmarket.com.ua</a></p></div>\",",request);
+
+							addtexttoarea("\"htmlpath\":\"/usr/local/bin/TITAREV/Son_Live/" & "Rep/logo.png" & "\",",request);
+							addtexttoarea("\"htmlattach\":\"logo.png" & "\",",request);
+							addtexttoarea("\"htmlcid\":\"logo.png" & "\",",request);
+							
 							addtexttoarea("\"filename\":\"Баланс_" & CUr.Name & ".xlsx" & "\",",request);
 							addtexttoarea("\"path\":\"/usr/local/bin/TITAREV/Son_Live/" & "Rep/Баланс_" & CUr.Name & ".xlsx" & "\"",request);
 							addtexttoarea("}",request);

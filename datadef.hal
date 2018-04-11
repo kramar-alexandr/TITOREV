@@ -40,10 +40,15 @@ begin
 	
 	RecordAddBegin(ORVc,"ORVc_Custom");
 		RecordField(SyncFlag,M4Int,0,0); //Edit***************************Sasha2,10:19 15.07.2014
+		ChangeMatrixField(vRebate,M45Val,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 11 April 2018 10:28:21
   
   	KeyBegin(SyncFlag); //Edit***************************Sasha2,10:24 15.07.2014
 		KeySegment(SyncFlag);
 		KeySegment(SerNr);
+	EndRecordAdd;
+	
+	RecordAddBegin(IVVc,"IVVc_Custom");
+		ChangeMatrixField(vRebate,M45Val,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 11 April 2018 10:28:21
 	EndRecordAdd;
 	
 	RecordAddBegin(INVc,"INVc_Custom");  
@@ -55,6 +60,29 @@ begin
 	
 	RecordAddBegin(POVc,"POVc_Custom");
 		RecordField(TotQuant,M4Val,0,0);// Edit ************************** Monday, 24 July 2017 15:43:46
+	EndRecordAdd;
+	
+	RecordAddBegin(RebVc,"RebVc_Custom");// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 11 April 2018 10:28:22
+		ChangeField(vra0,M45Val,0,0);
+		ChangeField(vra1,M45Val,0,0);
+		ChangeField(vra2,M45Val,0,0);
+		ChangeField(vra3,M45Val,0,0);
+		ChangeField(vra4,M45Val,0,0);
+		ChangeField(vra5,M45Val,0,0);
+		ChangeField(vra6,M45Val,0,0);
+		ChangeField(vra7,M45Val,0,0);
+		ChangeField(vra8,M45Val,0,0);
+		ChangeField(vra9,M45Val,0,0);
+		ChangeMatrixField(vra0,M45Val,0,0);
+		ChangeMatrixField(vra1,M45Val,0,0);
+		ChangeMatrixField(vra2,M45Val,0,0);
+		ChangeMatrixField(vra3,M45Val,0,0);
+		ChangeMatrixField(vra4,M45Val,0,0);
+		ChangeMatrixField(vra5,M45Val,0,0);
+		ChangeMatrixField(vra6,M45Val,0,0);
+		ChangeMatrixField(vra7,M45Val,0,0);
+		ChangeMatrixField(vra8,M45Val,0,0);
+		ChangeMatrixField(vra9,M45Val,0,0);
 	EndRecordAdd;
   
   return;

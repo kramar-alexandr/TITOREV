@@ -54,6 +54,30 @@ BEGIN
   RETURN;
 END;
 
+procedure PLItemPriceSerchCSV(array string plcodes,string plstring,var integer arcnt,string item,var string scv)
+BEGIN
+  integer i;
+  record PLVc PLr;
+  
+  for (i=0;i<arcnt+1;i=i+1) begin
+   PLr.ArtCode = item;
+   PLr.PLCode = plcodes[i];
+   if nonblank(plcodes[i]) then begin
+     if ReadFirstKey("ArtCode",PLr,2,true) then begin
+     	if(PLr.ExVatPrice!=0)then begin
+      	scv = scv & valtostring(PLr.ExVatPrice,m45Val,"",".",0) & ";";
+      end else begin
+      	scv = scv & ("0;");
+      end;
+     end else begin
+      scv = scv & ("0;");
+     end;
+   end;
+  end;
+  
+  RETURN;
+END;
+
 procedure ISItemQtySerch(string item,string location,var val qty)
 begin
   record ItemStatusVc ISr;
@@ -83,6 +107,7 @@ string 255 tstr,curtimestr;
 val qty;
 array string 5 plcodes;
 integer arcnt,i;
+string 255 headers,rows;// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 6 April 2018 16:07:57
   
   SetLangMode(LangRussian,"RUS",0);
 
@@ -113,6 +138,38 @@ integer arcnt,i;
   end;
   
   CloseFile;
+  
+  tstr = RepSpec.f1;
+  tstr = tstr & "prices.csv";
+  CreateFile(tstr);
+  	headers = "websites;sku;";
+  	for (i=0;i<arcnt+1;i=i+1) begin
+      headers = headers & "group_price:Opt_price_" & i & ";";
+    end;
+    headers = headers & "qty;in_stock";
+  	ExportPadString(headers,len(headers),"",false);
+  	NewLine;
+  	resetloop(INr);
+  	INr.Code = "";
+  	while LoopMain(INr,1,true) begin
+  		rows = "base;";
+			if len(RepSpec.f4) == 0 or SetInSet(INr.Group, RepSpec.f4) then begin  // mik
+				rows = rows & INr.Code & ";";
+				
+				PLItemPriceSerchCSV(plcodes,RepSpec.f3,arcnt,INr.Code,rows);
+				ISItemQtySerch(INr.Code,RepSpec.f2,qty);
+				if(qty>0)then begin
+					rows = rows & valtostring(qty,m45Val,"",".",1) & ";1";
+				end else begin
+					rows = rows & valtostring(qty,m45Val,"",".",1) & ";0";
+				end;
+				ExportPadString(rows,len(rows),"",false);
+				NewLine;
+			end;  // mik
+		end;
+  	
+  CloseFile;
+  
   return;
 END;
 
@@ -237,7 +294,7 @@ begin
 					RepSpec.f2 = EDEb.Location;
 					RepSpec.f3 = EDEb.PriceList;
 					RepSpec.flags[0] = EDEb.ShowFlag;
-				RepSpec.f4 = EDEb.Group;  // mik
+					RepSpec.f4 = EDEb.Group;  // mik
 					AutoExportItemEn(RepSpec);
 				end;
 			end;

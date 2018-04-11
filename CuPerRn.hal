@@ -868,3 +868,21 @@ begin
 	ExportReportToFileEn(IPr);	
 return;
 end;
+
+
+global procedure MyProdStatusFromProdDsm()
+begin
+	record RcVc RepSpec;
+	integer wn;
+	record ProdVc Prodr;
+	
+	
+	wn = curwindow;
+	getwindowrecord(wn,Prodr);
+	RepSpec.long1 = Prodr.SerNr;
+	RepSpec.repname = "MyProdStatusFromProdRn";
+	RepSpec.Media = mtScreen;
+	runreport(RepSpec,0);
+
+return;
+end;
