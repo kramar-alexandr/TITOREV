@@ -90,6 +90,9 @@ SetLangMode(LangRussian,"RUS",0);
   
   Export("#ђучной Export",EveryDayEClass,ManualExport,modTC);
 	
+	Import("€мпорт цен",ImportPLClass,ImportPLIn,modDI);// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 13 April 2018 17:09:00
+
+	
 	SString(964,"");	
 	
 return;
@@ -2299,5 +2302,23 @@ begin
   if (IsEnterprise) then begin
     SpecialMenu("‘оздать операции производств",' ',9,"ProdOperFromPRDsm");
   end;
+  EndWindow;
+end;
+
+
+
+window ImportPLClass:1 //Edit***************************Sasha2,9:58 02.10.2014 {
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real vs;
+  WindowBegin("€мпорт цен",ImportPLClass,CGIcW,RcType);
+  SetWRect(80,80,530,300);    
+  StaticText(10,vs=25,"Ћписание формата файла длЯ импорта",false);
+  StaticText(10,vs=vs+10,"",false);
+  StaticText(10,vs=vs+20,"1 столбик: Љод товара",false);
+  StaticText(10,vs=vs+20,"2 столбик: –ена прейскуранта 0",false);
+  StaticText(10,vs=vs+20,"2 столбик: –ена прейскуранта 1",false);
+  StaticText(10,vs=vs+20,"2 столбик: –ена прейскуранта 2",false);
+  StaticText(10,vs=vs+20,"2 столбик: –ена прейскуранта 4",false);
   EndWindow;
 end;

@@ -1,0 +1,112 @@
+Global updating procedure ImportPLIn()
+begin
+	record PLVc PLr,PL2r;
+	Integer i,j;
+	array string 255 sfield;
+	record INVc INr;
+	record PLDefVc PLDr;
+	val price;		
+		
+	while (TestEOF()==false) begin
+		for (i=0;i<5;i=i+1) begin
+			sfield[i]=ImportField;
+		end;
+
+		INr.Code = sfield[0];
+		if(readfirstmain(INr,1,true))then begin
+			
+			if(nonblank(sfield[1]))then begin
+				price = evaltoval(sfield[1]);
+				PLr.ArtCode = INr.Code;
+				PLr.PLCode = "0";
+				if(readfirstmain(PLr,2,true))then begin
+					if(price>0)then begin
+						RecordCopy(PL2r,PLr);
+						PLr.ExVatPrice = price;
+						RecordUpdate(PL2r,PLr,true);
+					end;
+				end else begin
+					if(price>0)then begin
+						recordnew(PLr);
+						PLr.PLCode = "0";
+						PLr.ArtCode = INr.Code;
+						PLr.Comment = INr.Name;
+						PLr.ExVatPrice = price;
+						RecordInsert(PLr,true);
+					end;
+				end;
+			end;
+			
+			if(nonblank(sfield[2]))then begin
+				price = evaltoval(sfield[2]);
+				PLr.ArtCode = INr.Code;
+				PLr.PLCode = "1";
+				if(readfirstmain(PLr,2,true))then begin
+					if(price>0)then begin
+						RecordCopy(PL2r,PLr);
+						PLr.ExVatPrice = price;
+						RecordUpdate(PL2r,PLr,true);
+					end;
+				end else begin
+					if(price>0)then begin
+						recordnew(PLr);
+						PLr.PLCode = "1";
+						PLr.ArtCode = INr.Code;
+						PLr.Comment = INr.Name;
+						PLr.ExVatPrice = price;
+						RecordInsert(PLr,true);
+					end;
+				end;
+			end;
+			
+			if(nonblank(sfield[3]))then begin
+				price = evaltoval(sfield[3]);
+				PLr.ArtCode = INr.Code;
+				PLr.PLCode = "2";
+				if(readfirstmain(PLr,2,true))then begin
+					if(price>0)then begin
+						RecordCopy(PL2r,PLr);
+						PLr.ExVatPrice = price;
+						RecordUpdate(PL2r,PLr,true);
+					end;
+				end else begin
+					if(price>0)then begin
+						recordnew(PLr);
+						PLr.PLCode = "2";
+						PLr.ArtCode = INr.Code;
+						PLr.Comment = INr.Name;
+						PLr.ExVatPrice = price;
+						RecordInsert(PLr,true);
+					end;
+				end;
+			end;
+			
+			if(nonblank(sfield[4]))then begin
+				price = evaltoval(sfield[4]);
+				PLr.ArtCode = INr.Code;
+				PLr.PLCode = "4";
+				if(readfirstmain(PLr,2,true))then begin
+					if(price>0)then begin
+						RecordCopy(PL2r,PLr);
+						PLr.ExVatPrice = price;
+						RecordUpdate(PL2r,PLr,true);
+					end;
+				end else begin
+					if(price>0)then begin
+						recordnew(PLr);
+						PLr.PLCode = "4";
+						PLr.ArtCode = INr.Code;
+						PLr.Comment = INr.Name;
+						PLr.ExVatPrice = price;
+						RecordInsert(PLr,true);
+					end;
+				end;
+			end;
+			
+		end;
+		NextImportLine(true);
+	end;
+
+ return;
+end;
+	 
