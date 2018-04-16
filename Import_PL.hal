@@ -1,3 +1,6 @@
+external inner function string 255 StrReplace(string,string,string);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 18:09:21
+
+
 Global updating procedure ImportPLIn()
 begin
 	record PLVc PLr,PL2r;
@@ -9,7 +12,7 @@ begin
 		
 	while (TestEOF()==false) begin
 		for (i=0;i<5;i=i+1) begin
-			sfield[i]=ImportField;
+			sfield[i]=StrReplace(ImportField,",",".");
 		end;
 
 		INr.Code = sfield[0];

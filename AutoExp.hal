@@ -1,3 +1,5 @@
+external inner function string 255 StrReplace(string,string,string);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 18:09:21
+
 procedure GetCurTimeInStr(var string res)
 BEGIN
   Time tt;
