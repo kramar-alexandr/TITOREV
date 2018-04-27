@@ -2153,7 +2153,7 @@ begin
   if (StandardHansa==false) then begin
     //RlColKey(-55,-55,"Класс",ProdClass,false,ProdClass);
   end;
-  RlColKey(-55,-55,"Сотр.",Person,false,Person);
+  RlColKey(-70,-70,"Сотр.",Person,false,Person);
   SearchField("Поиск");
 //  SpecMenuItem("Finish",' ',0); no code
   SpecMenuGroup("",kSpecMenuGroupTypeExtendedPlusMenu,0);         
