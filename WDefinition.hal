@@ -2197,7 +2197,7 @@ begin
   EditField(h,v+=vs,80,"Провер.",Normal,Inspector,false,UserSClass);
   end;
   if (HasPersons) then begin
-  EditField(h2,v,80,"Сотр.",ViewOnly,Person,false,UserSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 27 April 2018 09:54:16
+  EditField(h2,v,80,"Сотр.",Normal,Person,false,UserSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 27 April 2018 09:54:16
   end;
 //  EditField(h2,v,80,"In Item Scale",Normal,Scale,false,0);
   if (IsEnterprise) then begin
