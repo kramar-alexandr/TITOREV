@@ -11,7 +11,7 @@ begin
 	val price;		
 		
 	while (TestEOF()==false) begin
-		for (i=0;i<5;i=i+1) begin
+		for (i=0;i<7;i=i+1) begin
 			sfield[i]=StrReplace(ImportField,",",".");
 		end;
 
