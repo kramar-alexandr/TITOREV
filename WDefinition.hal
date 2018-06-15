@@ -2344,9 +2344,11 @@ begin
   StaticText(10,vs=vs+10,"",false);
   StaticText(10,vs=vs+20,"1 столбик: Љод товара",false);
   StaticText(10,vs=vs+20,"2 столбик: –ена прейскуранта 0",false);
-  StaticText(10,vs=vs+20,"2 столбик: –ена прейскуранта 1",false);
-  StaticText(10,vs=vs+20,"2 столбик: –ена прейскуранта 2",false);
-  StaticText(10,vs=vs+20,"2 столбик: –ена прейскуранта 4",false);
+  StaticText(10,vs=vs+20,"3 столбик: –ена прейскуранта 1",false);
+  StaticText(10,vs=vs+20,"4 столбик: –ена прейскуранта 2",false);
+  StaticText(10,vs=vs+20,"5 столбик: –ена прейскуранта 4",false);
+  StaticText(10,vs=vs+20,"6 столбик: –ена прейскуранта 3",false);
+  StaticText(10,vs=vs+20,"7 столбик: –ена прейскуранта 5",false);
   EndWindow;
 end;
 
