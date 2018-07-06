@@ -487,11 +487,11 @@ BEGIN
         end;
       end;
       if (limitf) then begin
-        switch (based) begin
+        /*switch (based) begin
           case 0: if (balp>limit-onacc) then begin found = false; end;
           case 1: if (duep>limit-onacc) then begin found = false; end;
           case 2: if (balp>limit-onacc) then begin found = false; end;
-        end;
+        end;*/
       end;
     end;
   end;
