@@ -429,7 +429,7 @@ begin
     if (GetCustAndBal(CUr,limit,bal,CLb.Base,CLb.OwnCheques,CLb.ThirdCheques,CLb.IOUCheques,CLb.ThirdIOUCheques,CLb.ORSaveWarn,limitdaysf)) then begin
       if (limitdaysf) then begin
         if (CLb.ORSave==1) then begin    
-          RecordCheckError(22260," " & limit & " " & bal,-1,"CustCode");      
+          RecordCheckError(22260," limit:" & limit & " bal:" & bal,-1,"CustCode");      
           res = -1;
           goto LORVcRecordCheck;
         end;
@@ -449,12 +449,12 @@ begin
         end;
         if (bal>limit) then begin
           if (CLb.ORSave==1) then begin
-            RecordCheckError(1164," " & bal,-1,"CustCode");     // Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 6 July 2018 16:58:05 
+            RecordCheckError(1164," bal:" & bal,-1,"CustCode");     // Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 6 July 2018 16:58:05 
             res = -1;
             goto LORVcRecordCheck;
           end;
           if (CLb.ORSaveWarn==1) then begin
-            MessageBox(1164," " & bal);// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 6 July 2018 16:58:06
+            MessageBox(1164," bal:" & bal);// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 6 July 2018 16:58:06
           end;
         end;
       end;
@@ -2101,11 +2101,11 @@ begin
   if (GetCustAndBal(CUr,limit,bal,CLb.Base,CLb.OwnCheques,CLb.ThirdCheques,CLb.IOUCheques,CLb.ThirdIOUCheques,CLb.ORSaveWarn,limitdaysf)) then begin
     if (CLb.IVPaste==1) then begin
       if (limitdaysf) then begin
-        MessageBox(22260," " & limit & " " & bal);// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 6 July 2018 17:02:30
+        MessageBox(22260," limit:" & limit & " bal:" & bal);// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 6 July 2018 17:02:30
       end;
       if (limit>0) then begin
         if (bal>limit) then begin
-          MessageBox(1164," " & bal);// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 6 July 2018 16:58:35
+          MessageBox(1164," bal" & bal);// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 6 July 2018 16:58:35
         end;
       end;
     end;

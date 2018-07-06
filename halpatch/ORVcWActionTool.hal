@@ -1204,11 +1204,11 @@ BEGIN
     end;
     if (CreditLimitRec.ORPaste==1) then begin
       if (limitdaysf) then begin
-        errstr = USetStr(22260) & " " & limit & " " & bal;
+        errstr = USetStr(22260) & " limit:" & limit & " bal:" & bal;
       end;
       if (blank(limit)==false) then begin 
         if (bal>limit) then begin
-          errstr = USetStr(1164) & " " & bal;
+          errstr = USetStr(1164) & " bal:" & bal;
         end;
       end;
     end;
