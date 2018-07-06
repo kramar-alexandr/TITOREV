@@ -7,7 +7,7 @@ external function integer CheckAddressForLocalisation(string,string,string,strin
 external function Boolean StockRecordForLocationAllowed(string,string,string,date,integer,var Integer,var string);
 external function Boolean IsPostcodeFormatCorrect(string);
 external function Boolean HasModNL();
-external function Boolean GetCustAndBal(var record CUVc,var val,var val,Integer,Integer,Integer,Integer,Integer,Integer,var Boolean);
+external function Boolean Bpi_GetCustAndBal(var record CUVc,var val,var val,Integer,Integer,Integer,Integer,Integer,Integer,var Boolean,var longint);
 external function Integer CheckSerialatPositionInItemHist(string,string,string,string,val);
 external procedure VerifyRowObjects(String,String,String,String,var Integer,var String,var Boolean,Array string,Array string,var Integer);
 external function val DivRateToBase1(string,val,val,val,val,val,val,roundmode);
@@ -74,7 +74,6 @@ external function Integer CheckObjs(string,string,var string);
 external function Boolean Date2Test(string,Date,string,Integer);
 external function Boolean SerNrTestORVc(LongInt,Date,var Boolean);
 external function LongInt GetCurUserLastNr(string);
-external function Boolean GetCustAndBal(var record CUVc,var val,var val,Integer,Integer,Integer,Integer,Integer,Integer,var Boolean);
 external function Boolean ORCheckForSalesmanPrice(record ORVc,Integer,string,string,var string);
 external function Boolean INVc_AllowSales(record INVc,var LongInt);
 external function Boolean ORDchrsum(var record ORVc,Integer);// Edit ************************** Tuesday, 4 October 2016 10:11:06
@@ -377,6 +376,7 @@ begin
   Boolean initotcheckf;  
   record CUUserLabelBlock CUUerLb;
   record CountryVc Countryr;
+  longint blatedays;
 
   res = 0;
   insertmode = 1;//Rs_insert
@@ -426,7 +426,7 @@ begin
   BlockLoad(CLb);
   if ((CLb.ORSave==1) or (CLb.ORSaveWarn==1)) then begin
     CUr.Code = ORr.CustCode;
-    if (GetCustAndBal(CUr,limit,bal,CLb.Base,CLb.OwnCheques,CLb.ThirdCheques,CLb.IOUCheques,CLb.ThirdIOUCheques,CLb.ORSaveWarn,limitdaysf)) then begin
+    if (Bpi_GetCustAndBal(CUr,limit,bal,CLb.Base,CLb.OwnCheques,CLb.ThirdCheques,CLb.IOUCheques,CLb.ThirdIOUCheques,CLb.ORSaveWarn,limitdaysf,blatedays)) then begin
       if (limitdaysf) then begin
         if (CLb.ORSave==1) then begin    
           RecordCheckError(22260," limit:" & limit & " bal:" & bal,-1,"CustCode");      
@@ -2029,6 +2029,7 @@ begin
   record CUVc CUr;
   val bal,limit;
   Boolean limitdaysf;
+  longint blatedays;// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 6 July 2018 17:22:56
 
   BlockLoad(MSb);
   BlockLoad(OSb);
@@ -2098,10 +2099,10 @@ begin
   if (nonblank(CUr.WarnText1)) then begin
     MessageBox(0,CUr.WarnText1);
   end;
-  if (GetCustAndBal(CUr,limit,bal,CLb.Base,CLb.OwnCheques,CLb.ThirdCheques,CLb.IOUCheques,CLb.ThirdIOUCheques,CLb.ORSaveWarn,limitdaysf)) then begin
+  if (Bpi_GetCustAndBal(CUr,limit,bal,CLb.Base,CLb.OwnCheques,CLb.ThirdCheques,CLb.IOUCheques,CLb.ThirdIOUCheques,CLb.ORSaveWarn,limitdaysf,blatedays)) then begin// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 6 July 2018 17:23:01
     if (CLb.IVPaste==1) then begin
       if (limitdaysf) then begin
-        MessageBox(22260," limit:" & limit & " bal:" & bal);// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 6 July 2018 17:02:30
+        MessageBox(22260," days:" & blatedays & " bal:" & bal);// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 6 July 2018 17:02:30
       end;
       if (limit>0) then begin
         if (bal>limit) then begin
