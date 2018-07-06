@@ -482,7 +482,7 @@ BEGIN
           if (limitdays<-latedays) then begin
           	blatedays = -latedays - limitdays;
             limitdaysf = true;
-            found = false;
+            //found = false;// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 06 07 2018 y. î 23:13:32
           end;
         end;
       end;
