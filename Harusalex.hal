@@ -776,7 +776,8 @@ begin
   Tile(2,220,true,"2",Math);
   CheckBox(20,-20,0,"OK",OKFlag);
   EditField(65,-41,50,"Валюта",Normal,CurncyCode,false,CurncyCodeSClass);
-  EditField(180,-41,70,"Фрахт",Normal,FrPrice,true,0);
+  //EditField(180,-41,70,"Фрахт",Normal,FrPrice,true,0);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 13 August 2018 12:41:30
+  EditField(180,-41,70,"Текущий долг",Normal,DebtCurSum,true,0);
   //EditField(180,-21,70,"Доп. налог",ViewOnly,TAX1Sum,true,0);// Edit ************************** Tuesday, 17 January 2017 10:37:40
   //EditField(310,-41,80,"НДС",ViewOnly ,Sum3,true,0);// Edit ************************** Tuesday, 17 January 2017 10:37:48
   //EditField(310,-21,80,"Налог 2",ViewOnly,TAX2Sum,true,0);// Edit ************************** Tuesday, 17 January 2017 10:37:33
