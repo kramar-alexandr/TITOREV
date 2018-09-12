@@ -11,6 +11,7 @@ boolean limitdaysf;
 	GetFindCustBalance(ORr.CustCode,-1,t1,t,t2,t3,0,0,0,0,0,0,false,limitdaysf);
 	balp = t+t3;		
 	ORr.DebtCurSum = balp;
+	ORr.DebtCurSumOld = t2;
 	ORr.DebtUpdateDate = currentdate;
 	ORr.DebtUpdateTime = currenttime;
 	
