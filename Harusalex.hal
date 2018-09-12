@@ -824,7 +824,9 @@ begin
     MatCol(t,-285,"Цена за шт.",0,Price,true,PLSClass);
     MatCol(t,-205,"%",0,vRebate,true,0);
     MatCol(t,-170,"Стоимость",0,BasePrice,true,0);
-    MatCol(t,-70,"Прибыль",0,rowGP,true,0);
+    if(usercanaction("ViewGP",true))then begin// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 12 September 2018 12:12:05
+			MatCol(t,-70,"Прибыль",0,rowGP,true,0);
+    end;
   end else begin
     MatCol(t,-235,"Цена за шт.",0,Price,true,PLSClass);
     MatCol(t,-135,"%",0,vRebate,true,0);
