@@ -1,0 +1,19 @@
+external procedure GetFindCustBalance(string,LongInt,var val,var val,var val,var val,Integer,Integer,Integer,Integer,Integer,Integer,Boolean,var Boolean);// Edit ************************** Friday, 22 July 2016 10:49:11
+
+SetLangMode(LangRussian,"RUS",0);
+
+global procedure CalcCustBalrem(var record ORVc ORr)
+begin
+val t1,t2,t3,t,balp;
+boolean limitdaysf;
+	
+	t1 = 0;
+	GetFindCustBalance(ORr.CustCode,-1,t1,t,t2,t3,0,0,0,0,0,0,false,limitdaysf);
+	balp = t+t3;		
+	ORr.DebtCurSum = balp;
+	ORr.DebtCurSumOld = t2;
+	ORr.DebtUpdateDate = currentdate;
+	ORr.DebtUpdateTime = currenttime;
+	
+return;
+end;
