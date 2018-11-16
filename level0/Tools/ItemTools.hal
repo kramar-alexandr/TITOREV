@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external function Boolean TestArtCodeMatch(string,string);
 external procedure FindSalesExVat(record TaxMatrixVc,string,val,Integer,Integer,var val);
 external function val MulRateToBase1(var string,val,val,val,val,val,val,roundmode);

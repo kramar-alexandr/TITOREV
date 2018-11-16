@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external function Boolean TestArtCodeMatch(string,string);
 external procedure HTArtGroup(string, var string);
 external procedure HTItemClass(string,var string);

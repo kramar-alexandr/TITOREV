@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external function Integer CountObjects(string);
 external function Boolean PasteCust2InInv(var record IVVc,record LocalMachineBlock,string,Boolean,var string,var string,var string,var string,var string);
 external function Boolean IVDchrsum(var record IVVc,Integer);

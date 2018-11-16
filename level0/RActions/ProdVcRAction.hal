@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external function Boolean StockRecordForLocationAllowed(string,string,string,date,integer,var Integer,var string);
 external function Boolean DisallowFutureDateCheck(Boolean,Date,string,Integer);
 external function roundmode SetRoundModeD(Integer);

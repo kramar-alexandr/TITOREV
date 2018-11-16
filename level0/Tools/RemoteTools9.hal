@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external function Boolean IVCashDchrsum(record IVCashVc,Integer,Integer);
 external procedure IVCashDchsum(record IVCashVc,Integer);
 external procedure IVCashSumup(var record IVCashVc,Boolean);

@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external function string 60 RemoveObjectFromObjectList(string,string);
 external function string 60 AddObjectToObjectList(string,string);
 external function boolean CheckClassInCUVc(record CUVc,record CCatVc,var string);

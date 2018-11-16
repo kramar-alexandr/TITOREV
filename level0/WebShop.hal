@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external function Boolean ORVc_PasteArtCode(var record ORVc,Integer,var string,var string,Boolean);
 external procedure ORVc_PasteQuant(var record ORVc,Integer,Boolean,var Boolean);
 external procedure ORVc_PastePrice(var record ORVc,Integer,var Boolean);

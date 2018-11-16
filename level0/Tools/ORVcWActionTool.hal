@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external function Boolean GetFirstItem(var string,var record INVc);
 external procedure ORPasteRvrsVATCode(var record ORVc,Boolean);
 forward procedure ORVc_PasteCurncyCode(var record ORVc,string);

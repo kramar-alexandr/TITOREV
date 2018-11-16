@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external procedure CalcNewPrice(val,string,var val);
 external function Boolean Date2Test2(string,Date,string,Integer,Boolean);
 external function Boolean HasIntegratedNL();

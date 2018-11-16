@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external function Boolean LocationRequiresPositions(string);
 external procedure FindTempStockRow(LongInt,string,Boolean,record TempStockVc,var row TempStockVc);
 external function Integer FIFOPerLocation(record INVc,record ITVc,record CostAccBlock);

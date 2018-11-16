@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external function Boolean SetInSet2(string,string);
 external procedure HTLocationClassification(string,string,var string);
 external procedure HTLocationGroup(string,string,var string);

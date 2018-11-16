@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external function string 255 GetCustomerPriceList(string);
 external procedure HTCusts(string, string, var string);
 external function roundmode SetRoundModeD(Integer);

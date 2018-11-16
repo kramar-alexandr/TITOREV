@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external function string 10 GetItemCostAcc(record INVc,string);
 external procedure VIDDefault(Integer,string,var record VIVc);
 external procedure ICPOItemPriceWarning(record POVc,Integer);

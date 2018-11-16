@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external updating function LongInt SMVcRecordCheck(var record SMVc,record SMVc,LongInt,LongInt);
 external function Boolean DateLocked(Date,string);
 external function roundmode GetTotalRoundMode(record RoundBlock);

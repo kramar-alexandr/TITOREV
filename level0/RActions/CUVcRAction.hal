@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external procedure SugarCRM_DELETE_CUVc(record CUVc);
 external procedure SugarCRM_PUT_CUVc(record CUVc);
 external procedure SugarCRM_POST_CUVc(record CUVc);

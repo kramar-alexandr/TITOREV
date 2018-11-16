@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external function Boolean HasEInvoiceExpired();
 external function Boolean HasEInvoicing();
 external function Boolean TouchScreenLook();

@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external function Boolean GetPMRow(string,var row PMBlock);
 external function string 60 UpdatedeRowObject(string,string,string);
 external function string 60 GetPayModeObjectsStr(string);
