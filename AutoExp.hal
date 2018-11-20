@@ -236,7 +236,7 @@ begin
 			LEveryDayTimedHal:;
 		end;// Edit ************************** Tuesday, 29 November 2016 13:00:03
   end;// Edit ************************** Tuesday, 29 November 2016 13:00:03
-  resetcompany(0);// Edit ************************** Tuesday, 29 November 2016 13:00:04
+  resetcompany(1);// Edit ************************** Tuesday, 29 November 2016 13:00:04
   return;
 end;
 
@@ -311,7 +311,7 @@ begin
 			LEveryDayTimedHal:;
 		end;// Edit ************************** Tuesday, 29 November 2016 13:00:03
   end;// Edit ************************** Tuesday, 29 November 2016 13:00:03
-  resetcompany(0);// Edit ************************** Tuesday, 29 November 2016 13:00:04
+  resetcompany(1);// Edit ************************** Tuesday, 29 November 2016 13:00:04
   return;
 end;
 
