@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external inner procedure HT2Per(Date, Date , var string);
 external inner procedure HTDepartments(string,string,var string);
 external inner function Boolean HasModSL();

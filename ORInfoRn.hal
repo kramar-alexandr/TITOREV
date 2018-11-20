@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external inner function Boolean ReadAcceptanceRules(Integer,string,var record AcceptanceRulesVc);
 external inner function Boolean HasModCRM();
 external inner function Boolean IsEnterprise();

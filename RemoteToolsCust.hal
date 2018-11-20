@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external inner function string 255 StrReplace(string,string,string);
 external procedure CuPerRn(record RcVc);// Edit ************************** Monday, 13 November 2017 13:56:48
 external inner function boolean MySendWebRequest(string,integer,integer,boolean,string,string,string,string,boolean,area,var area,integer);

@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external inner procedure InvListVarieties(record RcVc,record INVc,string,string,string,string,record CostAccBlock,Boolean,var Boolean,
                                     var Boolean,var string,var val,var val,var val,var val,roundmode,var val,string,vector val);
 external inner procedure HTConsigment(Integer, var string);

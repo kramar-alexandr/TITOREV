@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 
 //external procedure HTOrdStatus(integer, integer, integer, integer,var string);
 external inner procedure HT2Per(Date, Date , var string);

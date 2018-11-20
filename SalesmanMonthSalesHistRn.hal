@@ -1,3 +1,4 @@
+//<halrule>server-only</halrule>
 external inner procedure ExtractObj(string,var Integer,var string);
 external inner procedure HT2Per(Date, Date , var string);
 external inner function LongInt MonthDiff(Date,Date);
