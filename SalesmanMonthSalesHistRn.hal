@@ -383,7 +383,7 @@ begin
   Boolean afternow;
   Date monthend;
   Integer totalmonths,pos;
-  Boolean foundf,found2f;
+  Boolean foundf,found2f,testf1;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 29 11 2018 y. at 4:27:23 PM
   
   if (RepSpec.wholemonthf==0) then begin
     MessageBox(1163,"");
@@ -441,18 +441,23 @@ begin
 			end;
 		end else begin 
 			CUr.Code = "";
-			while(LoopMain(CUr,1,true)) begin
-				StartFormat(15);
-				OutString(0,0,USetStr(17183),false);
-				OutString(120,0,USetStr(17184),false);
-				EndFormat;
-				Gray_Divider(0,1);
-				StartFormat(15);
-				OutString(0,0,CUr.Code,false);
-				OutString(120,0,CUr.Name,false);
-				EndFormat;
-				StartFormat(15);
-				EndFormat;
+			while(LoopMain(CUr,1,true)) begin// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 29 11 2018 y. at 4:27:39 PM
+				testf1  = true;
+				if(CUr.CUType==0)then begin testf1 = false; end;
+				if(CUr.blockedFlag==1)then begin testf1 = false; end;
+				
+				if(testf1)then begin
+					StartFormat(15);
+					OutString(0,0,USetStr(17183),false);
+					OutString(120,0,USetStr(17184),false);
+					EndFormat;
+					Gray_Divider(0,1);
+					StartFormat(15);
+					OutString(0,0,CUr.Code,false);
+					OutString(120,0,CUr.Name,false);
+					EndFormat;
+					StartFormat(15);
+					EndFormat;
     
 					StartFormat(15);
 					switch (RepSpec.flags[0]) begin
@@ -587,6 +592,11 @@ begin
 						tots[i] = 0;
 					end;
 					EndFormat;
+				
+					startformat(15);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 29 11 2018 y. at 4:32:11 PM
+					endformat;
+					Black_Divider(0,1);
+				end;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 29 11 2018 y. at 4:28:19 PM
 			end;
 		end;	
   end else begin
