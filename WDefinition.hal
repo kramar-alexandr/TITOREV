@@ -4941,3 +4941,171 @@ begin
   SpecialMenu("Добавить компании в которых создан этот пользователь",' ',0,"FillSmartCompGlobalUserDsm");
   EndWindow;
 end;
+
+
+window SDDClass:1
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h2,h3,h4,v,vm,vs;
+  Integer f,flipnr;
+
+  WindowBegin("Списание со склада",SDDClass,CGview,-);
+  SetWRect(20,80,560,350);
+  Sizeable(-1,-1,0,0);
+  FormName(SDForm);
+  UseView(SDVc);
+  ActiveFieldOnNew("TransDate");
+  vs = 20; h2 = 260; h3 = 430; h4 = 580;
+  EditField(h=80,v=6, 82,"Номер",Normal,SerNr,false,TSerSClass);
+  EditField(h2,v,82,"Дата операции",Normal,TransDate,false,PasteCurDate);
+  if (IsEnterprise) then begin
+    EditField(h3,v,100,"Причина",Normal,Reason,false,StandProblemsSClass);
+    CheckBox(h4,v,0,"OK",OKFlag);
+  end;
+  if (IsEnterprise) then begin
+    EditField(h,v+=vs,82,"Счёт оприх.",Normal,CostAcc,false,AccSClass);
+    EditField(h2,v,82,"Класс",Normal,SDClass,false,OrderClassSClass);
+    EditField(h3,v,100,"Ссылка",Normal,RefStr,false,0);
+    v = v + vs;
+  end else begin
+    if (HasModNL) then begin
+      EditField(h3,v,82,"Счёт издержек",Normal,CostAcc,false,AccSClass);         
+    end;
+    CheckBox(h4,v,0,"OK",OKFlag);
+    v = v + vs;
+  end;
+  if (HasMultiLocations) then begin
+    EditField(h,v,82,"Склад",Normal,Location,false,LocationSClass);
+  end;
+  if (HasAdvancedAccounting) then begin
+    EditField(h2,v,82,"Кратк. код",Normal,ACShort,false,ACShortSClass);
+  end;
+  if (HasModTS or IsEnterprise) then begin
+    EditField(h3,v,100,"Проект",Normal,PRCode,false,PRSClass);
+  end;
+  v = v + vs;
+  if (HasApprovals) then begin
+    SoftEditField(h,v,82,"Статус утв.",ViewOnly,"AcceptanceStatusFlag",false,0,M4Str,255);
+  end;
+
+  if (HasObjects) then begin
+    EditField(h2,v,270,"Объекты",Normal,Objects,false,ObjSClass);
+  end;
+  EnterSkip(Math);
+//  CheckBox(450,6,0,"OK",OKFlag);
+  v = v + 40;
+  if (IsEnterprise) then begin
+    vm = v + 1;
+    MatrixBegin(4,v,-50,-35,-,200);
+  end else begin
+    MatrixBegin(4,v,-40,-25,-,99);
+  end;
+  Flip(0);
+  if (HasJewelleryInterface) then begin
+    MatCol(1,24,"Серийный номер",0,SerialNr,false,SerialNrSClass);
+    EnterSkip(Quant);
+    MatCol(1,130,"Товар",0,ArtCode,false,INSClass);
+    if (HasVarieties) then begin
+      MatCol(1,192,"К-во",0,Qty,true,MATVARINSClass);
+    end else begin
+      MatCol(1,192,"К-во",0,Qty,true,0);
+    end;
+    MatCol(1,284,"Описание",0,Spec,false,0);
+  end else begin
+    MatCol(1,32,"Товар",0,ArtCode,false,INSClass);
+//  MatCol(1,94,"Var",0,VARList,false,VARSClass);
+//  MatCol(1,144,"Qty",0,Qty,true,0);
+    if (HasVarieties) then begin
+      MatCol(1,154,"К-во",0,Qty,true,MATVARINSClass);
+    end else begin
+      MatCol(1,154,"К-во",0,Qty,true,0);
+    end;
+    MatCol(1,184,"Описание",0,Spec,false,0);
+  end;
+  flipnr = 1;
+  Flip(flipnr); flipnr = flipnr + 1;
+  if (HasJewelleryInterface==false) and (HasSerialNumbers) then begin
+    MatCol(1,-230,"Серийный номер",0,SerialNr,false,SerialNrSClass);
+  end;
+  if (HasMultiLocations) then begin
+    MatCol(1,-160,"Местопол.",0,Location,false,LocationSClass);
+  end;
+  if (HasPositions) then begin
+    MatCol(1,-100,"Позиция",0,PosCode,false,UsedPosSClass);
+  end;
+  if (IsEnterprise) then begin
+    MatCol(1,-40,"Коэф.",0,Coefficient,false,0);
+    Flip(flipnr); flipnr = flipnr + 1;
+    MatCol(1,-270,"Кратк. код",0,ACShort,false,ACShortSClass);
+    MatCol(1,-200,"Счёт стоим.",0,CostAcc,false,AccSClass);
+    MatCol(1,-100,"Объекты",0,Objects,false,ObjSClass);
+    Flip(flipnr); flipnr = flipnr + 1;
+    MatCol(1,-210,"FIFO",0,FIFO,true,0);
+    MatCol(1,-125,"FIFO по стр.",0,FIFORowVal,true,0);
+    MatCol(1,-40,"Коэф.",0,Coefficient,true,0);
+    Flip(flipnr); flipnr = flipnr + 1;
+    MatCol(1,-240,"Рецепт",0,Recepy,false,RecSClass);
+    if (StandardHansa==false) then begin
+      MatCol(1,-180,"Проект",0,PRCodeRow,false,PRSClass);
+    end;
+    MatCol(1,-120,"Баз. цена",0,BasePrice,true,0);
+    MatCol(1,-40,"Коэф.",0,Coefficient,false,0);
+    Flip(flipnr); flipnr = flipnr + 1;
+    MatCol(1,-140,"Ширина",0,UnitXval,true,0);
+    MatCol(1,-95,"Высота",0,UnitYval,true,0);
+    MatCol(1,-50,"Глубина",0,UnitZval,true,0);
+  end else begin
+    if (HasModNL) then begin
+      MatCol(1,-200,"Счёт ст-ти",0,CostAcc,false,AccSClass);
+    end;
+    MatCol(1,-100,"Стоим-ть ед.",0,FIFO,true,0);
+  end;
+  InsertRowTest;
+  DeleteRowTest;
+  RowMenuBegin("");         
+  RowMenuItem(0,"Статус товара",'I','I',0,"ItemStatusSDDsm");         
+  if (HasQualityControl) then begin
+    RowMenuItem(0,"Контроль качества",'u','u',0,"QualConFromSDDsm");         
+  end;
+  EndRowMenu;
+  EndMatrix;
+  vs = 22;
+  v = vm;/* 28 */
+  if (flipnr>2) then begin
+    for (f=1;f<flipnr;f=f+1) begin
+      VTab(-35,v,-16,v+vs,ToolFlip,f,chr(asc("A") + f - 1));
+      v = v + vs;
+    end;
+  end;
+//  CheckBox(20,-20,0,"OK",OKFlag);
+  EditField(h=150,-20,70,"Общ. кол-во",ViewOnly,TotQty,false,0);
+  EditField(h=290,-20,-40,"Коммент.",Normal,Comment,false,0);
+/*
+//oldapprovals  
+  if (HasApprovals) then begin
+    Tile(2,200,true,"1",AcceptanceStatus);
+    if (HasApprovals) then begin
+      SoftEditField(h3=-163,v=16,123,"Статус утверждения",ViewOnly,"AcceptanceStatusFlag",false,0,M4Str,255);
+    end;
+    ButtonFrame(h3=-163,v=16,123,6,"Статус утверждения");
+    RadioButton(h3,v,kAcceptanceStateNotRequired,0,"не обязательно",AcceptanceStatus);
+    RadioButton(h3,v+=16,kAcceptanceStateNotStarted,0,"не начато",AcceptanceStatus);
+    RadioButton(h3,v+=16,kAcceptanceStateNotRequested,0,"не запрошено",AcceptanceStatus);
+    RadioButton(h3,v+=16,kAcceptanceStatePending,0,"в ожидании",AcceptanceStatus);
+    RadioButton(h3,v+=16,kAcceptanceStateApproved,0,"утверждено",AcceptanceStatus);
+    RadioButton(h3,v+=16,kAcceptanceStateRejected,0,"отклонено",AcceptanceStatus);
+  end;
+*/    
+  if (HasAdvancedStock) then begin
+    SpecialMenu("Статус списания со склада",'r',4,"SDStatusDsm");
+  end;
+  if (HasIntegratedNL) then begin
+    SpecialMenu("Открыть запись операции",'t',1,"OpenTRFromSD");
+  end;
+  SpecialMenu("Поиск товара",'f',1,"ItemSearchDsm");
+  if (HasApprovals) then begin
+    SpecialMenu("Запросить утверждение",' ',6,"SDSendforAcceptanceSDDsm"); 
+    SpecialMenu("Отменить запрос утверждения",' ',2,"CancelApprovalRequestDsm"); 
+  end;
+  EndWindow;
+end;
