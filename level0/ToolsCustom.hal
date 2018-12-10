@@ -17,3 +17,12 @@ boolean limitdaysf;
 	
 return;
 end;
+
+
+global function UUID GetServerUUIDRemote()// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 10 12 2018 y. at 12:23:53 PM
+begin
+	UUID uuid1;
+
+	GetServerUUIDRemote = uuid1;
+return;
+end;
