@@ -4752,9 +4752,9 @@ if (HansaWorld) then begin
   RadioButton(h2,v+=16,kTypeOfUserPOS,0,"Пользователь POS",TypeOfUser); 
   EndFrame;
   CheckBox(h2,v+=25,0,"Срок действия пароля не ограничен",PasswordNeverExpires);
-  if (!blankUUID(GetServerUUIDRemote)) then begin
+  /*if (!blankUUID(GetServerUUIDRemote)) then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 10 12 2018 y. at 12:32:59 PM
   CheckBox(h2,v+=16,0,"Пользователь является Админом",AdminFlag);  
-  end;
+  end;*/
 end;
   Pict_Field(-175,8,-5,178,"");
   if (GuiType==kGuiCocoa) then begin
@@ -4914,9 +4914,9 @@ begin
   RadioButton(h2,v+=16,kTypeOfUserPOS,0,"Пользователь POS",TypeOfUser); 
   EndFrame;
   CheckBox(h2,v+=25,0,"Срок действия пароля не ограничен",PasswordNeverExpires);
-  if (!blankUUID(GetServerUUIDRemote)) then begin
+  /*if (!blankUUID(GetServerUUIDRemote)) then begin
   CheckBox(h2,v+=16,0,"Пользователь является Админом",AdminFlag);  
-  end;
+  end;*/
 //  CheckBox(h2,v+=vs,0,"Only Voice Login",OnlyVoiceLogin); // No code for this
   Tile(2,170,true,"4",Math);
   MatrixBegin(50,v=6,-52,-7,-,199);
