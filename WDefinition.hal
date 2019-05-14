@@ -3943,7 +3943,7 @@ begin
     if (AcceptanceStatusColumnTest("ORVc")) then begin 
       CalculatedColumn(-240,-240,"Подтв.","ORLClassAcceptanceStatus",false);
     end;
-    RlColKey(-340,-340,"Класс",OrderClass,false,OrderClass);
+    RlColKey(-340,-340,"Прод.",SalesMan,false,SalesMan);
     RlColKey(-300,-300,"Итого",Sum4,true,Sum4);
     //RlCol(-75,-75,"Аванс",DownPaySent,true);// Edit ************************** Wednesday, 11 October 2017 09:44:28
     RlCol(-240,-240,"Коммен.",Comment,false);
