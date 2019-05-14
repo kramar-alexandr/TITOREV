@@ -64,7 +64,6 @@ external inner function real ItemButtons(string,Integer);
 external inner procedure HWStoreWClassAddProducts(Integer);
 external inner function Boolean HasYodlee();
 external inner function Boolean HasAvalara();
-external inner function Boolean HasSoftphone();
 external inner function Boolean HasCharts();
 external inner function Boolean HasDetailedCharts();
 external inner function Boolean HasSiteMinder();
