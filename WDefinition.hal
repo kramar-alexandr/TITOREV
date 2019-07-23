@@ -5246,7 +5246,8 @@ begin
     if (IsEnterprise==false) then begin
       CheckBox(20,-30,0,"OK",OKFlag);
     end;
-    EditField(h=150,-30,-35,"Коммент.",Normal,Comment,false,0);
+    EditField(h=80,-30,80,"Кол-во.",ViewOnly,TotQty,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 23 07 2019 y. at 5:12:51 PM
+    EditField(h=250,-30,-35,"Коммент.",Normal,Comment,false,0);
     if (IsEnterprise) then begin
       SpecialMenu("Заполнить текущую стоимость",' ',1,"StockTakeFillFIFODsm");
       SpecialMenu("Поиск товара",'f',1,"ItemSearchDsm");

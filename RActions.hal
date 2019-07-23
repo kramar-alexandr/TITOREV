@@ -38,3 +38,29 @@ O99:;
   ORVcRecordCheck = res;
   return;
 end;
+
+global
+updating function LongInt StockTakeVcRecordCheck(var record StockTakeVc StockTakep,record StockTakeVc StockTake2p,LongInt stat,LongInt check)
+BEGIN
+  LongInt res;
+  record StockTakeVc lStockTaker;
+  row StockTakeVc StockTakerw,StockTake2rw;
+  integer mtrw,i;
+
+  record SerNrTrackBlock SNrb;
+  
+  res = 0;
+
+  res = inner.StockTakeVcRecordCheck(StockTakep,StockTake2p,stat,check);
+  mtrw = matrowcnt(StockTakep);
+  StockTakep.TotQty = blankval;
+  for(i=0;i<mtrw;i=i+1)begin
+  	matrowget(StockTakep,i,StockTakerw);
+  	StockTakep.TotQty = StockTakep.TotQty + StockTakerw.Qty;
+  end;
+  
+  
+  StockTakeVcRecordCheck = res;
+  
+return;
+end;

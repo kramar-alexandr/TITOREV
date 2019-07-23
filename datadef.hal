@@ -94,5 +94,10 @@ begin
 		ChangeMatrixField(vra9,M45Val,0,0);
 	EndRecordAdd;
   
+  
+  RecordAddBegin(StockTakeVc,"StockTakeVc_Custom");
+		RecordField(TotQty,M4Long,0,0); // Edit ************************** BPI Ukraine - KramarAlexandr - 02, 23 07 2019 y. at 5:10:31 PM
+	EndRecordAdd;
+  
   return;
 end;
