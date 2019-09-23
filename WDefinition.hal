@@ -4486,22 +4486,22 @@ begin
   MatrixBegin(4,v,-50,-30,-,300);
   Flip(0);
   MatCol(1,34,"Товар",0,Item,false,INSClass);
-  MatCol(1,110,"Коммент.",0,Comment,false,0);
+  MatCol(1,180,"Коммент.",0,Comment,false,0);
   flipnr = 1;
   Flip(flipnr); flipnr = flipnr + 1;
   if (HasSerialNumbers) then begin
-  MatCol(1,-375,"Серийный №",0,SerialNr,false,SerialNrSClass); 
+  //MatCol(1,-375,"Серийный №",0,SerialNr,false,SerialNrSClass); // Edit ************************** BPI Ukraine - KramarAlexandr - 01, 23 09 2019 y. at 9:39:06 AM
   end;
-  MatCol(1,-310,"Затр.",0,InQty,true,MATVARINSClass);
-  MatCol(1,-260,"Выпуск",0,OutQty,true,MATVARINSClass);
+  MatCol(1,-150,"Затр.",0,InQty,true,MATVARINSClass);
+  MatCol(1,-110,"Выпуск",0,OutQty,true,MATVARINSClass);
   if (IsEnterprise) then begin 
-  MatCol(1,-210,"% ст-ти",0,RelVal,true,0);
+  //MatCol(1,-210,"% ст-ти",0,RelVal,true,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 23 09 2019 y. at 9:39:10 AM
   end;
-  MatCol(1,-160," Ст-ть",0,ItemCost,true,0);
+  MatCol(1,-70," Ст-ть",0,ItemCost,true,0);
   if (IsEnterprise) then begin 
-  MatCol(1,-100,"Труд.",0,ExtraCost,true,0);
+  //MatCol(1,-100,"Труд.",0,ExtraCost,true,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 23 09 2019 y. at 9:39:17 AM
   end;
-  MatCol(1,-40,"Коэфф.",0,Coefficient,false,0);
+  //MatCol(1,-40,"Коэфф.",0,Coefficient,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 23 09 2019 y. at 9:39:21 AM
   if (IsEnterprise) then begin
     Flip(flipnr); flipnr = flipnr + 1;
   MatCol(1,-375,"Объекты",0,Objects,false,ObjSClass);
