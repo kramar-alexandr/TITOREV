@@ -1,4 +1,5 @@
 //<halrule>server-only</halrule>
+external inner procedure GetFullCurncyRate (var string,Date,var val,var val,var val,var val,var val);
 
 
 global
@@ -63,4 +64,38 @@ BEGIN
   StockTakeVcRecordCheck = res;
   
 return;
+end;
+
+global
+function LongInt OPVcRecordCheck(var record OPVc OPr,record OPVc OP2r,LongInt stat,LongInt along4)
+begin
+  LongInt res,long4;
+  string 255 errmsg;
+  transaction Boolean gMaintenance;
+  row OPVc OPrw;
+  integer i,mtrw;
+  string 10 checkcur;
+  val t,fr,to1,to2,br1,br2;
+    
+  
+  res = inner.OPVcRecordCheck(OPr,OP2r,stat,along4);
+
+  mtrw = matrowcnt(OPr);
+  for(i=0;i<mtrw;i=i+1)begin
+  	matrowget(OPr,i,OPrw);
+  	GetFullCurncyRate(checkcur,OPr.PayDate,fr,to1,to2,br1,br2);
+  	if((OPrw.FrRateBankVal==1 and OPrw.ToRateB1BankVal==1))then begin
+  		checkcur = OPrw.BankCurncy;
+  		GetFullCurncyRate(checkcur,OPr.PayDate,fr,to1,to2,br1,br2);
+  		if(fr!=OPrw.FrRateBankVal or to1!=OPrw.ToRateB1BankVal)then begin
+  			RecordCheckError(1978,"",i,"ToRateB1BankVal");      
+				res = -1; 
+				goto lOPVcRecordCheck;
+  		end;
+  	end;
+  end;
+lOPVcRecordCheck:;
+  
+  OPVcRecordCheck = res;
+  return;
 end;
