@@ -66,6 +66,43 @@ BEGIN
 return;
 end;
 
+
+global
+function LongInt IPVcRecordCheck(var record IPVc IPr,record IPVc IP2r,LongInt stat,LongInt along4)
+begin
+  LongInt res,long4;
+  string 255 errmsg;
+  transaction Boolean gMaintenance;
+  row IPVc IPrw;
+  integer i,mtrw;
+  string 10 checkcur;
+  val t,fr,to1,to2,br1,br2;
+    
+  
+  res = inner.IPVcRecordCheck(IPr,IP2r,stat,along4);
+
+  mtrw = matrowcnt(IPr);
+  for(i=0;i<mtrw;i=i+1)begin
+  	matrowget(IPr,i,IPrw);
+  	if(blank(IPrw.RecCurncy) and nonblank(IPrw.BankCurncy))then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 07 11 2019 y. at 11:50:38 AM
+			RecordCheckError(1058,"",i,"RecCurncy");      
+			res = -1; 
+			goto LIPVcRecordCheck;
+		end;
+		if(nonblank(IPrw.RecCurncy) and blank(IPrw.BankCurncy))then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 07 11 2019 y. at 11:50:41 AM
+			RecordCheckError(1058,"",i,"BankCurncy");      
+			res = -1; 
+			goto LIPVcRecordCheck;
+		end;
+  end;
+lIPVcRecordCheck:;
+  
+  IPVcRecordCheck = res;
+  return;
+end;
+
+
+
 global
 function LongInt OPVcRecordCheck(var record OPVc OPr,record OPVc OP2r,LongInt stat,LongInt along4)
 begin
