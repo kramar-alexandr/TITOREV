@@ -96,3 +96,30 @@ begin
 	
 return;
 end;
+
+
+global webpublic procedure WebWronfIPReport()
+begin
+	record IPVc IPr;
+	row IPVc IPrw;
+	integer i,mtrw;
+	
+	IPr.SerNr = 0;
+	while(loopmain(IPr,1,true))begin
+		mtrw = matrowcnt(IPr);
+		for(i=0;i<mtrw;i=i+1)begin
+			matrowget(IPr,i,IPrw);
+			if(blank(IPrw.RecCurncy) and nonblank(IPrw.BankCurncy))then begin
+				weboutstring(IPr.SerNr);
+				weboutstring("<BR>");
+			end;
+			if(nonblank(IPrw.RecCurncy) and blank(IPrw.BankCurncy))then begin
+				weboutstring(IPr.SerNr);
+				weboutstring("<BR>");
+			end;
+		end;
+		
+	end;
+
+return;
+end;
