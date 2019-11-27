@@ -2652,3 +2652,19 @@ begin
   SpecialMenu("Поиск товара",'f',1,"ItemSearchDsm");
   EndWindow;
 end;
+
+window ProdStatRClass:1
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs;
+  WindowBegin("Определите статистику производства",ProdStatRClass,CGRcW,RcType);
+  SetWRect(64,80,450,170);
+  v= 6; vs = 20;h =140;
+  PeriodField(h,v,"Период");
+  EditFieldTL(h,v+=vs,100,"Структура",M4UStr,Normal,20,f2,false,RecSClass);
+  EditFieldTL(h,v+=vs,100,"Товар",M4UStr,Normal,20,f7,false,INSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 25 11 2019 y. at 1:21:47 PM
+  EditFieldTL(h,v+=vs,100,"Машина",M4UStr,Normal,10,f4,false,AT2UnitSClass);
+  EditFieldTL(h,v+=vs,100,"Время начала от",M4UStr,Normal,10,f5,false,0);
+  EditFieldTL(h,v+=vs,100,"Время начала до",M4UStr,Normal,10,f6,false,0);
+  EndWindow;
+end;
