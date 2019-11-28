@@ -2668,3 +2668,62 @@ begin
   EditFieldTL(h,v+=vs,100,"Время начала до",M4UStr,Normal,10,f6,false,0);
   EndWindow;
 end;
+
+window ArtSTRClass:1
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vm,vs;
+  WindowBegin("Определите статистику по товарам",ArtSTRClass,CGRcW,RcType);
+  SetWRect(20,80,450,330);
+  vs = 20;
+  h = 160;
+  PeriodField(h,v=6,"Период");
+  EditFieldTL(h,v+=20, 150,"Код товара",   M4UStr,Normal,50,f1,false,INSClass);
+  if (HasItemClassification) then begin
+    EditFieldTL(h,v+=20, 150,"Классификация товара", M4UStr,Normal,60,f4,false,DISClass);
+  end;
+  if (HasItemGroups) then begin
+    EditFieldTL(h,v+=20, 150,"Группы товара",   M4UStr,Normal,20,f3,false,ITSClass);
+  end;
+  if (HasModCO or HasModSL or HasModSO) then begin
+    EditFieldTL(h,v+=20, 150,"Клиент",   M4UStr,Normal,41,f2,false,CUSClass);
+  end;
+  if (HasCategories) then begin
+    EditFieldTL(h,v+=20, 150,"Категории",   M4UStr,Normal,30,ObjStr,false,CCatSClass);
+  end;
+  if (HasDepartments) then begin
+    //EditFieldTL(h,v+=20, 150,"Отдел",      M4UStr,Normal,10,AccStr,false,DepSClass);
+		EditFieldTL(h,v+=20, 85,"Склад",M4UStr,Normal,30,f5,false,LocationSClass);  // Edit ************************** BPI Ukraine - KramarAlexandr - 04, 28 11 2019 y. at 9:56:59 AM
+	end;
+  if (HasModRest) then begin
+    EditFieldTL(h,v+=vs, 150,"Филиал",   M4UStr,Normal,20,f6,false,CUSClass);
+    EditFieldTL(h,v+=vs, 100,"Класс сч. ресторана",   M4UStr,Normal,10,LastAcc,false,RestAccClassSClass);
+  end;
+  if (HasPriceLists) then begin
+    EditFieldTL(h,v+=20, 50,"Прейскурант",      M4UStr,Normal,5,FirstAcc,false,PLDefSClass);
+  end;
+  if (HasMultiLocations) then begin
+    //EditFieldTL(h,v+=20, 85,"Место",M4UStr,Normal,30,f5,false,LocationSClass);
+  end;
+  if (IsEnterprise) then begin
+    CheckBox(h,v+=vs,0,"Показывать все склады",flags[1]);  
+//  EditFieldTL(h,v+=vs ,100,"Продавец",M4UStr,Normal,10,FirstAcc,false,UserSClass); /* kyvv 970418 */
+/* Who added this ?? */
+//  CheckBox(80,vm=(v+=41),0,"Show only Item Groups amounts",flags[1]);
+    v = v + 30;
+    vm = v+=vs;
+    ButtonFrame(h=30,v,123,2,"Функкция");
+    RadioButton(h,v,0,0,"Сводный",ArtMode);
+    RadioButton(h,v+=16,1,0,"Подробно",ArtMode);
+    h = 200;
+  end else begin
+    v = v + 30;  
+    vm = v+=vs;
+  end;
+  if (HasBase2 or HasMultiCurrency) then begin
+    ButtonFrame(h,v=vm,200,2,"Значения в");
+    RadioButton(h,v,0,0,"Осн. валюте 1",basecurncy);
+    RadioButton(h,v+=16,1,0,"Осн. валюте 2 (текущий курс)",basecurncy);
+  end;
+  EndWindow;
+end;
