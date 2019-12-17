@@ -5256,3 +5256,26 @@ begin
   end;
   EndWindow;
 end;
+
+
+window PLLClass:2
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Цены",PLLClass,CGmlist,-);
+  SpawnClass(PLDClass);
+  SetWRect(64,80,609,320);
+  Sizeable(-1,-1,0,0);
+  UseView(PLVc);
+  RecordList(4,17,-21,-39);
+  RlColKey(4,2,"Товар",ArtCode,false,ArtCode);
+  RlColKey(150,100, "Прейскурант",PLCode,false,PLCode);
+  if (HasStandardCRM) then begin
+    RlCol(220,220,"Клиент",CustCode,false);
+    RlColKey(270,270,      "Комментарий",Comment,false,Comment);
+  end else begin
+    RlColKey(180,180,      "Комментарий",Comment,false,Comment);
+  end;
+  RlCol(-115,-30,"Цена",ExVatPrice,true);
+  SearchField("Поиск");
+  EndWindow;
+end;
