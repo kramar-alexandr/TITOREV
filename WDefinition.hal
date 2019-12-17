@@ -3504,7 +3504,7 @@ begin
     EditField(h1,v=vm,82,"Способ отгр.",Normal,ShipMode,false,DMSClass);
     EditField(h1,v+=vs,80,"Сумма налога",ViewOnly,TAX1Sum,true,0);
     if (StandardHansa==false) then begin
-      EditField(h1,v+=vs,80,"Заявлен. значение",Normal,DeclaredVal,true,0);
+      EditField(h1,v+=vs,80,"Кол-во мест",Normal,DeclaredVal,true,0);
       EditField(h1,v+=vs,-20,"Статус отгрузки",ViewOnly,EShipStatus,false,0);
       if (HasLocalization("BRA,BOL,PRT")) then begin  
         EditField(h1,v+=vs,80,"Tax Seal",ViewOnly,TaxAdminServSeal,false,0);
