@@ -601,15 +601,12 @@ LCUPer_PrintReceiptLoop:;
   InitCurncyTotals(ipacur,ipav1,ipcurcnt);
   InitCurncyTotals(ipacur,ipav2,ipcurcnt);
   BeginCurncyTotals(ipcurcnt);
-  logtext(0,"1111111111");
   for (i=0; i<rwcnt;i=i+1) begin
     MatRowGet(IPr,i,IPrw);
     testf = false;
 			if (blankdate(IPrw.PayDate) or (IPrw.PayDate==IPrsr.CustDate) or IPrw.stp==kReceiptRowTypeSettlementDiscount) then begin
 				testf = true;
 			end;
-			logtext(0,"IPrw.PayDate==IPrsr.CustDate " & IPrw.PayDate & " - " & IPrsr.CustDate);
-			logtext(0,"IPrw.PayDate!=IPr.TransDate " & IPrw.PayDate & " _ " & IPr.TransDate);
 			if(RepSpec.flags[8]!=0)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 20 12 2019 y. at 2:41:47 PM
 				if(IPrw.PayDate!=IPr.TransDate or IPrw.PayDate!=IPrsr.CustDate)then begin
 					if(dateinrange(IPrw.PayDate,RepSpec.sStartDate,RepSpec.sEndDate))then begin
@@ -618,7 +615,6 @@ LCUPer_PrintReceiptLoop:;
 				end;
 			end;// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 20 12 2019 y. at 2:41:50 PM
     //end;
-    logtext(0,"2222 " & testf);
     if (RepSpec.flags[2]!=0) then begin
       if (nonblank(RepSpec.CurncyCode)) then begin
         if (IPrw.InvCurncy!=RepSpec.CurncyCode) then begin testf = false; end;
