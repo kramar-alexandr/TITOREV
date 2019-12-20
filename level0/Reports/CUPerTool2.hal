@@ -611,7 +611,7 @@ LCUPer_PrintReceiptLoop:;
 			logtext(0,"IPrw.PayDate==IPrsr.CustDate " & IPrw.PayDate & " - " & IPrsr.CustDate);
 			logtext(0,"IPrw.PayDate!=IPr.TransDate " & IPrw.PayDate & " _ " & IPr.TransDate);
 			if(RepSpec.flags[8]!=0)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 20 12 2019 y. at 2:41:47 PM
-				if(IPrw.PayDate!=IPr.TransDate)then begin
+				if(IPrw.PayDate!=IPr.TransDate or IPrw.PayDate!=IPrsr.CustDate)then begin
 					if(dateinrange(IPrw.PayDate,RepSpec.sStartDate,RepSpec.sEndDate))then begin
 						testf = true;
 					end;
