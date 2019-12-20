@@ -616,6 +616,7 @@ LCUPer_PrintReceiptLoop:;
 				end;
 			end;// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 20 12 2019 y. at 2:41:50 PM
     //end;
+    logtext(0,"2222 " & testf);
     if (RepSpec.flags[2]!=0) then begin
       if (nonblank(RepSpec.CurncyCode)) then begin
         if (IPrw.InvCurncy!=RepSpec.CurncyCode) then begin testf = false; end;
@@ -652,7 +653,7 @@ CURRENCIES-TODO
 //          if (IPrw.InvoiceNr!=IPrsr.IVNr) then begin testf = false; end;//what if many invoics on same rec ? 
         end;
         if (testf) then begin
-          if (IPr.TransDate==IPrsr.TransDate or IPrw.PayDate==IPrsr.TransDate) then begin
+          if (IPr.TransDate==IPrsr.TransDate or IPrw.PayDate==IPrsr.TransDate) then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 20 12 2019 y. at 4:23:31 PM
             if (IPrw.CustCode==CUp.Code) then begin
               aracc = IPrw.ARAcc;
               if (blank(aracc)) then begin
