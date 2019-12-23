@@ -912,6 +912,7 @@ begin
   EditField(h,v+=vs,80,"Доп. налог",ViewOnly,TAX1Sum,true,0);// Edit ************************** Tuesday, 17 January 2017 10:40:50
   EditField(h2,v,80,"вес",ViewOnly,TotWeight,true,0);
   EditField(h3,v,80,"объем",ViewOnly,TotVolume,true,0);
+  EditField(h3+150,v,80,"Кол. мест",ViewOnly,DeclaredVal,true,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 23 12 2019 y. at 10:36:08 AM
 
   EditField(h,v+=vs,80,"Комиссия",Normal,Commision,true,0);
   EditField(h2,v,80,"Итого вкл. ком.",ViewOnly,SumIncCom,true,0);

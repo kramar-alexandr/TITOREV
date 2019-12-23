@@ -136,3 +136,36 @@ lOPVcRecordCheck:;
   OPVcRecordCheck = res;
   return;
 end;
+
+
+global
+updating function LongInt SHVcRecordUpdate(var record SHVc SHr,record SHVc SH2r,LongInt stat,LongInt long4)
+begin
+  LongInt res;
+	record ORVc ORr;
+	boolean changed;
+	
+	res = inner.SHVcRecordUpdate(SHr,SH2r,stat,long4);
+	
+	if(SHr.DeclaredVal!=SH2r.DeclaredVal)then begin
+		changed = true;
+	end;
+	if(SHr.TotWeight!=SH2r.TotWeight)then begin
+		changed = true;
+	end;
+	if(SHr.TotVolume!=SH2r.TotVolume)then begin
+		changed = true;
+	end;
+
+  if(changed)then begin
+  	ORr.SerNr = SHr.OrderNr;
+  	readfirstmain(ORr,1,true);
+  	ORr.DeclaredVal = SHr.DeclaredVal;
+  	ORr.TotWeight = SHr.TotWeight;
+  	ORr.TotVolume = SHr.TotVolume;
+  	recordstore(ORr,true);
+  end;
+  
+  SHVcRecordUpdate = res; 
+  return;
+end;

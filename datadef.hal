@@ -51,6 +51,7 @@ begin
 		RecordField(DebtUpdateTime,M4Time,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 13 August 2018 12:39:07
   	RecordField(DebtCurSum,M4Val,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 13 August 2018 12:39:17
 		RecordField(DebtCurSumOld,M4Val,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 13 August 2018 12:39:17
+  	RecordField(DeclaredVal,M4Val,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 23 12 2019 y. at 10:33:18 AM  	
   	KeyBegin(SyncFlag); //Edit***************************Sasha2,10:24 15.07.2014
 		KeySegment(SyncFlag);
 		KeySegment(SerNr);
