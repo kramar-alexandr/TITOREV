@@ -187,6 +187,7 @@ BEGIN
       INr.Code = ORrw.ArtCode;
       readfirstmain(INr,1,true);
       t = -1;
+      maxp = blankval;
       ExpandProduction(ORrw.ArtCode,RepSpec.FirstAcc,INr.Recepy,1,maxp,t,false,RepSpec.flags[1]);
 
       OutString(390,0,maxp,true);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 30 12 2019 y. at 1:55:14 PM
