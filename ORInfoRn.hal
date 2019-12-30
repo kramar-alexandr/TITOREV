@@ -12,6 +12,9 @@ external inner function Boolean WrapAndPrint(Integer,string,Integer);
 external inner procedure PrintProdOrdInfo(record ProdOrderVc,val);
 external inner procedure FindProdOrdOutItem(record ProdOrderVc,var string,var val);
 external inner procedure PrintOperations(record RcVc,record ProdVc);
+external inner procedure ExpandProduction(string,string,string,Integer,var val,var val,Boolean,Integer);
+
+SetLangMode(LangRussian,"RUS",0);
 
 procedure PrintActivity(record ActVc Actr)
 BEGIN
@@ -89,6 +92,9 @@ BEGIN
   record ItemStatusVc ISr;
   val rem,toship,totgp,resrv,v,blval;
   string 255 location,tstr,t2;
+  record RcVc RepSpec;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 30 12 2019 y. at 2:00:42 PM
+  record INVc INr;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 30 12 2019 y. at 2:00:40 PM
+  val sum1,maxp,t;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 30 12 2019 y. at 2:00:46 PM
   
   rwcnt = MatRowCnt(ORp);
   StartFormat(15);
@@ -127,7 +133,7 @@ BEGIN
   OutString(300,0,USetStr(5502),true);
   OutString(330,0,USetStr(5503),true);
   OutString(360,0,USetStr(5504),true);
-  
+  OutString(390,0,"Возм. произ.",true);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 30 12 2019 y. at 1:55:14 PM
   OutString(410,0,USetStr(13728),true);// Edit ************************** Friday, 27 January 2017 15:24:27
   OutString(450,0,USetStr(12505),true);// Edit ************************** Friday, 27 January 2017 15:24:26
 
@@ -174,7 +180,16 @@ BEGIN
       OutVal(300,0,ORrw.Shipd2,M4UVal,true);
       OutVal(330,0,rem,M4UVal,true);
       OutVal(360,0,ISr.Instock,M4UVal,true);
-      
+      recordnew(RepSpec);
+      reportdefaults(RepSpec,"MaxprodRClass");
+      RepSpec.f1 = ORrw.ArtCode;
+      RepSpec.flags[1] = 1;
+      INr.Code = ORrw.ArtCode;
+      readfirstmain(INr,1,true);
+      t = -1;
+      ExpandProduction(ORrw.ArtCode,RepSpec.FirstAcc,INr.Recepy,1,maxp,t,false,RepSpec.flags[1]);
+
+      OutString(390,0,maxp,true);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 30 12 2019 y. at 1:55:14 PM
       OutVal(410,0,ISr.OrddOut,M4UVal,true);// Edit ************************** Friday, 27 January 2017 15:28:59
      	OutVal(450,0,ISr.Instock - ISr.OrddOut,M4UVal,true);// Edit ************************** Friday, 27 January 2017 15:28:59
      	
