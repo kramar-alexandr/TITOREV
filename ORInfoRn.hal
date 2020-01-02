@@ -12,7 +12,7 @@ external inner function Boolean WrapAndPrint(Integer,string,Integer);
 external inner procedure PrintProdOrdInfo(record ProdOrderVc,val);
 external inner procedure FindProdOrdOutItem(record ProdOrderVc,var string,var val);
 external inner procedure PrintOperations(record RcVc,record ProdVc);
-external inner procedure ExpandProduction(string,string,string,Integer,var val,var val,Boolean,Integer);
+external inner procedure ExpandProduction(string,string,string,Integer,var val,var val,Boolean,Integer);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:36:02 AM
 
 SetLangMode(LangRussian,"RUS",0);
 

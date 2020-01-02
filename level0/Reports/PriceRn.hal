@@ -21,6 +21,10 @@ external procedure GetItemVATCode(string,Integer,var string,Boolean);
 external function Boolean GetItemNameStr(Integer,var string,string,string,string);
 external procedure HTSort1(Integer, var string);
 external procedure HTArtSel(string,string,var string);
+external procedure ExpandProduction(string,string,string,Integer,var val,var val,Boolean,Integer);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:36:02 AM
+
+SetLangMode(LangRussian,"RUS",0);
+
 
 function Boolean AnyVarietyInPriceList(record INVc INr,string pricelist)
 begin
@@ -355,6 +359,7 @@ begin
   integer pos,i,k;// Edit ************************** Tuesday, 21 March 2017 10:37:13
   record ItemStatusVc ISr;
   integer repint;
+  val maxp;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:43:45 AM
   
 
   if (nonblank(RepSpec.f2)) begin
@@ -476,6 +481,14 @@ begin
       	end;
       	
       end;
+      
+      if(RepSpec.flags[12]==1)then begin
+				maxp = blankval;
+				t = -1;
+				ExpandProduction(INr.Code,"",INr.Recepy,1,maxp,t,false,1);
+				OutString(320,0,maxp,false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:18:30
+			end;
+      
       if(k<=1)then begin// Edit ************************** Tuesday, 21 March 2017 10:50:52
 				if (RepSpec.flags[9]==1) then begin
 					OutVal(4,0,upric,M423Val,true);
@@ -930,6 +943,9 @@ begin
 			OutString(3,0,USetStr(2327),false);
     end else begin
     	OutString(3,0,USetStr(12053),false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:18:30
+    end;
+    if(RepSpec.flags[12]==1)then begin
+    	OutString(320,0,"Воз.произ.",false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:18:30
     end;
     
     if(k<=1)then begin
