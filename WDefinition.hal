@@ -5280,3 +5280,146 @@ begin
   SearchField("Поиск");
   EndWindow;
 end;
+
+window INRClass:2
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h2,h3,h4,v,v1,vm,vs,v2;
+  Integer tilenr;
+  
+  WindowBegin("Определите отчет по складу",INRClass,CGRcW,RcType);
+  h = 160; v = 6; vs = 20; h2 = 30; h3 = 180; h4 = 330;
+
+  if (IsEnterprise) then begin
+    SetWRect(20,80,580,470);
+    Tile(0,40,false,"",f1);
+    h4 = 330;
+  end else begin
+    SetWRect(20,80,400,470);
+    h4 = 227;
+    h = 120;
+  end;
+
+  EditFieldTL(h,v,150,"Товар",M4UStr,Normal,50,f1,false,INSClass); v = v + vs;
+  if (IsEnterprise) then begin
+    TileButtons(v,2);
+    tilenr = 1;
+    Tile(tilenr,340,false,tilenr,d1); tilenr = tilenr + 1;
+    v = 6;
+  end;
+  if (HasItemGroups) then begin
+    EditFieldTL(h,v,150,"Группа",M4UStr,Normal,11,f3,false,ITSClass); v = v + vs;
+  end;
+  if (HasItemClassification) then begin
+    EditFieldTL(h,v,150,"Классиф. товара", M4UStr,Normal,100,f4,false,DISClass); v = v + vs;
+    EditFieldTL(h,v,150,"Вид классификации",M4UStr,Normal,60,f5,false,CTypeSClass); v = v + vs;
+  end;
+  if (HasMultiLocations) then begin
+    EditFieldTL(h,v,80,"Склад",M4Code,Normal,10,f2,false,LocationSClass); v = v + vs;
+  end;
+//  EditFieldTL(h,v+=vs,80,"Группа складов",M4Code,Normal,10,f6,false,LocGrSClass);
+//  EditFieldTL(h,v+=vs,150,"Классификация склада",M4List,Normal,200,f7,false,LocClSClass);
+  if (HasPositions) then begin
+    EditFieldTL(h,v,150,"Место",M4Code,Normal,10,FirstAcc,false,PosSClass); v = v + vs;
+  end;
+  if (HasDepartments) then begin
+    EditFieldTL(h,v,150,"Отдел",M4UStr,Normal,10,AccStr,false,DepSClass); v = v + vs;
+  end;
+  if (HasModPO) then begin
+    EditFieldTL(h,v,150,"Поставщик",M4UStr,Normal,20,LastAcc,false,VESClass); v = v + vs;
+  end;
+  if (HasCategories) then begin
+    EditFieldTL(h,v,50,"Категория поставщиков",M4UStr,Normal,5,f9,false,VGSClass); v = v + vs;
+  end;
+  if (HasContactClassification) then begin
+    EditFieldTL(h,v,150,"Классиф. поставщиков",M4UStr,Normal,30,f8,false,CClassSClass); v = v + vs;
+  end;
+  EditFieldTL(h,v,80,"Дата",M4Date,Normal,0,d1,false,PasteCurDate); v = v + vs;
+  ButtonFrame(h2,vm=(v+=30),123,5,"Purchase Ledger");
+  RadioButton(h2,v,0,0,"Сводный",ArtMode);
+  RadioButton(h2,v+=16,1,0,"Подробно",ArtMode);
+  if (HasMultiLocations) then begin
+    RadioButton(h2,v+=16,2,0,"По складам",ArtMode);
+    CheckBox(h2+30,v+=16,0,"Вкл. суммы",flags[14]);
+    RadioButton(h2,v+=16,3,0,"Итого по складам",ArtMode);
+  end;
+  EndFrame;
+  if (HasMultiCurrency) then begin
+    v = v + 45; v1 = v;
+  end;
+/*not implemented ?   
+  if (HasMultiCurrency) then begin
+    ButtonFrame(h2,v1=(v+=45),123,2,"Курс обмена");
+    RadioButton(h2,v,0,0,"По поступлению",flags[1]);
+    RadioButton(h2,v+=16,1,0,"Текущий",flags[1]);
+  end;
+*/  
+  if (IsEnterprise) then begin
+    ButtonFrame(h3,v=vm,123,5,"Метод оценки");
+    RadioButton(h3,v,0,0,"По умолчанию",flags[11]);
+    RadioButton(h3,v+=16,1,0,"По стоимости",flags[11]);
+    RadioButton(h3,v+=16,2,0,"% oт базовой цены",flags[11]);
+    RadioButton(h3,v+=16,3,0,"Средневзвешенный",flags[11]);
+    RadioButton(h3,v+=16,4,0,"По очереди",flags[11]);
+    ButtonFrame(h3,v=v1,123,3,"Отображать");
+    RadioButton(h3,v,0,0,"Обычно",flags[19]);
+    RadioButton(h3,v+=16,1,0,"Суммировано",flags[19]);
+    RadioButton(h3,v+=16,2,0,"Раздельно",flags[19]);
+  end;
+  ButtonFrame(h4,v=vm,123,5,"Сортировать по");
+  RadioButton(h4,v,0,0,"Номеру",flags[2]);
+  if (HasItemGroups) then begin
+    RadioButton(h4,v+=16,1,0,"Группе",flags[2]);
+  end;
+  RadioButton(h4,v+=16,2,0,"Наименованию",flags[2]);
+  if (IsEnterprise) then begin
+    RadioButton(h4,v+=16,3,0,"Штрих-коду",flags[2]);
+    if (StandardHansa==false) then begin
+      RadioButton(h4,v+=16,4,0,"Классификации",flags[2]);
+    end;
+  end;
+  EndFrame;
+  v2 = v + 16;
+  v = v1;
+  if (IsEnterprise) then begin
+    CheckBox(h4,v=20,0,"Только с полож. балансом",UsedOnly);
+    CheckBox(h4,v+=16,0,"Только отриц. кол-ва",flags[17]);
+  end;
+  if (IsEnterprise==false) then begin
+    v = v2;
+  end;
+  if (HasSerialNumbers) then begin
+    CheckBox(h4,v+=16,0,"Показать сер. №",flags[10]); v = v + 16;
+  end;
+  if (HasSecondQuantity) then begin
+    CheckBox(h4,v,0,"Показать кол-во 2",flags[15]); v = v + 16;
+  end;
+  if (IsEnterprise) then begin
+    CheckBox(h4,v,0,"Суммы - два знака после запятой",flags[16]); v = v + 16; // Who wanted this? Decimals per report....nahh.., I haven't added this one, JJ
+    CheckBox(h4,v,0,"Показать закрытые",flags[18]); v = v + 16;
+    CheckBox(h4,v,0,"Средневзв. стоимость на выбр. дату",flags[20]); v = v + 16;
+    if (StandardHansa==false) then begin
+      CheckBox(h4,v,0,"Показывать с заменит.",flags[21]); v = v + 16;
+    end;
+  end;
+  CheckBox(h4,v,0,"Возможность производства",flags[24]); v = v + 16;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:49:25 AM
+  if (IsEnterprise) then begin
+    Tile(tilenr,340,false,tilenr,-); tilenr = tilenr + 1;
+    v = 6;
+    EditFieldTL(h,v,150,"Группа складов",M4Code,Normal,10,f10,false,LocGrSClass); 
+    EditFieldTL(h,v+=vs,150,"Классификация складов",M4List,Normal,200,f11,false,LocClSClass); 
+    ButtonFrame(h=30,vm=(v+=40),188,3,"Purchase Ledger");
+    RadioButton(h,v,0,0,"Включая склад комиссии",flags[12]);
+    RadioButton(h,v+=16,1,0,"Не включая склад комиссии",flags[12]);
+    RadioButton(h,v+=16,2,0,"Только склад комиссии",flags[12]);
+  end else begin
+    vm = v;
+  end;
+  if (HasVarieties) then begin
+    CheckBox(h4,v=vm,0,"Показ. варианты",flags[22]); v = v + 16;
+  end;
+  if (HasLocalization("ARG,MEX,USA") and IsStandardProduct==false) then begin
+    CheckBox(h4,v,0,"Показать номер Отправки (Подробно)",flags[23]); v = v + 16;
+  end;
+  EndWindow;
+end;

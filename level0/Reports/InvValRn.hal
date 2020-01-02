@@ -48,6 +48,10 @@ external function Boolean SetInSet2(string,string);
 external procedure ItemClassTypef(string,string,var Boolean);
 external function Boolean FillItemVarArray(string,string,date,var array string,var array val,var Integer,var string,var string,var string,var string);
 external procedure ExtractObj(string,var Integer,var string);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 15 11 2018 y. at 3:36:31 PM
+external procedure ExpandProduction(string,string,string,Integer,var val,var val,Boolean,Integer);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:36:02 AM
+
+SetLangMode(LangRussian,"RUS",0);
+
 
 global
 procedure CalcCostPrice(val instock,val inprice,val factor,Integer UseDiscount,val prc,var val resprice,var val restotprice)
@@ -512,7 +516,7 @@ BEGIN
   record PISVc PISr;
   record INVc desumINr;
   string 20 desummariseditem;
-  val desummarisedkoef;
+  val desummarisedkoef,maxp,tz;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:58:42 AM
 
   BlockLoad(mst);
   fManyLocations = false;
@@ -733,6 +737,12 @@ BEGIN
         OutString(2,0,left(INp.Name,15),false);
         OutVal(3,0,instock,M4UVal,true);
       end;
+      if(RepSpec.flags[24]==1)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:57:17 AM
+     	 	maxp = blankval;
+				tz = -1;
+				ExpandProduction(INp.Code,"",INp.Recepy,1,maxp,tz,false,1);
+     	 	OutString(320,0,maxp,false);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:53:33 AM
+			end;
       if (RepSpec.PocketPC == 0) then begin
         OutVal(4,0,t2,M45Val,true);
       end;
@@ -803,6 +813,7 @@ BEGIN
           OutValBiDi(350,0,instock2,M4UVal,true,390);
         end;
         OutVal(4,0,t/instock,M45Val,true);
+        
         typ = M45Val;
         if ((RepSpec.flags[16]!=0) or (roundof.decimals==2)) then begin
           t = Round(t,DefaultRoundMode);
@@ -1812,6 +1823,9 @@ begin
       OutString(0,0,USetStr(2325),false);
       OutString(2,0,USetStr(2326),false);
       OutString(5,0,USetStr(2327),false);
+			if(RepSpec.flags[24]==1)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:57:17 AM
+				OutString(320,0,"Возм. произ.",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:53:33 AM
+      end;
       OutStringAdjust(3,0,USetStr(2330),true,M4Val);
       if (RepSpec.flags[15]==1) then begin
         OutStringAdjustBiDi(350,0,USetStr(7593),true,M4Val,390);
