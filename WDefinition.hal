@@ -3019,6 +3019,13 @@ begin
   if (HasPositions or HasModWHM or HasLocalization("PRT")) then begin
     Tile(tilenr,60,false,tilenr,FrPos); tilenr = tilenr + 1;
     v = 6;
+    
+        
+    EditField(h,v,80, "Кол-во шт",ViewOnly,TotQty,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 10 01 2020 y. at 5:06:49 PM
+		EditField(h2,v,80,"Вес",ViewOnly,TotWeight,false,0);
+		EditField(h3,v,80,"Объем",ViewOnly,TotVolume,false,0); v = v + vs;
+    
+      
     if (HasPositions) then begin
       EditField(h,v,80, "С места",Normal,FrPos,false,UsedPosSClass);
       EditField(h2,v,80,"на место",Normal,ToPos,false,FreePosSClass);
