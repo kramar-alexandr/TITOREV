@@ -3022,8 +3022,8 @@ begin
     
         
     EditField(h,v,80, "מכ-גמ רע",ViewOnly,TotQty,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 10 01 2020 y. at 5:06:49 PM
-		EditField(h2,v,80,"‚וס",ViewOnly,TotWeight,false,0);
-		EditField(h3,v,80,"בתול",ViewOnly,TotVolume,false,0); v = v + vs;
+		EditField(h2,v,80,"‚וס",Normal,TotWeight,false,0);
+		EditField(h3,v,80,"בתול",Normal,TotVolume,false,0); v = v + vs;
     
       
     if (HasPositions) then begin
