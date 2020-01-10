@@ -863,6 +863,14 @@ BEGIN
           if (StockMovr.OKFlag!=0) then begin res = false; end;
       end;
   end;
+  
+  if(fieldname=="TotVolume")then begin
+  	res = true;// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 10 01 2020 y. at 5:21:21 PM
+  end;
+  if(fieldname=="TotWeight")then begin
+  	res = true;// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 10 01 2020 y. at 5:21:21 PM
+  end;
+  
   StockMovDClassActiveEditField = res;
   RETURN;
 END;
