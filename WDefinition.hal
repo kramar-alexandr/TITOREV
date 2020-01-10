@@ -3039,8 +3039,8 @@ begin
     end;
     if (HasModWHM) then begin
       v = 6 + vs;
-      CheckBox(h,v,0,"Вручную",ManualPick);
-      CheckBox(h,v+=16,0,"Послать на очередь погрузчика",ToForkLiftQue);
+      //CheckBox(h,v,0,"Вручную",ManualPick);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 10 01 2020 y. at 5:11:51 PM
+      //CheckBox(h,v+=16,0,"Послать на очередь погрузчика",ToForkLiftQue);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 10 01 2020 y. at 5:11:49 PM
     end;
   end;
   Tile(tilenr,70,false,tilenr,Comment); tilenr = tilenr + 1;
