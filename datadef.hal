@@ -100,7 +100,7 @@ begin
 		RecordField(TotQty,M4Long,0,0); // Edit ************************** BPI Ukraine - KramarAlexandr - 02, 23 07 2019 y. at 5:10:31 PM
 	EndRecordAdd;
 	
-	RecordAddBegin(StockMoveVc,"StockMoveVc_Custom");
+	RecordAddBegin(StockMovVc,"StockMoveVc_Custom");
 		RecordField(TotQtyPost,M4Int,0,0); // Edit ************************** BPI Ukraine - KramarAlexandr - 01, 13 01 2020 y. at 2:26:32 PM
 	EndRecordAdd;
   
