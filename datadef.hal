@@ -22,6 +22,7 @@ begin
   RecordField(ShowFlag,M4Mark,0,0);
   RecordField(DayPerDel,M4Int,0,0);
   RecordField(Group,M4UStr,200,0);
+  RecordField(Locations,M4UStr,255,0);
   EndBlock;
   
   BlockBegin(WebShopSettingsBlock,-,"" )

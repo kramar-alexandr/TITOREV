@@ -1,5 +1,6 @@
 //<halrule>server-only</halrule>
 external inner function string 255 StrReplace(string,string,string);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 18:09:21
+external inner procedure ExtractObj(string,var Integer,var string);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 17 01 2020 y. at 2:27:07 PM
 
 procedure GetCurTimeInStr(var string res)
 BEGIN
@@ -84,20 +85,43 @@ END;
 procedure ISItemQtySerch(string item,string location,var val qty)
 begin
   record ItemStatusVc ISr;
-
+	integer pos;
+	string 100 tstr;
+	
   ISr.Code = item;
   if nonblank(location) then begin
-    ISr.Location = location;
+    //ISr.Location = location;
+    
+    pos = 0;
+    ExtractObj(location,pos,tstr);
+    qty = 0;
+    while(nonblank(tstr))begin
+    	
+    	if(nonblank(tstr))then begin
+    		ISr.Location = tstr;
+    		ISr.Code = item;
+				if (ReadFirstMain(ISr,2,true)) then begin
+					qty = qty + ISr.Instock;
+					if(currentcompany==1)then begin
+						qty = qty - ISr.OrddOut + ISr.RsrvQty;// Edit ************************** Monday, 13 February 2017 14:41:11
+					end;
+				end;
+			end;
+    	ExtractObj(location,pos,tstr);
+    end;
+    
+    
   end else begin
     ISr.Location = ";;;";
+		qty = 0;
+		if ReadFirstMain(ISr,2,true) then begin
+			qty = ISr.Instock;
+			if(currentcompany==1)then begin
+				qty = qty - ISr.OrddOut + ISr.RsrvQty;// Edit ************************** Monday, 13 February 2017 14:41:11
+			end;
+		end;
   end;
-  qty = 0;
-  if ReadFirstMain(ISr,2,true) then begin
-    qty = ISr.Instock;
-    if(currentcompany==1)then begin
-    	qty = qty - ISr.OrddOut + ISr.RsrvQty;// Edit ************************** Monday, 13 February 2017 14:41:11
-    end;
-  end;
+  
   
   return;
 end;
@@ -133,6 +157,13 @@ string 255 headers,rows;// Edit ************************** BPI Ukraine - KramarA
   while LoopMain(INr,1,true) begin
     if len(RepSpec.f4) == 0 or SetInSet(INr.Group, RepSpec.f4) then begin  // mik
       ExportString(INr.Code);
+      if(nonblank(RepSpec.f5))then begin
+      	if(blank(RepSpec.f2))then begin
+      		RepSpec.f2 = RepSpec.f5;
+      	end else begin
+      		RepSpec.f2 = RepSpec.f2 & "," & RepSpec.f5;
+      	end;
+      end;
       ISItemQtySerch(INr.Code,RepSpec.f2,qty);
       ExportVal(qty,M4Val);
       PLItemPriceSerch(plcodes,RepSpec.f3,arcnt,INr.Code);
@@ -160,6 +191,13 @@ string 255 headers,rows;// Edit ************************** BPI Ukraine - KramarA
 				rows = rows & INr.Code & ";";
 				
 				PLItemPriceSerchCSV(plcodes,RepSpec.f3,arcnt,INr.Code,rows);
+				if(nonblank(RepSpec.f5))then begin
+					if(blank(RepSpec.f2))then begin
+						RepSpec.f2 = RepSpec.f5;
+					end else begin
+						RepSpec.f2 = RepSpec.f2 & "," & RepSpec.f5;
+					end;
+				end;
 				ISItemQtySerch(INr.Code,RepSpec.f2,qty);
 				if(qty>0)then begin
 					rows = rows & valtostring(qty,m45Val,"",".",1) & ";1";
@@ -227,6 +265,7 @@ begin
 					end;
 					RepSpec.f1 = dexist;
 					RepSpec.f2 = EDEb.Location;
+					RepSpec.f5 = EDEb.Locations;
 					RepSpec.f3 = EDEb.PriceList;
 					RepSpec.flags[0] = EDEb.ShowFlag;
 					AutoExportItemEn(RepSpec);
@@ -298,6 +337,7 @@ begin
 					RepSpec.f3 = EDEb.PriceList;
 					RepSpec.flags[0] = EDEb.ShowFlag;
 					RepSpec.f4 = EDEb.Group;  // mik
+					RepSpec.f5 = EDEb.Locations;
 					AutoExportItemEn(RepSpec);
 				end;
 			end;

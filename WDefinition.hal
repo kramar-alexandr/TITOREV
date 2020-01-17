@@ -2481,6 +2481,7 @@ WindowBegin("Определите отчет по складу2",StockStatusRClass,CGRcW,RcType);
   v = 6; h = 110;
   EditField(h,v=6,-20,"Путь",Normal,DestWay,false,0);
   EditField(h,v+=20,80,"Склад",Normal,Location,false,LocationSClass);
+  EditField(h,v+=20,80,"Склады",Normal,Locations,false,LocationSClass);
   EditField(h,v+=20,-20,"Прайслисты",Normal,PriceList,false,PLDefSClass);
   EditField(h,v+=20,-20,"Группа",Normal,Group,false,ITSClass);
   EditField(h,v+=20,40,"Хранить экспорты",Normal,DayPerDel,false,0);
