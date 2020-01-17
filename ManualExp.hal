@@ -1,5 +1,6 @@
 external inner function boolean MySendWebRequest(string,integer,integer,boolean,string,string,string,string,boolean,area,var area,integer);
 remote inner function Integer CreateMailFromIVDMy(record IVVc,var record MailVc,var string,Boolean,string);
+external inner procedure ExtractObj(string,var Integer,var string);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 17 01 2020 y. at 2:27:07 PM
 
 procedure GetCurTimeInStr(var string res)
 BEGIN
@@ -60,17 +61,43 @@ END;
 procedure ISItemQtySerch(string item,string location,var val qty)
 begin
   record ItemStatusVc ISr;
-
+	integer pos;
+	string 100 tstr;
+	
   ISr.Code = item;
   if nonblank(location) then begin
-    ISr.Location = location;
+    //ISr.Location = location;
+    
+    pos = 0;
+    ExtractObj(location,pos,tstr);
+    qty = 0;
+    while(nonblank(tstr))begin
+    	
+    	if(nonblank(tstr))then begin
+    		ISr.Location = tstr;
+    		ISr.Code = item;
+				if (ReadFirstMain(ISr,2,true)) then begin
+					qty = qty + ISr.Instock;
+					if(currentcompany==1)then begin
+						qty = qty - ISr.OrddOut + ISr.RsrvQty;// Edit ************************** Monday, 13 February 2017 14:41:11
+					end;
+				end;
+			end;
+    	ExtractObj(location,pos,tstr);
+    end;
+    
+    
   end else begin
     ISr.Location = ";;;";
+		qty = 0;
+		if ReadFirstMain(ISr,2,true) then begin
+			qty = ISr.Instock;
+			if(currentcompany==1)then begin
+				qty = qty - ISr.OrddOut + ISr.RsrvQty;// Edit ************************** Monday, 13 February 2017 14:41:11
+			end;
+		end;
   end;
-  qty = 0;
-  if ReadFirstMain(ISr,2,true) then begin
-    qty = ISr.Instock;
-  end;
+  
   
   return;
 end;
@@ -85,7 +112,15 @@ array string 5 plcodes;
 integer arcnt,i;
   
   SetLangMode(LangRussian,"RUS",0);
-
+	
+	if(nonblank(RepSpec.f5))then begin
+		if(blank(RepSpec.f2))then begin
+			RepSpec.f2 = RepSpec.f5;
+		end else begin
+			RepSpec.f2 = RepSpec.f2 & "," & RepSpec.f5;
+		end;
+	end;
+	
   if (SetExportCodepage("CP1251")) then begin end;
   PLCodesExtract(plcodes,RepSpec.f3,arcnt);
   curtimestr = "";
@@ -213,8 +248,9 @@ begin
       RepSpec.f1 = dexist;
       RepSpec.f2 = EDEb.Location;
       RepSpec.f3 = EDEb.PriceList;
+      RepSpec.f5 = EDEb.Locations;
       RepSpec.flags[0] = EDEb.ShowFlag;
-	  RepSpec.f4 = EDEb.Group; // mik
+	  	RepSpec.f4 = EDEb.Group; // mik
       ManualExportItemEn(RepSpec);
 //    end;
 //  end;
