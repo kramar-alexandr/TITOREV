@@ -137,7 +137,15 @@ integer arcnt,i;
 string 255 headers,rows;// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 6 April 2018 16:07:57
   
   SetLangMode(LangRussian,"RUS",0);
-
+	
+	if(nonblank(RepSpec.f5))then begin
+		if(blank(RepSpec.f2))then begin
+			RepSpec.f2 = RepSpec.f5;
+		end else begin
+			RepSpec.f2 = RepSpec.f2 & "," & RepSpec.f5;
+		end;
+	end;
+	
   if (SetExportCodepage("CP1251")) then begin end;
   PLCodesExtract(plcodes,RepSpec.f3,arcnt);
   curtimestr = "";
@@ -157,13 +165,6 @@ string 255 headers,rows;// Edit ************************** BPI Ukraine - KramarA
   while LoopMain(INr,1,true) begin
     if len(RepSpec.f4) == 0 or SetInSet(INr.Group, RepSpec.f4) then begin  // mik
       ExportString(INr.Code);
-      if(nonblank(RepSpec.f5))then begin
-      	if(blank(RepSpec.f2))then begin
-      		RepSpec.f2 = RepSpec.f5;
-      	end else begin
-      		RepSpec.f2 = RepSpec.f2 & "," & RepSpec.f5;
-      	end;
-      end;
       ISItemQtySerch(INr.Code,RepSpec.f2,qty);
       ExportVal(qty,M4Val);
       PLItemPriceSerch(plcodes,RepSpec.f3,arcnt,INr.Code);
@@ -191,13 +192,6 @@ string 255 headers,rows;// Edit ************************** BPI Ukraine - KramarA
 				rows = rows & INr.Code & ";";
 				
 				PLItemPriceSerchCSV(plcodes,RepSpec.f3,arcnt,INr.Code,rows);
-				if(nonblank(RepSpec.f5))then begin
-					if(blank(RepSpec.f2))then begin
-						RepSpec.f2 = RepSpec.f5;
-					end else begin
-						RepSpec.f2 = RepSpec.f2 & "," & RepSpec.f5;
-					end;
-				end;
 				ISItemQtySerch(INr.Code,RepSpec.f2,qty);
 				if(qty>0)then begin
 					rows = rows & valtostring(qty,m45Val,"",".",1) & ";1";
