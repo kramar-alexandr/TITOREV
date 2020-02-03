@@ -5452,8 +5452,8 @@ begin
   end else begin
     RlCol(151,151,  "Дата оплаты",PayDate,false);
   end;
-  CalculatedColumn(231,231,"Поставщик","OPVendorCalcCol",true);
-  RlCol(320,320,"Комментарий",BankName,false);
+  CalculatedColumn(231,231,"Поставщик","OPVendorCalcCol",false);
+  RlCol(350,350,"Комментарий",BankName,false);
   if (IsEnterprise) then begin
   if (AcceptanceStatusColumnTest("OPVc")) then begin 
     CalculatedColumn(-170,-170,"Подтв.","OPLClassAcceptanceStatus",false); 
