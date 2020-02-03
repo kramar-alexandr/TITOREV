@@ -85,6 +85,7 @@ begin
   array string 20 cucode;// Edit ************************** Thursday, 5 January 2017 10:20:08
   integer k,cucnt;// Edit ************************** Thursday, 5 January 2017 10:40:50
   integer mondif;
+  val bonus;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 03 02 2020 y. at 3:07:07 PM
   
   if (RepSpec.wholemonthf==0) then begin
     MessageBox(1163,"");
@@ -144,6 +145,7 @@ begin
     ExtractObj(RepSpec.f1,pos,tstr);
     USr.Code = tstr;
     foundf = ReadFirstMain(USr,1,true);
+    bonus = USr.Bonus/100;
     if (foundf) then begin
       found2f = true;
       StartFormat(15);
@@ -164,6 +166,7 @@ begin
     end else begin
       StartFormat(15);
       OutString(0,0,USetStr(17195),false);
+      
       EndFormat;
     end;
   end;
@@ -190,6 +193,7 @@ begin
     for (i=startyear;i<=endyear;i=i+1) begin
       year[i] = i;
       OutLongInt(col,0,i,true);
+       OutString(col+10,0,"Bonus",false);
       col = col + 70;
     end;
     EndFormat;
@@ -288,6 +292,7 @@ begin
             end;*/
         end;
         OutValBiDi(col,0,s,M4Val,true,col+56);
+        OutValBiDi(col+30,0,s*bonus,M4Val,true,col+56);
         if (MonthShouldBeAdded(tod,totalmonths,s)) then begin
           totalmonths = totalmonths + 1;
           nummonths[i] = nummonths[i] + 1;
@@ -307,6 +312,7 @@ begin
 								outstring(11,0,cucode[k],false);
 								outstring(50,0,CU2r.Name,false);
 								outstring(150,0,cusum[k],false);
+								OutValBiDi(200,0,cusum[k]*bonus,M4Val,true,col+56);
 							endformat;
 						end;
 					end; 
@@ -335,6 +341,7 @@ begin
         end;
       end;
       OutValBiDi(col,0,tots[i],M4Val,true,col+56);
+      OutValBiDi(col+50,0,tots[i]*bonus,M4Val,true,col+56);
       col = col + 70;
     end;
     EndFormat;
@@ -343,6 +350,7 @@ begin
     col = 120;
     for (i=0;i<=numyear;i=i+1) begin
       OutValBiDi(col,0,avgtots[i]/nummonths[i],M4Val,true,col+56);
+      OutValBiDi(col+50,0,avgtots[i]/nummonths[i]*bonus,M4Val,true,col+56);
       col = col + 70;
     end;
     EndFormat;
