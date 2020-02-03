@@ -5438,7 +5438,7 @@ begin
   Integer rn;
   
   WindowBegin("Платежи поставщикам",OPLClass,CGmlist,-);
-  SetWRect(20,80,629,307);
+  SetWRect(20,80,659,307);
   Sizeable(-1,-1,0,0);
   SpawnClass(OPDClass);
   UseView(OPVc);
@@ -5453,7 +5453,7 @@ begin
     RlCol(151,151,  "Дата оплаты",PayDate,false);
   end;
   CalculatedColumn(231,231,"Поставщик","OPVendorCalcCol",false);
-  RlCol(350,350,"Комментарий",BankName,false);
+  RlCol(370,370,"Комментарий",BankName,false);
   if (IsEnterprise) then begin
   if (AcceptanceStatusColumnTest("OPVc")) then begin 
     CalculatedColumn(-170,-170,"Подтв.","OPLClassAcceptanceStatus",false); 
