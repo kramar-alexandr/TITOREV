@@ -169,3 +169,19 @@ begin
   SHVcRecordUpdate = res; 
   return;
 end;
+
+
+global
+function string 255 OPVendorCalcCol(var record OPVc OPr)
+begin
+  row OPVc OPrw;
+  string 50 res;
+  
+  if(matrowcnt(OPr)>0)then begin
+  	matrowget(OPr,0,OPrw);
+  	res = OPrw.Comment;
+  end;
+  
+  OPVendorCalcCol = res;
+  return;
+end;
