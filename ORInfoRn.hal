@@ -94,7 +94,7 @@ BEGIN
   string 255 location,tstr,t2;
   record RcVc RepSpec;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 30 12 2019 y. at 2:00:42 PM
   record INVc INr;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 30 12 2019 y. at 2:00:40 PM
-  val sum1,maxp,t;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 30 12 2019 y. at 2:00:46 PM
+  val sum1,maxp,t,tmpmaxp;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 30 12 2019 y. at 2:00:46 PM
   
   rwcnt = MatRowCnt(ORp);
   StartFormat(15);
@@ -186,11 +186,16 @@ BEGIN
       RepSpec.flags[1] = 1;
       INr.Code = ORrw.ArtCode;
       readfirstmain(INr,1,true);
+      tmpmaxp = blankval;
       t = -1;
       maxp = blankval;
-      ExpandProduction(ORrw.ArtCode,RepSpec.FirstAcc,INr.Recepy,1,maxp,t,false,RepSpec.flags[1]);
-
-      OutString(390,0,maxp,true);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 30 12 2019 y. at 1:55:14 PM
+      ExpandProduction(ORrw.ArtCode,RepSpec.FirstAcc,INr.Recepy,1,maxp,t,false,1);
+			tmpmaxp = maxp;
+			t = -1;
+      maxp = blankval;
+      ExpandProduction(ORrw.ArtCode,RepSpec.FirstAcc,INr.Recepy,1,maxp,t,false,0);
+			tmpmaxp = tmpmaxp + maxp;
+      OutString(390,0,tmpmaxp,true);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 30 12 2019 y. at 1:55:14 PM
       OutVal(410,0,ISr.OrddOut,M4UVal,true);// Edit ************************** Friday, 27 January 2017 15:28:59
      	OutVal(450,0,ISr.Instock - ISr.OrddOut,M4UVal,true);// Edit ************************** Friday, 27 January 2017 15:28:59
      	

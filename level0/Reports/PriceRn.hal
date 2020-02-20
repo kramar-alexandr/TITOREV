@@ -359,7 +359,7 @@ begin
   integer pos,i,k;// Edit ************************** Tuesday, 21 March 2017 10:37:13
   record ItemStatusVc ISr;
   integer repint;
-  val maxp;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:43:45 AM
+  val maxp,tmpmaxp;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:43:45 AM
   
 
   if (nonblank(RepSpec.f2)) begin
@@ -483,10 +483,17 @@ begin
       end;
       
       if(RepSpec.flags[12]==1)then begin
+				tmpmaxp = blankval;
 				maxp = blankval;
 				t = -1;
 				ExpandProduction(INr.Code,"",INr.Recepy,1,maxp,t,false,1);
-				OutString(320,0,maxp,false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:18:30
+				tmpmaxp = maxp;
+				maxp = blankval;
+				t = -1;
+				ExpandProduction(INr.Code,"",INr.Recepy,1,maxp,t,false,0);
+				tmpmaxp = tmpmaxp + maxp;
+				
+				OutString(320,0,tmpmaxp,false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:18:30
 			end;
       
       if(k<=1)then begin// Edit ************************** Tuesday, 21 March 2017 10:50:52
