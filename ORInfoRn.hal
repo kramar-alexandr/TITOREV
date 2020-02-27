@@ -187,8 +187,8 @@ BEGIN
       RepSpec.flags[1] = 1;
       INr.Code = ORrw.ArtCode;
       readfirstmain(INr,1,true);
+      tmpmaxp = blankval;
       if(HasSubStructure(INr))then begin
-				tmpmaxp = blankval;
 				t = -1;
 				maxp = blankval;
 				ExpandProduction(ORrw.ArtCode,RepSpec.FirstAcc,INr.Recepy,1,maxp,t,false,1);

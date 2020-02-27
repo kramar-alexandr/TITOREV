@@ -515,8 +515,8 @@ begin
       end;
       
       if(RepSpec.flags[12]==1)then begin
+      	tmpmaxp = blankval;
       	if(HasSubStructure(INr))then begin
-					tmpmaxp = blankval;
 					maxp = blankval;
 					t = -1;
 					ExpandProduction(INr.Code,"",INr.Recepy,1,maxp,t,false,1);
