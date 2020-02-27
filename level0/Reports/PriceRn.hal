@@ -23,8 +23,40 @@ external procedure HTSort1(Integer, var string);
 external procedure HTArtSel(string,string,var string);
 external procedure ExpandProduction(string,string,string,Integer,var val,var val,Boolean,Integer);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:36:02 AM
 
+
 SetLangMode(LangRussian,"RUS",0);
 
+global function boolean HasSubStructure(record INVc INr)
+begin
+	record INVc oldINr;
+	record RecVc Recr;
+  row RecVc Recrw;
+  Integer recrwcnt,i;
+	boolean res;
+	
+	res = false;
+	
+	if(nonblank(INr.Recepy))then begin
+		Recr.Code = INr.Recepy;
+		if(readfirstmain(Recr,1,true))then begin
+			recrwcnt = matrowcnt(Recr);
+			for(i=0;i<recrwcnt;i=i+1)begin
+				matrowget(Recr,i,Recrw);
+				if(Recrw.InQty>0)then begin
+					oldINr.Code = Recrw.Item;
+					if(readfirstmain(oldINr,1,true))then begin
+						if(nonblank(oldINr.Recepy))then begin
+							res = true;
+						end;
+					end;
+				end;
+			end;
+		end;
+	end;	
+	
+	HasSubStructure = res;
+return;
+end;
 
 function Boolean AnyVarietyInPriceList(record INVc INr,string pricelist)
 begin
@@ -483,11 +515,13 @@ begin
       end;
       
       if(RepSpec.flags[12]==1)then begin
-				tmpmaxp = blankval;
-				maxp = blankval;
-				t = -1;
-				ExpandProduction(INr.Code,"",INr.Recepy,1,maxp,t,false,1);
-				tmpmaxp = maxp;
+      	if(HasSubStructure(INr))then begin
+					tmpmaxp = blankval;
+					maxp = blankval;
+					t = -1;
+					ExpandProduction(INr.Code,"",INr.Recepy,1,maxp,t,false,1);
+					tmpmaxp = maxp;
+				end;
 				maxp = blankval;
 				t = -1;
 				ExpandProduction(INr.Code,"",INr.Recepy,1,maxp,t,false,0);

@@ -13,6 +13,7 @@ external inner procedure PrintProdOrdInfo(record ProdOrderVc,val);
 external inner procedure FindProdOrdOutItem(record ProdOrderVc,var string,var val);
 external inner procedure PrintOperations(record RcVc,record ProdVc);
 external inner procedure ExpandProduction(string,string,string,Integer,var val,var val,Boolean,Integer);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:36:02 AM
+external inner function boolean HasSubStructure(record INVc);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 27 02 2020 y. at 2:31:52 PM
 
 SetLangMode(LangRussian,"RUS",0);
 
@@ -186,11 +187,13 @@ BEGIN
       RepSpec.flags[1] = 1;
       INr.Code = ORrw.ArtCode;
       readfirstmain(INr,1,true);
-      tmpmaxp = blankval;
-      t = -1;
-      maxp = blankval;
-      ExpandProduction(ORrw.ArtCode,RepSpec.FirstAcc,INr.Recepy,1,maxp,t,false,1);
-			tmpmaxp = maxp;
+      if(HasSubStructure(INr))then begin
+				tmpmaxp = blankval;
+				t = -1;
+				maxp = blankval;
+				ExpandProduction(ORrw.ArtCode,RepSpec.FirstAcc,INr.Recepy,1,maxp,t,false,1);
+				tmpmaxp = maxp;
+			end;
 			t = -1;
       maxp = blankval;
       ExpandProduction(ORrw.ArtCode,RepSpec.FirstAcc,INr.Recepy,1,maxp,t,false,0);
