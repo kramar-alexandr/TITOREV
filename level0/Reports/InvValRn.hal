@@ -49,6 +49,7 @@ external procedure ItemClassTypef(string,string,var Boolean);
 external function Boolean FillItemVarArray(string,string,date,var array string,var array val,var Integer,var string,var string,var string,var string);
 external procedure ExtractObj(string,var Integer,var string);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 15 11 2018 y. at 3:36:31 PM
 external procedure ExpandProduction(string,string,string,Integer,var val,var val,Boolean,Integer);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:36:02 AM
+external function boolean HasSubStructure(record INVc);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 27 02 2020 y. at 2:58:37 PM
 
 SetLangMode(LangRussian,"RUS",0);
 
@@ -516,7 +517,7 @@ BEGIN
   record PISVc PISr;
   record INVc desumINr;
   string 20 desummariseditem;
-  val desummarisedkoef,maxp,tz;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:58:42 AM
+  val desummarisedkoef,maxp,tz,tmpmaxp;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:58:42 AM
 
   BlockLoad(mst);
   fManyLocations = false;
@@ -738,10 +739,19 @@ BEGIN
         OutVal(3,0,instock,M4UVal,true);
       end;
       if(RepSpec.flags[24]==1)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:57:17 AM
+     	 	tmpmaxp = blankval;
+     	 	if(HasSubStructure(INp))then begin
+					maxp = blankval;
+					t = -1;
+					ExpandProduction(INp.Code,"",INp.Recepy,1,maxp,t,false,1);
+					tmpmaxp = maxp;
+				end;
+     	 	
      	 	maxp = blankval;
 				tz = -1;
-				ExpandProduction(INp.Code,"",INp.Recepy,1,maxp,tz,false,1);
-     	 	OutString(320,0,maxp,false);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:53:33 AM
+				ExpandProduction(INp.Code,"",INp.Recepy,1,maxp,tz,false,0);
+				tmpmaxp = tmpmaxp + maxp;
+     	 	OutString(320,0,tmpmaxp,false);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:53:33 AM
 			end;
       if (RepSpec.PocketPC == 0) then begin
         OutVal(4,0,t2,M45Val,true);
