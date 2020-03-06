@@ -649,10 +649,8 @@ begin
       if ((nonblank(RepSpec.AccStr)) and (SetInSet(RepSpec.AccStr,CUr.Objects)==false))  then begin
         testf = false;
       end;
-      if ((nonblank(RepSpec.TransStr)) and (CUr.CountryCode<>RepSpec.TransStr))  then begin
-        testf = false;
-      end;
-      if ((nonblank(RepSpec.f2)) and (CUr.SalesMan<>RepSpec.f2))  then begin 
+
+      if ((nonblank(RepSpec.TransStr)) and (CUr.SalesMan<>RepSpec.TransStr))  then begin 
         testf = false;
       end;
       if ((nonblank(RepSpec.FirstAcc)) and (CUr.LangCode<>RepSpec.FirstAcc)) then begin 
@@ -941,7 +939,7 @@ begin
   String 255 tstr;
   String 20 fromcust;
   String 20 tocust;
-
+		
   if (RepSpec.flags[8]==1) then begin
     RepSpec.flags[0] = 3;
   end;
@@ -998,9 +996,9 @@ begin
     rw = rw + 1;
   end;
   if (ProgramType<>4) then begin
-    if (RepSpec.f2<>"") then begin
+    if (RepSpec.TransStr<>"") then begin
       tstr = USetStr(1824);
-      tstr = tstr & RepSpec.f2;
+      tstr = tstr & RepSpec.TransStr;
     end else begin
       tstr = USetStr(4918);
     end;
@@ -1096,9 +1094,9 @@ begin
     rw = rw + 1;
   end;
   if (ProgramType<>4) then begin
-    if (nonblank(RepSpec.f2)) then begin
+    if (nonblank(RepSpec.TransStr)) then begin
       tstr = USetStr(1824);
-      tstr = tstr & RepSpec.f2;
+      tstr = tstr & RepSpec.TransStr;
     end else begin
       tstr = USetStr(4918);
     end;
