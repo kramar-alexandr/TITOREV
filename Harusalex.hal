@@ -341,7 +341,7 @@ begin
   RlColKey(176,176,"Пост.",PUFlag,false,PUFlag);
   RlColKey(210,210," Сч/ф",PIFlag,false,InvFlag);
   RlColKey(250,250,"Код",VECode,false,VECode);
-  RlColKey(320,320,"Наименование",Addr0,false,Name);
+  RlColKey(300,300,"Наименование",Addr0,false,Name);
   RlColKey(450,450,"Сумма",Sum4,true,SerNr);
   RlCol(500,500,"Комментарий",Comment,false);
   SearchField("Найти");
