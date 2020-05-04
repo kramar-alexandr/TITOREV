@@ -166,6 +166,7 @@ BEGIN
   Integer trcnt;  
   val fr,to1,to2,br1,br2;
   val curv,basev,basevd1,d,diff,diff2;
+  val curvsum,basevsum;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 04 05 2020 y. at 2:18:59 PM
   record AccVc Accr;
   val totsum,bv,openv,openbasev,diffsum,diffsum2;
   string 255 tstr;
@@ -209,10 +210,12 @@ BEGIN
       if (nonblankdate(d1)) then begin
         if (TRr.TransDate>d1) then begin testf = false; end;
       end;
+     
       if (testf) then begin
         TRr.Number = Mainr.TransNr;
         TRr.IntYc = Mainr.IntYc;
         if (ReadFirstMain(TRr,2,true)) then begin
+        
           rwcnt = MatRowCnt(TRr);
           for (i=0;i<rwcnt;i=i+1) begin
             MatRowGet(TRr,i,TRrw);
@@ -223,6 +226,9 @@ BEGIN
                 if (TRrw.Curncy==basecur1) then begin testf = false; end;
                 if (TRrw.Curncy==basecur2) then begin testf = false; end;
               end;
+              if(TRr.TransDate!=Mainr.TransDate)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 04 05 2020 y. at 3:09:42 PM
+								testf = false;
+							end;
               if (testf) then begin
                 curv = TRrw.CurDebVal - TRrw.CurCredVal;
                 if (curv==0) then begin
@@ -235,7 +241,8 @@ BEGIN
                 end;
                 basev = TRrw.DebVal - TRrw.CredVal;
                 basev = basev - openbasev;
-                if (curv!=0) then begin
+                //if (curv!=0) then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 04 05 2020 y. at 2:27:41 PM
+                if (true) then begin
                   GetFullCurncyRate(TRrw.Curncy,d1,fr,to1,to2,br1,br2);
                   basevd1 = MulRateToBase1(TRrw.Curncy,curv,fr,to1,to2,br1,br2,DefaultCurRoundOff);
                   diff = basev - basevd1;
@@ -244,10 +251,16 @@ BEGIN
                     if (d<0) then begin d = -d; end;
                     if (d<limit) then begin goto LSKIPROW; end;
                   end;
-
+									basevsum = basevsum + basev;
+									curvsum = curvsum + curv;
+																		
 									diffsum = diffsum + diff;
-									diffsum2 = diffsum2 + diff2;
+									basevd1 = MulRateToBase1(TRrw.Curncy,curvsum,fr,to1,to2,br1,br2,DefaultCurRoundOff);
+									diffsum = basevsum - basevd1;
 									
+									
+									diffsum2 = diffsum2 + diff2;
+									logtext(0,TRr.Number & " " & TRr.IntYc & " " & TRr.TransDate & " " & TRrw.AccNumber & "  " & basevsum & "  " & curvsum);
                 end;
               end;
             end;
@@ -273,7 +286,7 @@ LSKIPROW:;
 			if (diffsum>=0) then begin
 
 				diffsum2 = MulRateToBase2(BCb.BaseCur1,diffsum,bv,bv,bv,baserate1,baserate2,DefaultCurRoundOff);
-				AddEuroCurncyNomARTrRow(gTRp,Accr.AccNumber,"","",Accr.Comment,diffsum,diffsum2,true,false,totsum,TRrw.Curncy,bv,bv,bv,baserate1,baserate2,0,bv,"",-1,0,bv,nild,-1,false,"","","");
+				AddEuroCurncyNomARTrRow(gTRp,Accr.AccNumber,"","",Accr.Comment,diffsum,diffsum2,true,false,totsum,Accr.Curncy,bv,bv,bv,baserate1,baserate2,0,bv,"",-1,0,bv,nild,-1,false,"","","");
 
 
 //                      AddEuroCurncyNomTrRow(gTRp,Accr.AccNumber,"","",Accr.Comment,diffsum,true,true,totsum,TRrw.Curncy,bv,bv,bv,baserate1,baserate2,0,bv,bv,-1,false,"","","",0);
@@ -288,7 +301,7 @@ LSKIPROW:;
 			end else begin
 				diffsum = -diffsum;
 				diffsum2 = MulRateToBase2(BCb.BaseCur1,diffsum,bv,bv,bv,baserate1,baserate2,DefaultCurRoundOff);
-				AddEuroCurncyNomARTrRow(gTRp,Accr.AccNumber,"","",Accr.Comment,diffsum,diffsum2,true,true,totsum,TRrw.Curncy,bv,bv,bv,baserate1,baserate2,0,bv,"",-1,0,bv,nild,-1,false,"","","");
+				AddEuroCurncyNomARTrRow(gTRp,Accr.AccNumber,"","",Accr.Comment,diffsum,diffsum2,true,true,totsum,Accr.Curncy,bv,bv,bv,baserate1,baserate2,0,bv,"",-1,0,bv,nild,-1,false,"","","");
 			
 //                      AddEuroCurncyNomTrRow(gTRp,Accr.AccNumber,"","",Accr.Comment,diffsum,true,false,totsum,TRrw.Curncy,bv,bv,bv,baserate1,baserate2,0,bv,bv,-1,false,"","","",0);
 //                      AddEuroTrRow(gTRp,Accr.AccNumber,"","",Accr.Comment,diffsum,baserate1,baserate2,true,false,totsum,false,"","","");
@@ -322,6 +335,7 @@ BEGIN
   record TRVc gTRp;
   record TRVc grevTRp;
   Date td;
+  record AccVc Accr;// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 04 05 2020 y. at 2:31:51 PM
 
   RecordNew(gTRp);
   RecordNew(grevTRp);
@@ -347,7 +361,12 @@ BEGIN
       rwcnt = MatRowCnt(NLRater);
       for (i=0;i<rwcnt;i=i+1) begin
         MatRowGet(NLRater,i,NLRaterw);
-        FindAccountRateDiffrence(NLRaterw.AccNumber,NLRaterw.Type,BCb.BaseCur1,BCb.BaseCur2,RepSpec.d1,NLRater.Limit,NLRater.NrSeries,gTRp,grevTRp,flushcnt,RateGainAcc,RateLossAcc,baserate1,baserate2,RepSpec.flags[0]!=0);
+        Accr.AccNumber = NLRaterw.AccNumber;
+        if(readfirstmain(Accr,1,true))then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 04 05 2020 y. at 2:31:49 PM
+        	if(nonblank(Accr.AccNumber))then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 04 05 2020 y. at 2:31:47 PM
+						FindAccountRateDiffrence(NLRaterw.AccNumber,NLRaterw.Type,BCb.BaseCur1,BCb.BaseCur2,RepSpec.d1,NLRater.Limit,NLRater.NrSeries,gTRp,grevTRp,flushcnt,RateGainAcc,RateLossAcc,baserate1,baserate2,RepSpec.flags[0]!=0);
+     			end;
+     		end;
       end;
     end;
   end;
