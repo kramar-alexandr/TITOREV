@@ -12,7 +12,7 @@ begin
 	val price;		
 		
 	while (TestEOF()==false) begin
-		for (i=0;i<7;i=i+1) begin
+		for (i=0;i<8;i=i+1) begin
 			sfield[i]=StrReplace(ImportField,",",".");
 		end;
 
@@ -143,6 +143,28 @@ begin
 					if(price>0)then begin
 						recordnew(PLr);
 						PLr.PLCode = "5";
+						PLr.ArtCode = INr.Code;
+						PLr.Comment = INr.Name;
+						PLr.ExVatPrice = price;
+						RecordInsert(PLr,true);
+					end;
+				end;
+			end;
+			
+			if(nonblank(sfield[7]))then begin
+				price = evaltoval(sfield[7]);
+				PLr.ArtCode = INr.Code;
+				PLr.PLCode = "6";
+				if(readfirstmain(PLr,2,true))then begin
+					if(price>0)then begin
+						RecordCopy(PL2r,PLr);
+						PLr.ExVatPrice = price;
+						RecordUpdate(PL2r,PLr,true);
+					end;
+				end else begin
+					if(price>0)then begin
+						recordnew(PLr);
+						PLr.PLCode = "6";
 						PLr.ArtCode = INr.Code;
 						PLr.Comment = INr.Name;
 						PLr.ExVatPrice = price;
