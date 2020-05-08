@@ -57,9 +57,10 @@ begin
 							openexportfile("Rep/Баланс_" & CUr.Name,true);
 							CuPerRn(RepSpec);
 							closefile;
-						
+							
+							runprogram("chmod","-R a+rw Rep");
 							//runprogram("Rep/iconv.sh","./Rep/Баланс_" & CUr.Name);
-							runprogram("node","CUPrnTabtoXLSX.js ./Rep/Баланс_" & CUr.Name);
+							runprogram("/home/norn/.nvm/versions/node/v10.16.3/bin/node","CUPrnTabtoXLSX.js ./Rep/Баланс_" & CUr.Name);
 							
 							millisleep(3000);
 							
