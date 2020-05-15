@@ -5032,7 +5032,7 @@ begin
     end else begin
       MatCol(1,154,"К-во",0,Qty,true,0);
     end;
-    MatCol(1,184,"Описание",0,Spec,false,0);
+    MatCol(1,204,"Описание",0,Spec,false,0);
   end;
   flipnr = 1;
   Flip(flipnr); flipnr = flipnr + 1;
