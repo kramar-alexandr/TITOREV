@@ -530,7 +530,7 @@ begin
 				OutString(320,0,tmpmaxp,false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:18:30
 			end;
 			if(RepSpec.flags[13]==1)then begin
-				OutString(370,0,INr.InPrice,false);
+				OutString(320,0,INr.InPrice,false);
 			end;
       
       if(k<=1)then begin// Edit ************************** Tuesday, 21 March 2017 10:50:52
@@ -992,7 +992,7 @@ begin
     	OutString(320,0,"Воз.произ.",false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:18:30
     end;
     if(RepSpec.flags[13]==1)then begin
-				OutString(370,0,"Стоимость",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 05 2020 y. at 12:05:16 PM
+				OutString(320,0,"Стоимость",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 05 2020 y. at 12:05:16 PM
 			end;
     
     if(k<=1)then begin
