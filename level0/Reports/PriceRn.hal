@@ -530,7 +530,7 @@ begin
 				OutString(320,0,tmpmaxp,false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:18:30
 			end;
 			if(RepSpec.flags[13]==1)then begin
-				OutString(360,0,INr.InPrice,false);
+				OutString(370,0,INr.InPrice,false);
 			end;
       
       if(k<=1)then begin// Edit ************************** Tuesday, 21 March 2017 10:50:52
