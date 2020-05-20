@@ -991,6 +991,9 @@ begin
     if(RepSpec.flags[12]==1)then begin
     	OutString(320,0,"Воз.произ.",false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:18:30
     end;
+    if(RepSpec.flags[13]==1)then begin
+				OutString(370,0,"Стоимость",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 05 2020 y. at 12:05:16 PM
+			end;
     
     if(k<=1)then begin
 			OutString(4,0,USetStr(2328),true);
