@@ -3835,6 +3835,8 @@ begin
   CheckBox(h,v+=16, 70,"Умножить на курс (валюта прейскуранта)",flags[6]);
   CheckBox(h,v+=16, 70,"Показывать количество штук",flags[11]);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:15:20
   CheckBox(h,v+=16, 70,"Возможность производства",flags[12]);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:15:20
+  CheckBox(h,v+=16, 70,"Показать стоимость",flags[13]);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:15:20
+
  v = vm;
 	CheckBox(h2=200,v,0,"Пок-ть варианты",flags[7]);
 	v = v + 16;
