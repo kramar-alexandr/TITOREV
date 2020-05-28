@@ -809,7 +809,7 @@ begin
   MatText(t=10,32,"Эта и нижележащие строки не будут печататься",false);
   Flip(1);
 //  MatCol(t=1,194,"Наимен.",0,Spec,false,0);
-  MatCol(t=1,190,"Наименование",0,Spec,false,0);
+  MatCol(t=1,200,"Наименование",0,Spec,false,0);
   MatCol(t,-150,"Цена",0,Price,true,PLSClass);
   MatCol(t,-90,"%",0,vRebate,true,0);
   MatCol(t,-60,"Сумма",0,Sum,true,0);
