@@ -540,14 +540,24 @@ begin
 				if (RepSpec.flags[9]==1) then begin
 					OutVal(4,0,upric,M423Val,true);
 				end;  
+				if(RepSpec.flags[14]==1)then begin
+					if(INr.InPrice!=0 and upric!=0)then begin
+						OutString(390,0,(upric/INr.InPrice)*100-100 & "%",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 05 2020 y. at 12:05:16 PM
+					end else begin
+						OutString(390,0,100 & "%",false);
+					end;
+				end;
+				
+				
 				if (RepSpec.flags[8]==1) then begin
 					OutVal(1,0,upricv,M423Val,true);
 				end;  
+				
       end else begin
       	For(i=0;i<k;i=i+1) begin
 	  			OutVal(h,0,aupric[i],M423Val,true);// Edit ************************** Tuesday, 21 March 2017 10:50:51
 	  			if(RepSpec.flags[14]==1)then begin
-						OutString(h+step/10,0,aupric[i]/INr.InPrice*100 & "%",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 05 2020 y. at 12:05:16 PM
+						OutString(h+step/10,0,(aupric[i]/INr.InPrice-100)*100 & "%",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 05 2020 y. at 12:05:16 PM
 					end;
 	  			h = h + step;
 				end; 
@@ -584,9 +594,26 @@ begin
       if(k<=1)then begin// Edit ************************** Tuesday, 21 March 2017 10:50:52
 				if (RepSpec.flags[9]==0) then begin
 					OutVal(270,0,upricv,M423Val,true);
+					if(RepSpec.flags[14]==1)then begin
+						if(INr.InPrice!=0 and upricv!=0)then begin
+							OutString(275,0,(upricv/INr.InPrice)*100-100 & "%",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 05 2020 y. at 12:05:16 PM
+						end else begin
+							OutString(275,0,100 & "%",false);
+						end;
+					end;
 				end else begin
 					OutVal(270,0,upric,M423Val,true);
+					if(RepSpec.flags[14]==1)then begin
+						if(INr.InPrice!=0 and upric!=0)then begin
+							OutString(275,0,(upric/INr.InPrice)*100-100 & "%",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 05 2020 y. at 12:05:16 PM
+						end else begin
+							OutString(275,0,100 & "%",false);
+						end;
+					end;
 				end; 
+				
+				
+				
       end else begin
       	For(i=0;i<k;i=i+1) begin
 	  			OutVal(h,0,aupric[i],M423Val,true);// Edit ************************** Tuesday, 21 March 2017 10:50:51
