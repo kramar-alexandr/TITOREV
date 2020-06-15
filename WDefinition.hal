@@ -2026,6 +2026,8 @@ SetLangMode(LangRussian,"RUS",0);
   
   Report("Отчет по продавцам клиентов по месяцам",SalesmanMonthSalesHistSMRClass,SalesmanMonthSalesHistSMRn,0,modSL);
   
+  Report("История продаж по клиентам по месяцам(гориз.)",MonthSalesHistCURClass,MonthSalesHistCUHorizRn,0,modSL);
+  
   Export("#Ручной Export",EveryDayEClass,ManualExport,modTC);
 	
 	Import("Импорт цен",ImportPLClass,ImportPLIn,modDI);// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 13 April 2018 17:09:00
