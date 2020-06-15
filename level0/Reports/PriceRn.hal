@@ -531,6 +531,7 @@ begin
 			end;
 			if(RepSpec.flags[13]==1)then begin
 				OutString(320,0,INr.InPrice,false);
+				OutString(340,0,INr.InPrice,false);
 			end;
       
       h = 360;
@@ -546,6 +547,9 @@ begin
       end else begin
       	For(i=0;i<k;i=i+1) begin
 	  			OutVal(h,0,aupric[i],M423Val,true);// Edit ************************** Tuesday, 21 March 2017 10:50:51
+	  			if(RepSpec.flags[14]==1)then begin
+						OutString(h+step/2,0,aupric[i]/INr.InPrice*100 & "%",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 05 2020 y. at 12:05:16 PM
+					end;
 	  			h = h + step;
 				end; 
       end;
@@ -587,6 +591,10 @@ begin
       end else begin
       	For(i=0;i<k;i=i+1) begin
 	  			OutVal(h,0,aupric[i],M423Val,true);// Edit ************************** Tuesday, 21 March 2017 10:50:51
+	  			if(RepSpec.flags[14]==1)then begin
+						OutString(h+step/2,0,aupric[i]/INr.InPrice*100 & "%",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 05 2020 y. at 12:05:16 PM
+					end;
+	  			
 	  			h=h+step;
 				end; 
       end; 
@@ -1001,8 +1009,9 @@ begin
     	OutString(320,0,"Воз.произ.",false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:18:30
     end;
     if(RepSpec.flags[13]==1)then begin
-				OutString(320,0,"Стоимость",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 05 2020 y. at 12:05:16 PM
-			end;
+			OutString(320,0,"Стоимость",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 05 2020 y. at 12:05:16 PM
+		end;
+		
     
     step = (480-360)/k;
     h = 360;
@@ -1012,6 +1021,9 @@ begin
     end else begin
     	For(i=0;i<k;i=i+1) begin// Edit ************************** Tuesday, 21 March 2017 10:58:51
 	  		OutString(h,0,apricelist[i],true);// Edit ************************** Tuesday, 21 March 2017 10:58:55
+	  		if(RepSpec.flags[14]==1)then begin
+					OutString(h+step/2,0,"%",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 05 2020 y. at 12:05:16 PM
+				end;
 	  		h = h+step;
 			end; 
     end;
