@@ -557,7 +557,7 @@ begin
       	For(i=0;i<k;i=i+1) begin
 	  			OutVal(h,0,aupric[i],M423Val,true);// Edit ************************** Tuesday, 21 March 2017 10:50:51
 	  			if(RepSpec.flags[14]==1)then begin
-						OutString(h+step/10,0,(aupric[i]/INr.InPrice-100)*100 & "%",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 05 2020 y. at 12:05:16 PM
+						OutString(h+step/10,0,(aupric[i]/INr.InPrice)*100-100 & "%",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 05 2020 y. at 12:05:16 PM
 					end;
 	  			h = h + step;
 				end; 
@@ -618,7 +618,7 @@ begin
       	For(i=0;i<k;i=i+1) begin
 	  			OutVal(h,0,aupric[i],M423Val,true);// Edit ************************** Tuesday, 21 March 2017 10:50:51
 	  			if(RepSpec.flags[14]==1)then begin
-						OutString(h+step/10,0,aupric[i]/INr.InPrice*100 & "%",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 05 2020 y. at 12:05:16 PM
+						OutString(h+step/10,0,aupric[i]/INr.InPrice*100-100 & "%",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 05 2020 y. at 12:05:16 PM
 					end;
 	  			
 	  			h=h+step;
