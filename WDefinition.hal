@@ -5751,3 +5751,18 @@ begin
   end;
   EndWindow;
 end;
+
+window RecLClass:1
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Структуры",RecLClass,CGmlist,-);
+  SetWRect(64,80,509,298);
+  SpawnClass(RecDClass);
+  Sizeable(-1,-1,0,0);
+  UseView(RecVc);
+  RecordList(4,17,-21,-39);
+  RlColKey(4,4,  "Код",Code,false,Code);
+  RlColKey(121,121,"Комментарий",Comment,false,Comment);
+  SearchField("Поиск");
+  EndWindow;
+end;
