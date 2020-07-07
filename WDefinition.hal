@@ -5762,7 +5762,7 @@ begin
   UseView(RecVc);
   RecordList(4,17,-21,-39);
   RlColKey(4,4,  "Код",Code,false,Code);
-  RlColKey(121,121,"Комментарий",Comment,false,Comment);
+  RlColKey(141,141,"Комментарий",Comment,false,Comment);
   SearchField("Поиск");
   EndWindow;
 end;
