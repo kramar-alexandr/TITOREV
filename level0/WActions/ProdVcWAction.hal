@@ -475,19 +475,6 @@ BEGIN
   RETURN;
 END;
 
-global procedure IVToReporteMailDsm()
-begin
-	integer wn;
-	record IVVc IVr;
-	
-	wn = CurWindow;
-	getwindowrecord(wn,IVr);
-	
-	IVToReportDsmRnMail(IVr);
-	
-return;
-end;
-
 global procedure IVToReportDsm()
 begin
 	record IVVc IVr;

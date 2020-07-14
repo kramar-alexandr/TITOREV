@@ -34,6 +34,7 @@ external inner procedure CUGetStartBalance(record CUVc,string,string,Date,var va
 external inner procedure CUGetEndBalance(record CUVc,string,string,Date,var val,Boolean);
 external inner procedure GetBaseCurncy(Integer,var string);
 remote procedure ExportReportToFileEn(record IPVc);
+remote procedure IVToReportDsmRnMail(record IVVc);
 
 procedure CUPer_PrintTotals(record RcVc RepSpec,record CUVc CUp,record BaseCurBlock bascur,
                             Boolean custout,val SumDebet,val SumCredit,val startbal,
@@ -866,6 +867,19 @@ begin
 	wn = curwindow;
 	getwindowrecord(wn,IPr);
 	ExportReportToFileEn(IPr);	
+return;
+end;
+
+global procedure IVToReporteMailDsm()
+begin
+	integer wn;
+	record IVVc IVr;
+	
+	wn = CurWindow;
+	getwindowrecord(wn,IVr);
+	
+	IVToReportDsmRnMail(IVr);
+	
 return;
 end;
 
