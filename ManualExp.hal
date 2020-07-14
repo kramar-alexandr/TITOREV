@@ -269,6 +269,16 @@ begin
 return;
 end;
 
+global procedure IVToReportDsmRnMail(record IVVc IVr)
+begin
+	area request,reply;
+	
+	
+	MySendWebRequest("127.0.0.1",1301,1301,false,"GET","/WebSaveExportReportToFileEnIV.hal?serrnr=" & IVr.SerNr,"text/xml","",false,request,reply,5);
+	
+return;
+end;
+
 
 
 global 

@@ -2,6 +2,7 @@
 external inner function string 255 StrReplace(string,string,string);
 external procedure CuPerRn(record RcVc);// Edit ************************** Monday, 13 November 2017 13:56:48
 external inner function boolean MySendWebRequest(string,integer,integer,boolean,string,string,string,string,boolean,area,var area,integer);
+external inner procedure IVToReportDsmRn(record RcVc);
 
 SetLangMode(LangRussian,"RUS",0);
 
@@ -91,6 +92,81 @@ begin
 						end;
 					end;
 				end; 
+			end;
+		end;
+	resetcompany(1);
+	
+return;
+end;
+
+
+
+global webpublic procedure WebSaveExportReportToFileIVEn()
+begin
+	record RcVc RepSpec;
+	string 50 setext;
+	integer i,mtrw,acnt;
+	record IVVc IVr;
+	vector boolean custflag;
+	array string 50 acust;
+	record CUVc CUr;
+	area request,reply;
+	string 255 custname;
+	
+	setext = WebGetArg("serrnr");
+	setcompany(1,false);
+		if(nonblank(setext))then begin
+			IVr.SerNr = stringtolongint(setext);
+			if(readfirstmain(IVr,1,true))then begin
+				
+				
+					CUr.Code = IVr.CustCode;
+					if(readfirstmain(CUr,1,true))then begin
+						if(nonblank(CUr.eMail))then begin
+						
+						custname = CUr.Name;
+						CUr.Name = StrReplace(CUr.Name," ", "_");
+						delete_file("Rep/Фактура_" & CUr.Name & "_" & IVr.SerNr);
+						delete_file("Rep/Фактура_" & CUr.Name & "_" & IVr.SerNr & ".xlsx");
+						createfile("Rep/Фактура_" & CUr.Name & "_" & IVr.SerNr);
+						closefile;
+						openexportfile("Rep/Фактура_" & CUr.Name & "_" & IVr.SerNr,true);
+						RepSpec.long1 = stringtolongint(setext);
+						IVToReportDsmRn(RepSpec);
+						closefile;
+						
+						
+						//runprogram("Rep/iconv.sh","./Rep/Баланс_" & CUr.Name);
+						runprogram("/home/norn/.nvm/versions/node/v10.16.3/bin/node","CUPrnTabtoXLSX.js ./Rep/Фактура_" & CUr.Name & "_" & IVr.SerNr);
+						
+						millisleep(3000);
+						runprogram("chmod","-R a+rw Rep");
+						setareazerosize(request);
+						addtexttoarea("{",request);
+						addtexttoarea("\"host\":\"smtp.zoho.eu\",",request);
+						addtexttoarea("\"port\":465,",request);
+						addtexttoarea("\"secure\":true,",request);
+						addtexttoarea("\"user\":\"office@hitmarket.com.ua\",",request);
+						addtexttoarea("\"pass\":\"fgkl7md8fNklmndf\",",request);
+						addtexttoarea("\"from\":\"office@hitmarket.com.ua\",",request);
+						addtexttoarea("\"to\":\"" & CUr.eMail & "\",",request);
+						addtexttoarea("\"subject\":\"Счет/фактура: " & custname & " № " & setext & "\",",request);
+						addtexttoarea("\"message\":\"\",",request);
+						
+						addtexttoarea("\"html\":\"<div><h3>Добрый день!</h3><p>Выставлена сч/ф № " & IVr.SerNr & "</p><img src=\\\"cid:logo.png\\\">",request);
+						addtexttoarea("<p><a href=\\\"http://www.hitmarket.com.ua/\\\">www.hitmarket.com.ua</a></p></div>\",",request);
+
+						addtexttoarea("\"htmlpath\":\"/usr/local/bin/TITAREV/Son_Live/" & "Rep/logo.png" & "\",",request);
+						addtexttoarea("\"htmlattach\":\"logo.png" & "\",",request);
+						addtexttoarea("\"htmlcid\":\"logo.png" & "\",",request);
+						
+						addtexttoarea("\"filename\":\"Фактура_" & CUr.Name & "_" & IVr.SerNr & ".xlsx" & "\",",request);
+						addtexttoarea("\"path\":\"/usr/local/bin/TITAREV/Son_Live/" & "Rep/Фактура_" & CUr.Name & "_" & IVr.SerNr & ".xlsx" & "\"",request);
+						addtexttoarea("}",request);
+
+						MySendWebRequest("127.0.0.1",1070,1070,false,"POST","/sendMail","application/json","",false,request,reply,5);
+					end;
+				end;
 			end;
 		end;
 	resetcompany(1);

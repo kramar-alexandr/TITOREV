@@ -32,6 +32,94 @@ external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,va
 external procedure IPVc_PasteBankVal(var record IPVc,Integer);// Edit ************************** Tuesday, 12 April 2016 15:05:36
 external function Boolean IPVc_PasteToRateB1BankVal(var record IPVc,Integer);// Edit ************************** Tuesday, 12 April 2016 17:38:33
 
+SetLangMode(LangRussian,"RUS",0);
+
+
+global procedure IVToReportDsmRn(record RcVc RepSpec)
+begin
+	record IVVc IVr;
+	row IVVc IVrw;
+	integer i,rwcnt,totqty;
+	
+	IVr.SerNr = RepSpec.long1;
+	if(readfirstmain(IVr,1,true))then begin
+		startreportnoheaderjob("IVToReportDsmRn");
+			startformat(15);
+				outstring(0,0,"Номер Сч/ф",false);
+				outstring(0,0,"",false);
+				outstring(0,0,"",false);
+				outstring(0,0,"Дата",false);
+				outstring(0,0,"Срок оплаты",false);
+				outstring(0,0,"Счёт №",false);
+			endformat;
+			
+			startformat(15);
+				outstring(0,0,IVr.SerNr,false);
+				outstring(0,0,"",false);
+				outstring(0,0,"",false);
+				outstring(0,0,IVr.InvDate,false);
+				outstring(0,0,IVr.PayDate,false);
+				outstring(0,0,IVr.OrderNr,false);
+			endformat;
+			
+			startformat(15);
+				outstring(0,0,"Клиент № " & IVr.CustCode,false);
+				outstring(0,0,"",false);
+				outstring(0,0,IVr.Addr0,false);
+				outstring(0,0,IVr.CurncyCode,false);
+			endformat;
+			
+			startformat(15);
+				outstring(0,0,"Прейскурант " & IVr.PriceList,false);
+			endformat;
+			
+			startformat(15);
+			endformat;
+			
+			rwcnt = matrowcnt(IVr);
+			for(i=0;i<rwcnt;i=i+1)begin
+				matrowget(IVr,i,IVrw);
+				
+				startformat(15);
+				outstring(0,0,IVrw.ArtCode,false);
+				outstring(0,0,"",false);
+				outstring(0,0,stringtoint(IVrw.Quant),false);
+				outstring(0,0,IVrw.Spec,false);
+				outstring(0,0,"",false);
+				outstring(0,0,"",false);
+				outstring(0,0,"",false);
+				outstring(0,0,IVrw.Price,false);
+				if(IVrw.vRebate!=0)then begin
+					outstring(0,0,stringtoint(IVrw.vRebate) & "%",false);
+				end else begin
+					outstring(0,0,"",false);
+				end;
+				outstring(0,0,IVrw.Sum,false);
+				totqty = totqty + IVrw.Quant;
+				endformat;
+				
+				
+			end;
+			
+			
+			startformat(15);
+				outstring(0,0,"Всего товаров",false);
+				outstring(0,0,totqty,false);
+			endformat;
+			startformat(15);
+			endformat;
+			
+			startformat(15);
+				outstring(0,0,"Сумма",false);
+				outstring(0,0,IVr.Sum4,false);
+				outstring(0,0,IVr.CurncyCode,false);
+			endformat;
+		endjob;
+	end;
+
+return;
+end;
+
 global
 procedure ChangeSVIPRecCur(row IPVc iprp,Date tdp,val maxvalp)
 BEGIN

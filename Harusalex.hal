@@ -1717,6 +1717,10 @@ if (HasTouchScreenLook==false) then begin
       SpecialMenu("Запросить утверждение",' ',6,"IVSendforAcceptanceIVDsm"); 
       SpecialMenu("Отменить запрос утверждения",' ',2,"CancelApprovalRequestDsm"); 
     end;
+    
+    SpecialMenu("Выгрузить в буфер обмена",'',7,"IVToReportDsm");
+    SpecialMenu("Oтправить почтой клиенту",'',7,"IVToReporteMailDsm");
+    
     SpecMenuGroup("",kSpecMenuGroupTypeExtendedPlusMenu,0);         
     if (HasModCRM) then begin
 //      SpecialMenu("Activity",'c',9,"CreateActFromIVDsm");

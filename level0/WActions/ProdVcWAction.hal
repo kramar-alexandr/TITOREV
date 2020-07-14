@@ -24,6 +24,7 @@ external function Integer CheckSerialStatus(string,string,var string);
 external function val CalculateSerialNrQuantity(string,string,string,Boolean,val,val,val,val);
 external procedure CalcProc(val,val,var val);
 external procedure SendArtStat(string,string,string,val,val,val,Date,Integer);
+remote procedure IVToReportDsmRnMail(record IVVc);
 
 global
 procedure ProdSumup(var record ProdVc Prodr)
@@ -473,6 +474,37 @@ BEGIN
   end;
   RETURN;
 END;
+
+global procedure IVToReporteMailDsm()
+begin
+	integer wn;
+	record IVVc IVr;
+	
+	wn = CurWindow;
+	getwindowrecord(wn,IVr);
+	
+	IVToReportDsmRnMail(IVr);
+	
+return;
+end;
+
+global procedure IVToReportDsm()
+begin
+	record IVVc IVr;
+	integer wn;
+	record RcVc RepSpec;
+	
+	wn = CurWindow;
+	getwindowrecord(wn,IVr);
+	
+	RepSpec.long1 = IVr.SerNr;
+	RepSpec.repname = "IVToReportDsmRn";
+	RepSpec.Media = mtClipboard;
+	runreport(RepSpec,0);
+	
+return;
+end;
+
 
 global
 procedure ProdFillFIFODsm()
