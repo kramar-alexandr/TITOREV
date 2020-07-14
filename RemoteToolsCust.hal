@@ -101,7 +101,7 @@ end;
 
 
 
-global webpublic procedure WebSaveExportReportToFileIVEn()
+global webpublic procedure WebSaveExportReportToFileEnIV()
 begin
 	record RcVc RepSpec;
 	string 50 setext;
