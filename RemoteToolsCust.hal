@@ -98,7 +98,7 @@ begin
 							addtexttoarea("\"pass\":\"fgkl7md8fNklmndf\",",request);
 							addtexttoarea("\"from\":\"office@hitmarket.com.ua\",",request);
 							addtexttoarea("\"to\":\"" & CUr.eMail & "\",",request);
-							addtexttoarea("\"subject\":\"Баланс по клиенту: " & custname & "\",",request);
+							addtexttoarea("\"subject\":\"Баланс по клиенту: " & NormalizeStrToJson(custname) & "\",",request);
 							addtexttoarea("\"message\":\"\",",request);
 							
 							addtexttoarea("\"html\":\"<div><h3>Добрый день!</h3><p>Оплата успешно проведена. Обновленный баланс в прикрепленном файле.</p><img src=\\\"cid:logo.png\\\">",request);
@@ -176,7 +176,7 @@ begin
 						addtexttoarea("\"pass\":\"fgkl7md8fNklmndf\",",request);
 						addtexttoarea("\"from\":\"office@hitmarket.com.ua\",",request);
 						addtexttoarea("\"to\":\"" & CUr.eMail & "\",",request);
-						addtexttoarea("\"subject\":\"Счет/фактура: " & custname & " № " & setext & "\",",request);
+						addtexttoarea("\"subject\":\"Счет/фактура: " & NormalizeStrToJson(custname) & " № " & setext & "\",",request);
 						addtexttoarea("\"message\":\"\",",request);
 						
 						addtexttoarea("\"html\":\"<div><h3>Добрый день!</h3><p>Выставлена сч/ф № " & IVr.SerNr & "</p><img src=\\\"cid:logo.png\\\">",request);
