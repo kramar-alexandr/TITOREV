@@ -47,28 +47,25 @@ begin
 			startformat(15);
 				outstring(0,0,"Номер Сч/ф",false);
 				outstring(0,0,"",false);
-				outstring(0,0,"",false);
 				outstring(0,0,"Дата",false);
 				outstring(0,0,"Срок оплаты",false);
+				outstring(0,0,"Скидка %",false);
 				outstring(0,0,"Счёт №",false);
 			endformat;
 			
 			startformat(15);
 				outstring(0,0,IVr.SerNr,false);
 				outstring(0,0,"",false);
-				outstring(0,0,"",false);
 				outstring(0,0,IVr.InvDate,false);
 				outstring(0,0,IVr.PayDate,false);
+				outstring(0,0,"",false);
 				outstring(0,0,IVr.OrderNr,false);
 			endformat;
 			
 			startformat(15);
 				outstring(0,0,"Клиент № " & IVr.CustCode,false);
-				outstring(0,0,"",false);
 				outstring(0,0,IVr.Addr0,false);
 				outstring(0,0,IVr.CurncyCode,false);
-				outstring(0,0,"",false);
-				outstring(0,0,"",false);
 			endformat;
 			
 			startformat(15);
@@ -84,12 +81,8 @@ begin
 				
 				startformat(15);
 				outstring(0,0,IVrw.ArtCode,false);
-				outstring(0,0,"",false);
 				outstring(0,0,stringtoint(IVrw.Quant),false);
 				outstring(0,0,IVrw.Spec,false);
-				outstring(0,0,"",false);
-				outstring(0,0,"",false);
-				outstring(0,0,"",false);
 				outstring(0,0,IVrw.Price,false);
 				if(IVrw.vRebate!=0)then begin
 					outstring(0,0,stringtoint(IVrw.vRebate) & "%",false);
@@ -107,10 +100,6 @@ begin
 			startformat(15);
 				outstring(0,0,"Всего товаров",false);
 				outstring(0,0,totqty,false);
-				outstring(0,0,"",false);
-				outstring(0,0,"",false);
-				outstring(0,0,"",false);
-				outstring(0,0,"",false);
 				outstring(0,0,"",false);
 				outstring(0,0,"",false);
 				outstring(0,0,"",false);
