@@ -67,6 +67,8 @@ begin
 				outstring(0,0,"",false);
 				outstring(0,0,IVr.Addr0,false);
 				outstring(0,0,IVr.CurncyCode,false);
+				outstring(0,0,"",false);
+				outstring(0,0,"",false);
 			endformat;
 			
 			startformat(15);
