@@ -174,13 +174,13 @@ begin
 						addtexttoarea("\"secure\":true,",request);
 						addtexttoarea("\"user\":\"office@hitmarket.com.ua\",",request);
 						addtexttoarea("\"pass\":\"fgkl7md8fNklmndf\",",request);
-						addtexttoarea("\"from\":\"office@hitmarket.com.ua\",",request);
+						addtexttoarea("\"from\":\"www.hitmarket.net\",",request);
 						addtexttoarea("\"to\":\"" & CUr.eMail & "\",",request);
 						addtexttoarea("\"subject\":\"Счет/фактура: " & NormalizeStrToJson(custname) & " № " & setext & "\",",request);
 						addtexttoarea("\"message\":\"\",",request);
 						
 						addtexttoarea("\"html\":\"<div><h3>Добрый день!</h3><p>Выставлена сч/ф № " & IVr.SerNr & "</p><img src=\\\"cid:logo.png\\\">",request);
-						addtexttoarea("<p><a href=\\\"http://www.hitmarket.com.ua/\\\">www.hitmarket.com.ua</a></p></div>\",",request);
+						addtexttoarea("<p><a href=\\\"http://www.hitmarket.com.ua/\\\">www.hitmarket.net</a></p></div>\",",request);
 
 						addtexttoarea("\"htmlpath\":\"/usr/local/bin/TITAREV/Son_Live/" & "Rep/logo.png" & "\",",request);
 						addtexttoarea("\"htmlattach\":\"logo.png" & "\",",request);
