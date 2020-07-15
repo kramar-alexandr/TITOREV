@@ -174,7 +174,7 @@ begin
 						addtexttoarea("\"secure\":true,",request);
 						addtexttoarea("\"user\":\"office@hitmarket.com.ua\",",request);
 						addtexttoarea("\"pass\":\"fgkl7md8fNklmndf\",",request);
-						addtexttoarea("\"from\":\"www.hitmarket.net\",",request);
+						addtexttoarea("\"from\":\"office@hitmarket.com.ua\",",request);
 						addtexttoarea("\"to\":\"" & CUr.eMail & "\",",request);
 						addtexttoarea("\"subject\":\"‘чет/фактура: " & NormalizeStrToJson(custname) & " Ь " & setext & "\",",request);
 						addtexttoarea("\"message\":\"\",",request);
