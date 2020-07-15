@@ -173,6 +173,8 @@ begin
 		end;
 	resetcompany(1);
 	
+	weboutstring("ok");
+	
 return;
 end;
 
