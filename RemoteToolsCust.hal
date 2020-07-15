@@ -6,6 +6,30 @@ external inner procedure IVToReportDsmRn(record RcVc);
 
 SetLangMode(LangRussian,"RUS",0);
 
+
+global function string 255 NormalizeStrToJson (string Str)
+begin
+	integer strln,i;
+	string 255 NormStr;
+	
+
+	NormStr = "";
+	strln = len(Str);
+	for (i=0;i<strln;i=i+1)begin
+		if(mid(Str,i,1)==chr(34))then begin
+			NormStr = NormStr & chr(92) & mid(Str,i,1);
+		end else begin
+			NormStr = NormStr & mid(Str,i,1);
+		end;
+	end;
+	
+	
+	NormalizeStrToJson = NormStr;
+	
+	return;
+end;
+
+
 global webpublic procedure WebSaveExportReportToFileEn()
 begin
 	record RcVc RepSpec;
@@ -84,8 +108,8 @@ begin
 							addtexttoarea("\"htmlattach\":\"logo.png" & "\",",request);
 							addtexttoarea("\"htmlcid\":\"logo.png" & "\",",request);
 							
-							addtexttoarea("\"filename\":\"Баланс_" & CUr.Name & ".xlsx" & "\",",request);
-							addtexttoarea("\"path\":\"/usr/local/bin/TITAREV/Son_Live/" & "Rep/Баланс_" & CUr.Name & ".xlsx" & "\"",request);
+							addtexttoarea("\"filename\":\"Баланс_" & NormalizeStrToJson(CUr.Name) & ".xlsx" & "\",",request);
+							addtexttoarea("\"path\":\"/usr/local/bin/TITAREV/Son_Live/" & "Rep/Баланс_" & NormalizeStrToJson(CUr.Name) & ".xlsx" & "\"",request);
 							addtexttoarea("}",request);
 
 							MySendWebRequest("127.0.0.1",1070,1070,false,"POST","/sendMail","application/json","",false,request,reply,5);
@@ -162,8 +186,8 @@ begin
 						addtexttoarea("\"htmlattach\":\"logo.png" & "\",",request);
 						addtexttoarea("\"htmlcid\":\"logo.png" & "\",",request);
 						
-						addtexttoarea("\"filename\":\"Фактура_" & CUr.Name & "_" & IVr.SerNr & ".xlsx" & "\",",request);
-						addtexttoarea("\"path\":\"/usr/local/bin/TITAREV/Son_Live/" & "Rep/Фактура_" & CUr.Name & "_" & IVr.SerNr & ".xlsx" & "\"",request);
+						addtexttoarea("\"filename\":\"Фактура_" & NormalizeStrToJson(CUr.Name) & "_" & IVr.SerNr & ".xlsx" & "\",",request);
+						addtexttoarea("\"path\":\"/usr/local/bin/TITAREV/Son_Live/" & "Rep/Фактура_" & NormalizeStrToJson(CUr.Name) & "_" & IVr.SerNr & ".xlsx" & "\"",request);
 						addtexttoarea("}",request);
 
 						MySendWebRequest("127.0.0.1",1070,1070,false,"POST","/sendMail","application/json","",false,request,reply,5);
