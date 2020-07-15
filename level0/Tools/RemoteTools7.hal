@@ -105,6 +105,14 @@ begin
 			startformat(15);
 				outstring(0,0,"Всего товаров",false);
 				outstring(0,0,totqty,false);
+				outstring(0,0,"",false);
+				outstring(0,0,"",false);
+				outstring(0,0,"",false);
+				outstring(0,0,"",false);
+				outstring(0,0,"",false);
+				outstring(0,0,"",false);
+				outstring(0,0,"",false);
+				outstring(0,0,IVr.Sum4,false);
 			endformat;
 			startformat(15);
 			endformat;
