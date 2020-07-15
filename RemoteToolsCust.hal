@@ -113,6 +113,8 @@ begin
 	area request,reply;
 	string 255 custname;
 	
+	logtext(0,"WebSaveExportReportToFileEnIV");
+	
 	setext = WebGetArg("serrnr");
 	setcompany(1,false);
 		if(nonblank(setext))then begin
