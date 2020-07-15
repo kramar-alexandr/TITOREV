@@ -1235,7 +1235,7 @@ if (HasTouchScreenLook==false) then begin
   Flip(1);
   //  MatCol(t=kInvoiceRowTypeNormal,194,"Описание",0,Spec,false,0);
   t=kInvoiceRowTypeNormal;
-  MatCol(t,180,"Описание",0,Spec,false,0);
+  MatCol(t,200,"Описание",0,Spec,false,0);
   MatCol(t,-150,"Цена",0,Price,true,0);
   //  MatColTL(t,-235,"",0,M45Val,Normal,0,Price,true,0);
   MatCol(t,-90,"%",0,vRebate,true,0);
