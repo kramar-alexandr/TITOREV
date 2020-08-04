@@ -4622,8 +4622,9 @@ begin
   StaticText(10,vs=vs+20,"5 столбик: –ена прейскуранта 3",false);
   StaticText(10,vs=vs+20,"6 столбик: –ена прейскуранта 4",false);
   StaticText(10,vs=vs+20,"7 столбик: –ена прейскуранта 5",false);
-  StaticText(10,vs=vs+20,"7 столбик: –ена прейскуранта 6",false);
-  StaticText(10,vs=vs+20,"7 столбик: –ена прейскуранта 7",false);
+  StaticText(10,vs=vs+20,"8 столбик: –ена прейскуранта 6",false);
+  StaticText(10,vs=vs+20,"9 столбик: –ена прейскуранта 66",false);
+  StaticText(10,vs=vs+20,"10 столбик: –ена прейскуранта 7",false);
   
   EndWindow;
 end;
