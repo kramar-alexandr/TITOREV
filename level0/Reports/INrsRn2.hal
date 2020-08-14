@@ -161,6 +161,9 @@ LLPrintItemHistHeaderExcel:;
         OutString(100,0,USetStr(2763),false);
         OutStringAdjust(260,0,USetStr(3244),true,M4Val);
         OutStringAdjustBiDi(320,0,USetStr(5027),true,M4Val,360);
+        if(RepSpec.flags[24]==1)then begin
+					OutString(330,0,"Заказ пост.",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 14 08 2020 y. at 10:15:34 AM
+				end;
         OutStringAdjustBiDi(400,0,USetStr(5028),true,M4Val,440);
         OutStringAdjustBiDi(480,0,USetStr(5015),true,M4Val,520);
         EndFormat;

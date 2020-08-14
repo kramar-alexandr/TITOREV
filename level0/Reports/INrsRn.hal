@@ -29,6 +29,13 @@ procedure PrintItemTotals_Overview(record RcVc RepSpec,record INVc INr,
                                    val fwdqty,val fwdcp,val fwdtotcp,val itemqin,val itemqout,val itemcpin,val itemcpout)
 begin
   Boolean testf;
+  record ItemStatusVc ISr;// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 14 08 2020 y. at 10:23:49 AM
+	
+	if(RepSpec.flags[24]==1)then begin
+		ISr.Code = INr.Code;
+		ISr.Location = ";;;";
+		readfirstmain(ISr,2,true);
+	end;
   
   testf = false;
   switch (RepSpec.ArtMode) begin
@@ -86,6 +93,9 @@ LPrintItemTotals_OverviewExcel:;
           case 0:
             OutValBiDi(240,0,fwdqty,M4Qty,true,280);
             OutValBiDi(320,0,itemqin,M4Qty,true,360);
+            if(RepSpec.flags[24]==1)then begin
+							OutString(330,0,ISr.POUnOKQty,false);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 14 08 2020 y. at 10:15:34 AM
+						end;
             OutValBiDi(400,0,itemqout,M4Qty,true,440);
             OutValBiDi(480,0,fwdqty+itemqin+itemqout,M4Qty,true,520);
           case 1:
