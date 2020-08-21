@@ -446,7 +446,7 @@ end;
 global
 procedure PrintItemHist(record RcVc RepSpec,record INVc INr,record ItemHistVc IHr,record MainStockBlock MSb,Boolean outf,val bal)
 begin
-  Integer strid;
+  Integer strid,outint;// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 21 08 2020 y. at 9:49:22 AM
   string 50 dblstr;
   Boolean printf;
   record ItemHistVc sourceIHr;
@@ -747,7 +747,8 @@ LPrintItemHistExcel:;
             OutString(300,0,IHr.Location,false);
           end;
           if(RepSpec.flags[24]==1)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 14 08 2020 y. at 10:30:04 AM
-						OutString(330,0,ISr.POUnOKQty,false);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 14 08 2020 y. at 10:21:34 AM
+						outint = ISr.POUnOKQty;
+						OutString(330,0,outint,false);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 14 08 2020 y. at 10:21:34 AM
           end;
           switch (RepSpec.flags[12]) begin
             case 1: OutValBiDi(375,0,IHr.Qty2,M4UVal,true,420);

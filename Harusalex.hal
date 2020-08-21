@@ -2073,9 +2073,9 @@ begin
 //  MatCol(1,84,"Var",0,VARList,true,VARSClass);
 //  MatCol(1,144,"Qty",0,Quant,true,0);
   if (HasVarieties) then begin
-    MatCol(1,130,"К-во",0,Quant,true,MATVARINSClass);
+    MatCol(1,140,"К-во",0,Quant,true,MATVARINSClass);
   end else begin
-    MatCol(1,130,"К-во",0,Quant,true,0);
+    MatCol(1,140,"К-во",0,Quant,true,0);
   end;
   EnterSkip(Spec);
   MatText(t=3,28,"Подпись",true);
@@ -2085,7 +2085,7 @@ begin
   flipnr = 1;
   Flip(flipnr); flipnr = flipnr + 1;
   if (HasJewelleryInterface) then begin
-    MatColTL(1,195,"Ед.",0,M4Code,ViewOnly,5,UnitCode,false,UnitSCLass);
+    MatColTL(1,105,"Ед.",0,M4Code,ViewOnly,5,UnitCode,false,UnitSCLass);
     MatCol(1,200,"Описание",0,Spec,false,0);
     MatCol(1,-485,"Склад",0,Location,false,LocationSClass);
     MatCol(1,-430,"Серийный номер",0,SerialNr,false,SerialNrSClass);
