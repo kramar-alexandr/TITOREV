@@ -1004,13 +1004,15 @@ if (HasTouchScreenLook==false) then begin
   TileButton(6,"Прайс-лист");
   TileButton(7,"Адрес сч/ф");
   TileButton(8,"Адрес дост.");
-  Tile(1,110,false,"1",InvDate);
+  Tile(1,120,false,"1",InvDate);
   vs = 20; h1 = 110; h2 = 290; h3 = 530; h4 = -100;
   EditField(h1,vm=(v=6),82,"Дата с/ф",Normal,InvDate,false,PasteCurDate);
   EditField(h1,v+=vs,25,"Условия оплаты",Normal,PayDeal,false,PDSClass);//PDMSClass);
   EditField(h1,v+=vs,82,"Дата оплаты",Normal,PayDate,false,PasteCurDate);
   EditField(h1,v+=vs,82,"Дата операции",Normal,TransDate,false,PasteCurDate);
   EditField(h1,v+=vs,82,"Дата оказ. услуги",Normal,ServiceDelDate,false,PasteCurDate);  
+  EditField(h1,v+=vs,-20,"Комментарий",Normal,InvComment,false,0);
+
   EditField(h2,v=vm,135,"Ответственный",Normal,OurContact,false,0);
   EditField(h2,v+=vs,135,"Внимание",Normal,ClientContact,false,ContactSClass);
   EditField(h2,v+=vs,135,"Объекты",Normal,Objects,false,ObjSClass);
