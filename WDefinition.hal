@@ -5218,7 +5218,7 @@ begin
       end else begin
         MatCol(1,94,"Рассч.",0,Qty,true,0);
       end;
-      pos = 224;
+      pos = 244;
       if (HasAdvancedStock) then begin
         MatCol(1,pos,"На скл.",0,InStock,true,0);
         pos = pos + 62;
