@@ -5005,7 +5005,7 @@ begin
   end;
   v = v + vs;
   if (HasApprovals) then begin
-    SoftEditField(h,v,82,"Статус утв.",ViewOnly,"AcceptanceStatusFlag",false,0,M4Str,255);
+    SoftEditField(h,v,102,"Статус утв.",ViewOnly,"AcceptanceStatusFlag",false,0,M4Str,255);
   end;
 
   if (HasObjects) then begin
@@ -5214,11 +5214,11 @@ begin
   //  MatCol(1,94,"Var",0,VARList,false,VARSClass);
   //  MatCol(1,144,"Qty",0,Qty,true,0);
       if (HasVarieties) then begin
-        MatCol(1,154,"К-во",0,Qty,true,MATVARINSClass);
+        MatCol(1,194,"К-во",0,Qty,true,MATVARINSClass);
       end else begin
         MatCol(1,94,"Рассч.",0,Qty,true,0);
       end;
-      pos = 204;
+      pos = 214;
       if (HasAdvancedStock) then begin
         MatCol(1,pos,"На скл.",0,InStock,true,0);
         pos = pos + 62;

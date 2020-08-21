@@ -330,7 +330,7 @@ begin
   
   WindowBegin("Заказы поставщикам",POLClass,CGmlist,POView);
   SpawnClass(PODClass);
-  SetWRect(64,80,650,298);
+  SetWRect(64,80,700,298);
   Sizeable(-1,-1,0,0);
   UseView(POVc);
   FormName(PrintPOL);
@@ -343,7 +343,7 @@ begin
   RlColKey(250,250,"Код",VECode,false,VECode);
   RlColKey(300,300,"Наименование",Addr0,false,Name);
   RlColKey(450,450,"Сумма",Sum4,true,SerNr);
-  RlCol(500,500,"Комментарий",Comment,false);
+  RlCol(550,550,"Комментарий",Comment,false);
   SearchField("Найти");
   BrowseSubsetButton(-40,-15);
   SpecialMenu("OK",'G',0,"OKPOLsm");
@@ -2085,7 +2085,7 @@ begin
   flipnr = 1;
   Flip(flipnr); flipnr = flipnr + 1;
   if (HasJewelleryInterface) then begin
-    MatColTL(1,180,"Ед.",0,M4Code,ViewOnly,5,UnitCode,false,UnitSCLass);
+    MatColTL(1,195,"Ед.",0,M4Code,ViewOnly,5,UnitCode,false,UnitSCLass);
     MatCol(1,200,"Описание",0,Spec,false,0);
     MatCol(1,-485,"Склад",0,Location,false,LocationSClass);
     MatCol(1,-430,"Серийный номер",0,SerialNr,false,SerialNrSClass);

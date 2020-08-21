@@ -30,6 +30,7 @@ procedure PrintItemTotals_Overview(record RcVc RepSpec,record INVc INr,
 begin
   Boolean testf;
   record ItemStatusVc ISr;// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 14 08 2020 y. at 10:23:49 AM
+	integer poqty;// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 21 08 2020 y. at 9:43:06 AM
 	
 	if(RepSpec.flags[24]==1)then begin
 		ISr.Code = INr.Code;
@@ -94,7 +95,8 @@ LPrintItemTotals_OverviewExcel:;
             OutValBiDi(240,0,fwdqty,M4Qty,true,280);
             OutValBiDi(320,0,itemqin,M4Qty,true,360);
             if(RepSpec.flags[24]==1)then begin
-							OutString(330,0,ISr.POUnOKQty,false);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 14 08 2020 y. at 10:15:34 AM
+            	poqty = ISr.POUnOKQty;// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 21 08 2020 y. at 9:42:48 AM
+							OutString(330,0,poqty,false);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 14 08 2020 y. at 10:15:34 AM
 						end;
             OutValBiDi(400,0,itemqout,M4Qty,true,440);
             OutValBiDi(480,0,fwdqty+itemqin+itemqout,M4Qty,true,520);
