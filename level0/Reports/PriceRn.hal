@@ -513,6 +513,9 @@ begin
       	end;
       	
       end;
+      if(RepSpec.flags[15]==1)then begin
+				OutString(320,0,INr.BarCode,false);
+			end;
       
       if(RepSpec.flags[12]==1)then begin
       	tmpmaxp = blankval;
@@ -562,6 +565,7 @@ begin
 	  			h = h + step;
 				end; 
       end;
+      
       EndFormat;
       if (RepSpec.flags[10]!=0) then begin
         PrintQtyDependentDiscount(RepSpec,INr,vatflag,vatc);
@@ -587,7 +591,9 @@ begin
       StartFormat(15);
       OutString(0,"DblINVc",artcode,false);
       OutString(60,0,namestr,false);
-      
+      if(RepSpec.flags[15]==1)then begin
+				OutString(320,0,INr.BarCode,false);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 02 09 2020 y. at 10:48:48 AM
+			end;
       h = 360;
     	step = (480-360)/k;
       
@@ -624,6 +630,7 @@ begin
 	  			h=h+step;
 				end; 
       end; 
+      
       OutVal(345,0,INr.InPrice,M423Val,true);
       t2 = upric - INr.InPrice;
       OutVal(420,0,t2,M423Val,true);
@@ -631,6 +638,7 @@ begin
       t = t / upric;
       t = Round(t,DefaultRoundMode);
       OutVal(480,0,t,M4UVal,true);
+      
       EndFormat;
       if (RepSpec.flags[10]!=0) then begin
         PrintQtyDependentDiscount(RepSpec,INr,vatflag,vatc);
@@ -1031,6 +1039,11 @@ begin
     end else begin
     	OutString(3,0,USetStr(12053),false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:18:30
     end;
+    
+    if(RepSpec.flags[15]==1)then begin
+			OutString(320,0,"Штрих-код",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 20 05 2020 y. at 12:05:16 PM
+		end;
+    
     if(RepSpec.flags[12]==1)then begin
     	OutString(320,0,"Воз.произ.",false);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:18:30
     end;

@@ -3839,6 +3839,7 @@ begin
   CheckBox(h,v+=16, 70,"Возможность производства",flags[12]);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:15:20
   CheckBox(h,v+=16, 70,"Показать стоимость",flags[13]);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:15:20
 	CheckBox(h,v+=16, 70,"Показать % стоимости",flags[14]);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 15 06 2020 y. at 2:59:40 PM
+	CheckBox(h,v+=16, 70,"Показать щтрих-код",flags[15]);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 02 09 2020 y. at 10:41:40 AM
  v = vm;
 	CheckBox(h2=200,v,0,"Пок-ть варианты",flags[7]);
 	v = v + 16;
