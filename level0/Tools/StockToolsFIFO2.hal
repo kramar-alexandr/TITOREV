@@ -1431,7 +1431,7 @@ BEGIN
       end;
       if (ProdRowr.OutQty!=0) then begin
         ProdRowr.FIFORowVal = DisassembledProdFIFORowVal(INr,orgProdr,Prodp,ProdRowr);
-        if(INr.ItemType!=3)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 21 06 2019 y. at 9:57:48 AM
+        /*if(INr.ItemType!=3)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 21 06 2019 y. at 9:57:48 AM
 					switch (Prodp.RowsHoldActualQty) begin
 						case 0: 
 							ProdRowr.OrgProdFIFORowVal = ProdRowr.FIFORowVal/Prodp.Qty;
@@ -1440,7 +1440,7 @@ BEGIN
 							ProdRowr.OrgProdFIFORowVal = ProdRowr.FIFORowVal;
 							ProdRowr.ItemCost = ProdRowr.FIFORowVal/ProdRowr.OutQty;
 					end;
-        end else begin// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 21 06 2019 y. at 9:57:51 AM
+        end else begin*/// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 21 06 2019 y. at 9:57:51 AM
         	switch (Prodp.RowsHoldActualQty) begin
 						case 0: 
 							ProdRowr.OrgProdFIFORowVal = ProdRowr.FIFORowVal;
@@ -1449,7 +1449,7 @@ BEGIN
 							ProdRowr.OrgProdFIFORowVal = ProdRowr.FIFORowVal;
 							ProdRowr.ItemCost = ProdRowr.FIFORowVal/ProdRowr.OutQty;
 					end;
-        end;// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 21 06 2019 y. at 9:57:54 AM
+        //end;// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 21 06 2019 y. at 9:57:54 AM
         outrows = outrows + 1;
       end;
       MatRowPut(Prodp,i,ProdRowr);
