@@ -128,6 +128,9 @@ LLPrintItemHistHeaderExcel:;
           if(RepSpec.flags[24]==1)then begin
           	OutString(330,0,"Заказ пост.",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 14 08 2020 y. at 10:15:34 AM
           end;
+          if(RepSpec.flags[25]==1)then begin
+          	OutString(330,0,"Штрих-код",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 14 08 2020 y. at 10:15:34 AM
+          end;
           OutStringAdjustBiDi(410,0,USetStr(5009),true,M4Val,450);
           OutStringAdjustBiDi(480,0,USetStr(5011),true,M4Val,520);
           EndFormat;
@@ -163,6 +166,9 @@ LLPrintItemHistHeaderExcel:;
         OutStringAdjustBiDi(320,0,USetStr(5027),true,M4Val,360);
         if(RepSpec.flags[24]==1)then begin
 					OutString(330,0,"Заказ пост.",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 14 08 2020 y. at 10:15:34 AM
+				end;
+				if(RepSpec.flags[25]==1)then begin
+					OutString(330,0,"Штрих-код",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 14 08 2020 y. at 10:15:34 AM
 				end;
         OutStringAdjustBiDi(400,0,USetStr(5028),true,M4Val,440);
         OutStringAdjustBiDi(480,0,USetStr(5015),true,M4Val,520);
@@ -749,6 +755,9 @@ LPrintItemHistExcel:;
           if(RepSpec.flags[24]==1)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 14 08 2020 y. at 10:30:04 AM
 						outint = ISr.POUnOKQty;
 						OutString(330,0,outint,false);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 14 08 2020 y. at 10:21:34 AM
+          end;
+          if(RepSpec.flags[25]==1)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 14 08 2020 y. at 10:30:04 AM
+						OutString(330,0,INr.BarCode,false);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 14 08 2020 y. at 10:21:34 AM
           end;
           switch (RepSpec.flags[12]) begin
             case 1: OutValBiDi(375,0,IHr.Qty2,M4UVal,true,420);

@@ -753,6 +753,9 @@ BEGIN
 				tmpmaxp = tmpmaxp + maxp;
      	 	OutString(320,0,tmpmaxp,false);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:53:33 AM
 			end;
+			if(RepSpec.flags[25]==1)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:57:17 AM
+     	 	OutString(320,0,INp.BarCode,false);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:53:33 AM
+			end;
       if (RepSpec.PocketPC == 0) then begin
         OutVal(4,0,t2,M45Val,true);
       end;
@@ -822,6 +825,9 @@ BEGIN
         if (RepSpec.flags[15]!=0) then begin
           OutValBiDi(350,0,instock2,M4UVal,true,390);
         end;
+        if(RepSpec.flags[25]==1)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:57:17 AM
+     	 	OutString(320,0,INp.BarCode,false);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:53:33 AM
+			end;
         OutVal(4,0,t/instock,M45Val,true);
         
         typ = M45Val;
@@ -1835,6 +1841,9 @@ begin
       OutString(5,0,USetStr(2327),false);
 			if(RepSpec.flags[24]==1)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:57:17 AM
 				OutString(320,0,"Возм. произ.",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:53:33 AM
+      end;
+      if(RepSpec.flags[25]==1)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:57:17 AM
+				OutString(320,0,"Штрих-код",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:53:33 AM
       end;
       OutStringAdjust(3,0,USetStr(2330),true,M4Val);
       if (RepSpec.flags[15]==1) then begin

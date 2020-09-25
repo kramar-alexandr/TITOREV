@@ -98,6 +98,9 @@ LPrintItemTotals_OverviewExcel:;
             	poqty = ISr.POUnOKQty;// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 21 08 2020 y. at 9:42:48 AM
 							OutString(330,0,poqty,false);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 14 08 2020 y. at 10:15:34 AM
 						end;
+						if(RepSpec.flags[25]==1)then begin
+							OutString(330,0,INr.BarCode,false);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 14 08 2020 y. at 10:15:34 AM
+						end;
             OutValBiDi(400,0,itemqout,M4Qty,true,440);
             OutValBiDi(480,0,fwdqty+itemqin+itemqout,M4Qty,true,520);
           case 1:

@@ -5423,6 +5423,8 @@ begin
     end;
   end;
   CheckBox(h4,v,0,"Возможность производства",flags[24]); v = v + 16;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:49:25 AM
+  CheckBox(h4,v,0,"Показать Штрих-код",flags[25]); v = v + 16;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:49:25 AM
+
   if (IsEnterprise) then begin
     Tile(tilenr,340,false,tilenr,-); tilenr = tilenr + 1;
     v = 6;
