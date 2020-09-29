@@ -358,13 +358,11 @@ begin
 	
 	oldINr.BarCode = "472";
 	readlastkey("BarCode",oldINr,1,false);
-	messagebox(0,oldINr.BarCode);
 	oldnum = left(oldINr.BarCode,12);
 	if(len(oldnum)==12)then begin
 		NextM4Number(oldnum,oldnum);
 		CalcEANCHS(oldnum);
 		INr.BarCode = oldnum;
-		messagebox(0,oldnum);
 	end;
 	
 	
