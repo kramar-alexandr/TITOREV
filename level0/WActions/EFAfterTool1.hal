@@ -12,7 +12,9 @@ external procedure SetupVATBase(var record SMVc,var Integer);
 external procedure AddVATBase(var record SMVc,string,val,val,Integer,Integer,Integer);
 external procedure MulM4ProcVal(val,val,var val);
 external procedure PUCalcPerc(val,string,var val);
+remote procedure RA_INCreateBarCode(var record INVc);// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 29 09 2020 y. at 4:43:47 PM
 
+SetLangMode(LangRussian,"RUS",0);
 
 global
 procedure GetDatePriceBasedOn(string custcode,Date orddatep,Date despatchdatep,string planship,var Date resp)
@@ -230,3 +232,28 @@ BEGIN
 LWSSumup:;
   RETURN;
 END;
+
+
+global procedure INCreateBarCodeDsm()
+begin
+integer wn;
+record INVc INr;
+	
+	wn = curwindow;
+	
+	if(windowstate(wn)==0)then begin
+		getwindowrecord(wn,INr);
+		if(blank(INr.BarCode))then begin
+			RA_INCreateBarCode(INr);
+			putwindowrecord(wn,INr);
+		end else begin
+			messagebox(0,"У товара уже есть штрих-код");
+		end;
+	end else begin
+		messagebox(0,"Сперва сохраните запись");
+	end;
+	
+
+
+return;
+end;

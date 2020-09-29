@@ -2,6 +2,9 @@
 external function Boolean TestArtCodeMatch(string,string);
 external procedure FindSalesExVat(record TaxMatrixVc,string,val,Integer,Integer,var val);
 external function val MulRateToBase1(var string,val,val,val,val,val,val,roundmode);
+external function roundmode SetRoundModeD(Integer);
+external procedure NextM4Number(string,var string);
+
 
 global
 procedure ItemDateTurnover(string item,string variety,string cust,string branchid,string class,string colsname,Date sdp,Date edp,string location,var val vp)
@@ -316,4 +319,54 @@ begin
 LAnyHistoryAfterInvoice:;  
   AnyHistoryAfterInvoice = res;
   return;
+end;
+
+procedure CalcEANCHS(var string str)
+begin
+integer c1,c2,lenth,i,chsum,litle;
+val sum;
+
+  sum = 0;
+  lenth = len(str);
+  if (lenth==12)then begin
+    for(i=0;i<12;i=i+2)begin
+      c1 = evaltoval(mid(str,i,1));
+      c2 = evaltoval(mid(str,i+1,1));
+      c2=c2*3;
+      sum = sum+c1+c2;
+    end;
+    if(round(sum/10,SetRoundModeD(0))>sum/10) then begin
+      litle = round(sum/10,SetRoundModeD(0))-1;
+    end else begin
+      litle = round(sum/10,SetRoundModeD(0));
+    end;
+    chsum  = 10-(10*(sum/10-litle));
+    if(chsum==10) then begin chsum = 0; end;
+    str = str & chsum;
+  end else begin
+    str = "";
+  end;
+  
+return;
+end;
+
+global procedure RA_INCreateBarCode(var record INVc INr)
+begin
+	record INVc oldINr;
+	string 20 oldnum;
+	longint num;
+	
+	oldINr.BarCode = "472";
+	readlastkey("BarCode",oldINr,1,false);
+	messagebox(0,oldINr.BarCode);
+	oldnum = left(oldINr.BarCode,12);
+	if(len(oldnum)==12)then begin
+		NextM4Number(oldnum,oldnum);
+		CalcEANCHS(oldnum);
+		INr.BarCode = oldnum;
+		messagebox(0,oldnum);
+	end;
+	
+	
+return;
 end;
