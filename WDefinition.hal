@@ -6297,3 +6297,77 @@ begin
   SpecialMenu("Создать приём товара",' ',2,"RecFromINDsm");         
   EndWindow;
 end;
+
+window ORJRClass:1
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vm,vs;
+  WindowBegin("Определите журнал счетов клиентам",ORJRClass,CGRcW,RcType);
+  SetWRect(20,80,515,410);
+  v= 6; vs = 20; h=160;
+  EditFieldTL(h,v, 150,"Номер счета",   M4Str,Normal,30,f1,false,0);
+  PeriodField(h,v+=vs,"Период");
+  EditFieldTL(h,v+=vs ,150,"Клиенты",M4UStr,Normal,20,f2,false,CUSClass);
+  if (HasSalesman or HasSalesmanBonus) then begin
+    EditFieldTL(h,v+=vs ,100,"Продавец",M4UStr,Normal,10,AccStr,false,UserSClass);
+  end;
+  if (HasSalesGroup) then begin
+    EditFieldTL(h,v+=vs ,50,"Группа по продажам",M4UStr,Normal,10,f3,false,SalesGroupSClass);         
+  end;
+  if (IsEnterprise) then begin
+    EditFieldTL(h,v+=vs, 150,"Вид счёта",   M4UStr,Normal,11,ObjStr,false,OrderClassSClass);
+  end;
+  EditFieldTL(h,v+=vs, 150,"Товар",   M4UStr,Normal,20,LastAcc,false,INSClass);
+  if (HasItemGroups) then begin
+    EditFieldTL(h,v+=vs, 150,"Группа товаров",   M4UStr,Normal,11,f5,false,ITSClass);         
+  end;
+  if (HasItemClassification) then begin
+    EditFieldTL(h,v+=vs, 150,"Классификация товаров", M4UStr,Normal,60,f6,false,DISClass);         
+  end;
+  if (HasMultiLocations) then begin
+    EditFieldTL(h,v+=vs, 150,"Склад",M4UStr,Normal,10,f4,false,LocationSClass);
+  end;
+  if (IsEnterprise) then begin
+    CheckBox(h,v+=20,0,"Только зарезервированные",flags[8]);
+  end;
+  if (HasTREO) then begin
+    //CheckBox(h,v+=16,0,"Показ. TREO инф.",flags[10]);
+  end;
+   CheckBox(h,v+=16,0,"Показ. Штрих-код",flags[11]);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 08 10 2020 y. at 9:34:38 AM
+  ButtonFrame(h=30,vm=(v+=41),123,3,"Функция");
+  RadioButton(h,v,0,0,"Сводный",ArtMode);
+  RadioButton(h,v+=16,1,0,"Подробно",ArtMode);
+  RadioButton(h,v+=16,2,0,"Без НДС",ArtMode);
+  ButtonFrame(h+=143,v = vm,143,6,"Статус");
+  if (HasModSL) then begin
+    CheckBox(h,v,0,"Сч/ф не отгруженные",flags[4]); v = v + 16;
+  end;
+  if (HasModSL and HasModIN) then begin
+    CheckBox(h,v,0,"Сч/ф частично отгруж.",flags[13]); v = v + 16;
+  end;
+  if (HasModSL) then begin
+    CheckBox(h,v,0,"Не отфактурир.",flags[1]); v = v + 16;
+  end;
+  if (HasModIN) then begin
+    CheckBox(h,v,0,"Частично отгруж.",flags[2]); v = v + 16;
+  end;
+  CheckBox(h,v,0,"Завершено",flags[3]); v = v + 16;
+  if (HasModSL and HasModIN) then begin
+    CheckBox(h,v,0,"Отгруж. не отфактур.",flags[9]); v = v + 16;
+  end;
+  EndFrame;
+  ButtonFrame(h+=163, v = vm,130,2,"Сортировать по");
+  RadioButton(h,v,0,0,"№ счета",flags[5]);
+  RadioButton(h,v+=16,1,0,"Клиентам",flags[5]);
+  ButtonFrame(h,v+=40,130,3,"Включать");
+  RadioButton(h,v,0,0,"Не закрытые",flags[12]);
+  RadioButton(h,v+=16,1,0,"Все",flags[12]);
+  RadioButton(h,v+=16,2,0,"Только закрытые",flags[12]);
+/*## code comenmted out in hal file as well
+  ButtonFrame(h+=148, v = vm,123,2,"Показать:");
+  CheckBox(h,v,0,"P_rinted",flags[6]);
+  CheckBox(h,v+=16,0,"No_t Printed",flags[7]);
+*/
+  //CheckBox(h,v+=32,0,"Show Reserved Orders only",flags[8]);
+  EndWindow;
+end;
