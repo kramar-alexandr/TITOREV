@@ -244,6 +244,8 @@ BEGIN
   
   if(blank(RepSpec.shortname))then begin
   	RepSpec.repname = "ItemLabelForm";
+  	FDr.repname = RepSpec.repname;
+		FDr.shortname = RepSpec.shortname;
   	//RepSpec.shortname = "";
   end;
   
