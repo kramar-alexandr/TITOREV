@@ -236,6 +236,12 @@ BEGIN
 
   FDr.repname = RepSpec.repname;
   FDr.shortname = RepSpec.shortname;
+  
+  logtext(0,"DoItemLabelForm");
+  
+  logtext(0,"RepSpec.repname " & RepSpec.repname);
+  logtext(0,"RepSpec.shortname " & RepSpec.shortname);
+  
   if (ReadFirstMain(FDr,1,true)==false) then begin
     MessageBox(1624, " " & USetStr(1623));
     goto LDoItemLabelForm;
