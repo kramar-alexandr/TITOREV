@@ -5893,6 +5893,7 @@ begin
   WindowBegin("Товар",INDClass,CGview,-);
   SetWRect(20,80,830,400);
   Sizeable(-1,-1,-1,0);
+  FormName(ItemLabel);
   DynamicWindow;
   UseView(INVc);
   if (GuiType==kGuiAndroid) then begin
