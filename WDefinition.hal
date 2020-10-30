@@ -2017,6 +2017,9 @@ SetLangMode(LangRussian,"RUS",0);
 	Setting("Настройки WebShop",WebShopSettingsTClass,modSO); //Edit***************************Sasha2,10:22 14.07.2014
 	Setting("Настройки связи с Magento",ExportStockCSVTClass,modSY);
 	
+	Setting("Настройки принтера этикеток",LabelPrinterTClass,modUserSet);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 29 10 2020 y. at 12:31:37 PM
+	
+	
 	Setting("Настройки уникальности eMail",MyAccountTClass,modSO);
 	
   Report("#Отчет по складу2",StockStatusRClass,StockStatusRn,0,modIN);
@@ -5893,7 +5896,7 @@ begin
   WindowBegin("Товар",INDClass,CGview,-);
   SetWRect(20,80,830,400);
   Sizeable(-1,-1,-1,0);
-  FormName(ItemLabelForm);
+  //FormName(ItemLabelForm);
   DynamicWindow;
   UseView(INVc);
   if (GuiType==kGuiAndroid) then begin
@@ -6284,6 +6287,9 @@ begin
   if (UserCanReport("INInfoRn","",true)) then begin
     SpecialMenu("Справка по товару",'I',0,"INStatusINDsm");
   end;
+  
+  SpecialMenu("Печать этикетки",'',0,"INPrintLabelDsm");// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 29 10 2020 y. at 12:44:51 PM
+  
   SpecialMenu("Генерировать Штрих-Код",'',0,"INCreateBarCodeDsm");// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 29 09 2020 y. at 4:39:57 PM
 //  SpecMenuItem("Recalculate Price List",' ',2);
   if (UserCanReport("INrsRn","INrsRClass",true)) then begin
@@ -6372,3 +6378,34 @@ begin
   //CheckBox(h,v+=32,0,"Show Reserved Orders only",flags[8]);
   EndWindow;
 end;
+
+window LabelPrinterTClass:1 //Edit***************************Sasha2,16:12 25.09.2014 {
+ wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs,f;
+  WindowBegin("Настройка принтера этикеток",LabelPrinterTClass,CGSbl,-);
+  SetBlid(LabelPrinterBlock);
+  SetWRect(64,80,450,300);
+  h=150;f=200;
+  v=6;
+    EditField(h,v+=vs,f,"Название принтера",Normal,PrinterName,false,0); 
+    EditField(h,v+=20,f,"Название компьютера(Win)",Normal,ParamStr1,false,0); //Edit***************************Sasha2,16:26 06.08.2015
+  EndWindow;
+end; //Edit***************************Sasha2,16:12 25.09.2014 }
+
+
+window PrintLabelDialogTClass:1 //Edit***************************Sasha2,16:12 25.09.2014 {
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs,f;
+	WindowBegin("Печать этикетки",PrintLabelDialogTClass,CGother,RcType);
+    UseView(RcVc);
+    SetWRect(90,80,450,400);
+    h=50;
+    v = 20;
+   	
+   	EditField(h,v+=vs,80,"Кол-во",Normal,flags[1],true,0);
+   	
+    HalPushButton(h,v+=20,190,66,"PrintLabelFromIN","Печать");
+	EndWindow;
+end; //Edit***************************Sasha2,16:12 25.09.2014 }

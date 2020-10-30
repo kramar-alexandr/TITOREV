@@ -1,6 +1,7 @@
 external inner function boolean MySendWebRequest(string,integer,integer,boolean,string,string,string,string,boolean,area,var area,integer);
 remote inner function Integer CreateMailFromIVDMy(record IVVc,var record MailVc,var string,Boolean,string);
 external inner procedure ExtractObj(string,var Integer,var string);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 17 01 2020 y. at 2:27:07 PM
+external procedure Handle_Zebra_Printing(record RcVc,var area,var integer,string,record LabelPrinterBlock);
 
 procedure GetCurTimeInStr(var string res)
 BEGIN
@@ -303,4 +304,56 @@ begin
     end;
   end;
   return;
+end;
+
+global procedure PrintLabelFromIN()
+begin
+	record RcVc RepSpec;
+	integer wn;
+	area aLabel;
+	integer k;
+	string 50 fromplace;
+	record LabelPrinterBlock LPb;
+	
+	blockload(LPb);
+	
+	fromplace = "FromItem";
+	wn = curwindow;
+	deselectwindow(wn,true);
+	getwindowrecord(wn,RepSpec);
+	closewindow(wn);
+	
+	Handle_Zebra_Printing(RepSpec,aLabel,k,fromplace,LPb);
+	if(k>0)then begin
+		
+		SetExportCodepage("CP1251");
+    writeareatofile(aLabel,"Label.txt",0);
+    millisleep(50);
+    if (WindowsMode==1) then begin
+      RunProgram("c:\\windows\\system32\\cmd.exe","/C \"" & "copy " & "Label.txt" & " \\\\" & LPb.ParamStr1 & "\\" & LPb.PrinterName & "\"");
+    end;
+    if (WindowsMode==0) then begin
+      RunProgram("/usr/bin/lp","-d " & LPb.PrinterName & " -o raw Label.txt");
+    end;
+		
+	end;
+	
+
+return;
+end;
+
+global procedure INPrintLabelDsm()
+begin
+	record INVc INr;
+	integer wn;
+	record RcVc repSpec;
+	
+	wn = curwindow;
+	getwindowrecord(wn,INr);
+	
+	RepSpec.f1 = INr.Code;
+	RepSpec.flags[1] = 1;
+	OpenWindow("PrintLabelDialogTClass",1,0,"","",RepSpec);
+
+return;
 end;

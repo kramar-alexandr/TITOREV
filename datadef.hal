@@ -105,6 +105,17 @@ begin
 	RecordAddBegin(StockMovVc,"StockMoveVc_Custom");
 		RecordField(TotQtyPost,M4Int,0,0); // Edit ************************** BPI Ukraine - KramarAlexandr - 01, 13 01 2020 y. at 2:26:32 PM
 	EndRecordAdd;
-  
+	
+	BlockBegin(LabelPrinterBlock,-,"");
+    BlockForAllCompanies;
+    RecordField(PrinterName,M4Str,200,0);
+    RecordField(ParamIn1,M4Int,0,0);
+    RecordField(ParamIn2,M4Int,0,0);
+    RecordField(ParamStr1,M4Str,200,0);
+    RecordField(ParamStr2,M4Str,200,0);
+    RecordField(ParamVal1,M4Val,0,0);
+    RecordField(ParamVal2,M4Val,0,0);
+  EndBlock;
+	  
   return;
 end;
