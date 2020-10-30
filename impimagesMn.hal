@@ -187,8 +187,8 @@ E
 						str2 = " ";
 					end;
 					
-					addtexttoarea(newPUrw.Spec & chr(13) & chr(10),aLabel);//
-					addtexttoarea(" " & chr(13) & chr(10),aLabel);//
+					addtexttoarea(str1 & chr(13) & chr(10),aLabel);//
+					addtexttoarea(str2 & chr(13) & chr(10),aLabel);//
 					addtexttoarea(newPUrw.SerialNr & chr(13) & chr(10),aLabel);//
 					
 					addtexttoarea("E" & chr(13) & chr(10),aLabel);//конец этикетки
