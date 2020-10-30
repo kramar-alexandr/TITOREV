@@ -43,17 +43,17 @@ begin
       SetAreaZeroSize(aLabel);
       
       /*
-      	^L
-				Dy2
-				-me
-				-dd
-				Th:m:s
-				R8,13,631,384,8,8
-				BE,30,57,2,5,80,0,1,2240878500518
-				BE,30,200,2,5,80,0,0,2240878500518
-				AB,400,25,1,1,0,0,Human Readable
-				AB,400,170,1,1,0,0,No Human Readable
-				AD,36,300,1,1,0,0I,EAN13 E
+^L
+Dy2
+-me
+-dd
+Th:m:s
+R8,13,631,384,8,8
+BE,30,57,2,5,80,0,1,2240878500518
+BE,30,200,2,5,80,0,0,2240878500518
+AB,400,25,1,1,0,0,Human Readable
+AB,400,170,1,1,0,0,No Human Readable
+AD,36,300,1,1,0,0I,EAN13 E
       	
       	
       	^Q50,0,0
@@ -100,22 +100,72 @@ begin
 				2240878500518
 				E
 				~P1
+				
+				
+				~MDELF,T001
+^FT001
+^Q20,0,0
+^W30
+^L
+V00,98,Prompt
+V01,98,Prompt
+V02,98,Prompt
+AB,10,50,1,1,0,0,^V00
+AB,10,100,1,1,0,0,^V01
+BE,10,120,2,5,40,0,1,^V02
+E
+
+^KT001
+HI-16GBFITSL
+Hi-Rali Fit
+4711472585587
+E
+~P1
+
+//РАБОТАЕТ!
+
+~MDELF,T001
+^FT001
+^Q19,2,0
+^W30
+^L
+V00,98,Prompt
+V01,98,Prompt
+V02,98,Prompt
+V03,98,Prompt
+AA,10,5,1,1,0,0,^V00
+AA,10,25,1,1,0,0,^V01
+AA,10,45,1,1,0,0,^V02
+BE,10,70,2,5,50,0,1,^V03
+E
+
+^KT001
+Первая строка12345678901234567890
+Вторая строка
+Код товара
+4711472585587
+E
+~P5
+
+
       	
       */
       
-      addtexttoarea("MDELF,T001" & chr(13) & chr(10),aLabel);//Очистка памяти этикетки
+      addtexttoarea("~MDELF,T001" & chr(13) & chr(10),aLabel);//Очистка памяти этикетки
       addtexttoarea("^FT001" & chr(13) & chr(10),aLabel);//новая этикетка
-      addtexttoarea("^Q20,0,0" & chr(13) & chr(10),aLabel);//высота 50мм
+      addtexttoarea("^Q19,2,0" & chr(13) & chr(10),aLabel);//высота 50мм
       addtexttoarea("^W30" & chr(13) & chr(10),aLabel);//ширина 100мм
-      addtexttoarea("^XSET,CODEPAGE,16" & chr(13) & chr(10),aLabel);//кодировка
+      //addtexttoarea("^XSET,CODEPAGE,16" & chr(13) & chr(10),aLabel);//кодировка
       addtexttoarea("^L" & chr(13) & chr(10),aLabel);//закрытие форматирования этикетки
       addtexttoarea("V00,98,Prompt" & chr(13) & chr(10),aLabel);//первая переменная - код товара
       addtexttoarea("V01,98,Prompt" & chr(13) & chr(10),aLabel);//вторая переменная - название
       addtexttoarea("V02,98,Prompt" & chr(13) & chr(10),aLabel);//третья переменная - штрихкод
+      addtexttoarea("V03,98,Prompt" & chr(13) & chr(10),aLabel);//третья переменная - штрихкод
       
-      addtexttoarea("AB,50,50,1,1,0,0,^V00" & chr(13) & chr(10),aLabel);//печать кода
-      addtexttoarea("AB,50,100,1,1,0,0,^V01" & chr(13) & chr(10),aLabel);//печать названия
-      addtexttoarea("BE,30,300,2,5,80,0,1,^V02" & chr(13) & chr(10),aLabel);//печать штрихкода
+      addtexttoarea("AA,10,5,1,1,0,0,^V00" & chr(13) & chr(10),aLabel);//печать кода
+      addtexttoarea("AA,10,25,1,1,0,0,^V01" & chr(13) & chr(10),aLabel);//печать названия
+      addtexttoarea("AA,10,45,1,1,0,0,^V02" & chr(13) & chr(10),aLabel);//печать названия
+      addtexttoarea("BE,10,70,2,5,80,0,1,^V03" & chr(13) & chr(10),aLabel);//печать штрихкода
       addtexttoarea("E" & chr(13) & chr(10),aLabel);//конец этикетки
       addtexttoarea(chr(13) & chr(10),aLabel);//конец этикетки
       
@@ -130,6 +180,7 @@ begin
 					
 					addtexttoarea(newPUrw.ArtCode & chr(13) & chr(10),aLabel);//
 					addtexttoarea(newPUrw.Spec & chr(13) & chr(10),aLabel);//
+					addtexttoarea("" & chr(13) & chr(10),aLabel);//
 					addtexttoarea(newPUrw.SerialNr & chr(13) & chr(10),aLabel);//
 					
 					addtexttoarea("E" & chr(13) & chr(10),aLabel);//конец этикетки
