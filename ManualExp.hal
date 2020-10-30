@@ -317,11 +317,16 @@ begin
 	
 	blockload(LPb);
 	
-	fromplace = "FromItem";
+	
 	wn = curwindow;
 	deselectwindow(wn,true);
 	getwindowrecord(wn,RepSpec);
 	closewindow(wn);
+	
+	fromplace = "FromItem";
+	if(nonblank(RepSpec.f2))then begin
+		fromplace = RepSpec.f2;
+	end;
 	
 	Handle_Zebra_Printing(RepSpec,aLabel,k,fromplace,LPb);
 	if(k>0)then begin
@@ -352,6 +357,41 @@ begin
 	getwindowrecord(wn,INr);
 	
 	RepSpec.f1 = INr.Code;
+	RepSpec.flags[1] = 1;
+	OpenWindow("PrintLabelDialogTClass",1,0,"","",RepSpec);
+
+return;
+end;
+
+global procedure ORPrintLabelDsm()
+begin
+	record ORVc ORr;
+	integer wn;
+	record RcVc repSpec;
+	
+	wn = curwindow;
+	getwindowrecord(wn,ORr);
+	
+	RepSpec.f1 = ORr.SerNr;
+	RepSpec.f2 = "FromOrder";
+	RepSpec.flags[1] = 1;
+	OpenWindow("PrintLabelDialogTClass",1,0,"","",RepSpec);
+
+return;
+end;
+
+
+global procedure ProdPrintLabelDsm()
+begin
+	record ProdVc Prodr;
+	integer wn;
+	record RcVc repSpec;
+	
+	wn = curwindow;
+	getwindowrecord(wn,Prodr);
+	
+	RepSpec.f1 = Prodr.SerNr;
+	RepSpec.f2 = "FromProd";
 	RepSpec.flags[1] = 1;
 	OpenWindow("PrintLabelDialogTClass",1,0,"","",RepSpec);
 
