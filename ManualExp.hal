@@ -1,7 +1,7 @@
 external inner function boolean MySendWebRequest(string,integer,integer,boolean,string,string,string,string,boolean,area,var area,integer);
 remote inner function Integer CreateMailFromIVDMy(record IVVc,var record MailVc,var string,Boolean,string);
 external inner procedure ExtractObj(string,var Integer,var string);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 17 01 2020 y. at 2:27:07 PM
-external procedure Handle_Zebra_Printing(record RcVc,var area,var integer,string,record LabelPrinterBlock);
+remote procedure Handle_Zebra_Printing(record RcVc,var area,var integer,string,record LabelPrinterBlock);
 
 procedure GetCurTimeInStr(var string res)
 BEGIN
