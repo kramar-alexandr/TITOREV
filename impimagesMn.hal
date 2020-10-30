@@ -13,7 +13,7 @@ begin
   boolean TrHs,testf,caratf,onlyPrintQuantf;
   string 50 frin,toin;
   longint qty;
-  string 200 tstr;
+  string 200 tstr,str1,str2;
   string 5 basecur,stockcur,printcur;
   LongInt frompu,topu;
   record PUVc PUr;
@@ -179,6 +179,14 @@ E
 					addtexttoarea("^KT001" & chr(13) & chr(10),aLabel);//подгрузка этикетки
 					
 					addtexttoarea(newPUrw.ArtCode & chr(13) & chr(10),aLabel);//
+					
+					str1 = left(newPUrw.Spec,28);
+					if(len(newPUrw.Spec)>28)then begin
+						str2 = mid(newPUrw.Spec,28,len(newPUrw.Spec)-28);
+					end else begin
+						str2 = " ";
+					end;
+					
 					addtexttoarea(newPUrw.Spec & chr(13) & chr(10),aLabel);//
 					addtexttoarea(" " & chr(13) & chr(10),aLabel);//
 					addtexttoarea(newPUrw.SerialNr & chr(13) & chr(10),aLabel);//
