@@ -107,6 +107,7 @@ begin
       addtexttoarea("^FT001" & chr(13) & chr(10),aLabel);//новая этикетка
       addtexttoarea("^Q50,0,0" & chr(13) & chr(10),aLabel);//высота 50мм
       addtexttoarea("^W100" & chr(13) & chr(10),aLabel);//ширина 100мм
+      addtexttoarea("^XSET,CODEPAGE,16" & chr(13) & chr(10),aLabel);//кодировка
       addtexttoarea("^L" & chr(13) & chr(10),aLabel);//закрытие форматирования этикетки
       addtexttoarea("V00,98,Prompt" & chr(13) & chr(10),aLabel);//первая переменная - код товара
       addtexttoarea("V01,98,Prompt" & chr(13) & chr(10),aLabel);//вторая переменная - название
