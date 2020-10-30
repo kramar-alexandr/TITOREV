@@ -162,10 +162,10 @@ E
       addtexttoarea("V02,98,Prompt" & chr(13) & chr(10),aLabel);//третья переменная - штрихкод
       addtexttoarea("V03,98,Prompt" & chr(13) & chr(10),aLabel);//третья переменная - штрихкод
       
-      addtexttoarea("AB,10,5,1,1,0,0,^V00" & chr(13) & chr(10),aLabel);//печать кода
-      addtexttoarea("AA,10,25,1,1,0,0,^V01" & chr(13) & chr(10),aLabel);//печать названия
-      addtexttoarea("AA,10,45,1,1,0,0,^V02" & chr(13) & chr(10),aLabel);//печать названия
-      addtexttoarea("BE,10,70,2,5,60,0,1,^V03" & chr(13) & chr(10),aLabel);//печать штрихкода
+      addtexttoarea("AB,10,2,1,1,0,0,^V00" & chr(13) & chr(10),aLabel);//печать кода
+      addtexttoarea("AB,10,25,1,1,0,0,^V01" & chr(13) & chr(10),aLabel);//печать названия
+      addtexttoarea("AB,10,50,1,1,0,0,^V02" & chr(13) & chr(10),aLabel);//печать названия
+      addtexttoarea("BE,10,80,2,5,50,0,1,^V03" & chr(13) & chr(10),aLabel);//печать штрихкода
       addtexttoarea("E" & chr(13) & chr(10),aLabel);//конец этикетки
       addtexttoarea(chr(13) & chr(10),aLabel);//конец этикетки
       
