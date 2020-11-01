@@ -949,6 +949,7 @@ begin
   EditField(h,v+=vs,80,"Код доставки",Normal,DelAddrCode,false,DelAddrSClass);
   EditField(h2,v,80,"Регион",Normal,Region,false,RegionSClass); 
   EnterSkip(OrdDate);
+	SpecialMenu("Печать этикетки",'',0,"ORPrintLabelDsm");// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 29 10 2020 y. at 12:44:51 PM
   SpecialMenu("Поиск товара",'f',1,"ItemSearchDsm");
   SpecialMenu("Резервирования",' ',15,"OrderReservORDsm");
   SpecialMenu("Создать деятельность",'c',9,"CreateActFromORDsm");
