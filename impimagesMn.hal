@@ -291,7 +291,7 @@ begin
       addtexttoarea("A5,50,0,2,1,1,N,V02" & chr(13) & chr(10),aLabel); // Prints an ASCII text string
       addtexttoarea("B10,80,0,E30,1,2,50,N,V03" & chr(13) & chr(10),aLabel); // print standard bar codes
 			
-			addtexttoarea("PAV041" & chr(13) & chr(10),aLabel); // to automatically print the form
+			addtexttoarea("PAV04" & chr(13) & chr(10),aLabel); // to automatically print the form
       addtexttoarea("FE" & chr(13) & chr(10),aLabel); // command is used to end a form store sequence.
       addtexttoarea(chr(13) & chr(10),aLabel);
       
