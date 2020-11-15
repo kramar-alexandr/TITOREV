@@ -122,6 +122,10 @@ begin
 		end;
   end;
   
+  if(qty<0)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 07, 15 11 2020 y. at 12:16:17 PM
+  	qty = 0;
+  end;
+  
   
   return;
 end;
