@@ -6477,7 +6477,7 @@ begin
     CheckBox(h,vm=(v+=30),0,"Игнорировать хронологию",IgnoreChronology);
     CheckBox(h,v+=16,0,"Требовать место",RequirePos);
     CheckBox(h,v+=16,0,"Закрыто",Closed);  
-    CheckBox(h,v+=16,0,"Отключить возм. производства",IsPosProd);
+    CheckBox(h,v+=16,0,"Отключить возм. производства",IsPosProd);      // Ira - 18.11 - Add Checkbox
 	ButtonFrame(h2,v=vm+10,100,2,"Tип");
     RadioButton(h2,v,0,0,"другое",Type);
     RadioButton(h2,v+=16,1,0,"производство",Type);

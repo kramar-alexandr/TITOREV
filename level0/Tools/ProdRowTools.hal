@@ -68,50 +68,50 @@ BEGIN
   i = 0;
   if (stockvals) then begin	
 	
-	FindStockValue(pdpItem[j],location,ISr);
+	//FindStockValue(pdpItem[j],location,ISr);   // Ira - 18.11 - comment
 	
-	//*
-	while(LoopMain(Locr,1,true))begin
-		
-		if(Locr.IsPosProd==0)then begin
-		
-		FindStockValue(pdpItem[j],Locr.Code,ISr2);
-		
-		ISr.Instock = ISr.Instock + ISr2.Instock;
-		ISr.UValue = ISr.UValue + ISr2.UValue;
-		ISr.OrddOut = ISr.OrddOut + ISr2.OrddOut;
-		ISr.POQty = ISr.POQty + ISr2.POQty;
-		ISr.RsrvQty = ISr.RsrvQty + ISr2.RsrvQty;
-		ISr.StockRsrvQty = ISr.StockRsrvQty + ISr2.StockRsrvQty;
-		ISr.POUnOKQty
-		= ISr.POUnOKQty + ISr2.POUnOKQty;
-		ISr.InShipment = ISr.InShipment + ISr2.InShipment;
-		ISr.Instock2 = ISr.Instock2 + ISr2.Instock2;
-		ISr.ProdOrd = ISr.ProdOrd + ISr2.ProdOrd;
-		//ISr.NoDataBefore = ISr.NoDataBefore + ISr2.NoDataBefore;
-		
-		//logtext(0, pdpItem[j] & " " & ISr2.Instock & " " & Locr.Code);
-		
+	// Ira - 18.11 - Start Add
+	
+	ISr2.Code = pdpItem[j];
+	ISr2.Location = ";;;";
+	
+	if(ReadFirstMain(ISr2,2,true)) then begin
 		if(ISr2.Instock > 0) then begin
-			i = i+1;
-		end;
+	
+			while(LoopMain(Locr,1,true))begin
+		
+				if(Locr.IsPosProd==0)then begin
+		
+					FindStockValue(pdpItem[j],Locr.Code,ISr2);
+		
+					ISr.Instock = ISr.Instock + ISr2.Instock;
+					ISr.UValue = ISr.UValue + ISr2.UValue;
+					ISr.OrddOut = ISr.OrddOut + ISr2.OrddOut;
+					ISr.POQty = ISr.POQty + ISr2.POQty;
+					ISr.RsrvQty = ISr.RsrvQty + ISr2.RsrvQty;
+					ISr.StockRsrvQty = ISr.StockRsrvQty + ISr2.StockRsrvQty;
+					ISr.POUnOKQty = ISr.POUnOKQty + ISr2.POUnOKQty;
+					ISr.InShipment = ISr.InShipment + ISr2.InShipment;
+					ISr.Instock2 = ISr.Instock2 + ISr2.Instock2;
+					ISr.ProdOrd = ISr.ProdOrd + ISr2.ProdOrd;
+	
+					if(ISr2.Instock > 0) then begin
+						i = i+1;
+					end;
 		
 		
+				end;
+			end;
+	
 		end;
+	
 	end;
 	
 	if(i > 1) then begin
-		logtext(0, pdpItem[j] & " " & ISr2.Instock & " " & Locr.Code);
-	end;
+		logtext(0, pdpItem[j] & " " & ISr2.Instock & " " & Locr.Code);       
+	end;																			// Ira - 18.11 - end add
 	
-	/*/
 	
-	/*LVc.Code = ISr.Location;
-	if(LVc.IsPosProd > 0) then begin
-		return;
-	end;
-	*/
-
     pdporgstock[j] = ISr.Instock - ISr.InShipment;
     pdporderstock[j] = ISr.OrddOut;
     pdppurord[j] = ISr.POUnOKQty;
