@@ -327,6 +327,7 @@ PRINT 1
           //addtexttoarea("?" & chr(13) & chr(10),aLabel); //command signals the printer to “fill-in” variable or counter “prompt” data field
 		//addtexttoarea(newPUrw.ArtCode & chr(13) & chr(10),aLabel);//
 		//	addtexttoarea("HOME" & chr(13) & chr(10),aLabel);
+			addtexttoarea("HOME" & chr(13) & chr(10),aLabel); //print density
 			addtexttoarea("CLS" & chr(13) & chr(10),aLabel); //print density
 			addtexttoarea("TEXT 40,15, \"3\",0,1,1, \"" & newPUrw.ArtCode & "\"" & chr(13) & chr(10),aLabel); //appropriate character set for printing and display (KDU) "C": Wi1n2d5o1ws Cyrillic
       //addtexttoarea("BOX 1,1,260,95,6" & chr(13) & chr(10),aLabel); //iDelete forms from memory
