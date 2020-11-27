@@ -332,13 +332,13 @@ PRINT 1
       //addtexttoarea("BOX 1,1,260,95,6" & chr(13) & chr(10),aLabel); //iDelete forms from memory
   
           
-					str1 = left(newPUrw.Spec,25);
+					str1 = left(newPUrw.Spec,24);
 					str1 = trim(str1);
 					str3 = "";
 					str2 = "";
-					if(len(newPUrw.Spec)>25)then begin
-						str2 = mid(newPUrw.Spec,25,50);
-						str3 = mid(newPUrw.Spec,50,100);
+					if(len(newPUrw.Spec)>24)then begin
+						str2 = mid(newPUrw.Spec,24,48);
+						str3 = mid(newPUrw.Spec,48,96);
 						str3 = trim(str3);
 					end else begin
 						str2 = " ";
