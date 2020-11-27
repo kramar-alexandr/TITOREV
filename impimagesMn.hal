@@ -345,9 +345,9 @@ PRINT 1
 						str3 = " ";
 					end;
 					
-			addtexttoarea("TEXT 20,40, \"3\",0,1,1, \"" & str1 & "\"" & chr(13) & chr(10),aLabel);
-			addtexttoarea("TEXT 20,65, \"3\",0,1,1, \"" & str2 & "\"" & chr(13) & chr(10),aLabel);
-			addtexttoarea("TEXT 20,90, \"3\",0,1,1, \"" & str3 & "\"" & chr(13) & chr(10),aLabel);
+			addtexttoarea("TEXT 20,40, \"2\",0,1,1, \"" & str1 & "\"" & chr(13) & chr(10),aLabel);
+			addtexttoarea("TEXT 20,65, \"2\",0,1,1, \"" & str2 & "\"" & chr(13) & chr(10),aLabel);
+			addtexttoarea("TEXT 20,90, \"2\",0,1,1, \"" & str3 & "\"" & chr(13) & chr(10),aLabel);
 			//addtexttoarea("BARCODE X,Y, \"code type",height,human readable,rotation,narrow,wide,[alignment,] "content "
 			addtexttoarea("BARCODE 40,125, \"EAN13\",70,1,0,3,2,\"" & newPUrw.SerialNr & "\"" & chr(13) & chr(10),aLabel);
 			 addtexttoarea("PRINT " & stringtoint(newPUrw.Quant) & chr(13) & chr(10),aLabel); // Store Form
