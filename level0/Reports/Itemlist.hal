@@ -91,6 +91,7 @@ begin
     OutString(2,0,USetStr(2326) & " / " & USetStr(8600),false);
   end else begin
     OutString(2,0,USetStr(2326),false);
+    OutString(2,0,"Bar-Code",false);
   end;
   if (HasItemGroups) then begin
     OutString(210,0,USetStr(2338),false);
@@ -273,6 +274,7 @@ begin
        otherwise
          OutString(2,0,namestr,false);
      end;    
+     OutString(2,0,INr.BarCode,false);
      if (HasItemGroups) then begin
       OutString(210,0,INr.Group,false);
      end;
