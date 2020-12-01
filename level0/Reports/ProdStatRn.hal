@@ -1,5 +1,7 @@
 external procedure HT2Per(Date, Date , var string);
 
+SetLangMode(LangRussian,"RUS",0);
+
 procedure FindTransactions(var record RcVc RepSpec,string recepy,var val qty, var val weight, time t1, time t2)
 begin
   record ProdVc Prodr;
@@ -18,6 +20,11 @@ begin
     end;
     if (TrHs) then begin
       testf = true;
+	  if (nonblank(RepSpec.f9)) then begin                 // by Ira
+        if (Prodr.Person != RepSpec.f9) then begin			// by Ira
+          testf = false;									// by Ira
+        end;												// by Ira
+      end;  												// by Ira
       if (nonblank(RepSpec.f4)) then begin
         if (Prodr.FixAssCode <> RepSpec.f4) then begin
           testf = false;
@@ -118,6 +125,7 @@ begin
   OutString(0,0,USetStr(15155),false);
   OutString(80,0,USetStr(15156),false);
   OutString(100,0,USetStr(15157),false);
+  OutString(340,0,"Сотрудник",false);        // by Ira
   OutString(430,0,USetStr(15158),true);
   OutString(1,0,USetStr(15159),true);
   EndFormat;
@@ -148,6 +156,11 @@ begin
             OutString(100,0,INr.Unittext2,false);
           end;
           OutString(100,0,Recr.Comment,false);
+		  
+		  if(nonblank(RepSpec.f9)) then begin                          // by Ira
+			OutString(340,0,RepSpec.f9,false);                      // by Ira
+		  end;            										     // by Ira
+		  
           if(nonblank(RepSpec.f7))then begin
           	OutString(300,0,RepSpec.f7,false);
           	OutVal(400,0,RepSpec.vals0,M40Val,true);

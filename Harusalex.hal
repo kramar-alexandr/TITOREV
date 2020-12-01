@@ -2674,6 +2674,7 @@ begin
   EditFieldTL(h,v+=vs,100,"Машина",M4UStr,Normal,10,f4,false,AT2UnitSClass);
   EditFieldTL(h,v+=vs,100,"Время начала от",M4UStr,Normal,10,f5,false,0);
   EditFieldTL(h,v+=vs,100,"Время начала до",M4UStr,Normal,10,f6,false,0);
+  EditFieldTL(h,v+=vs,100,"Сотрудник",M4UStr,Normal,10,f9,false,UserSClass);     // by Ira
   EndWindow;
 end;
 
