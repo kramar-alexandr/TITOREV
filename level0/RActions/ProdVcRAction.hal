@@ -410,7 +410,11 @@ BEGIN
     end;
     
     if(blank(Prodp.Person))then begin// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 27 April 2018 09:58:46
-    	Prodp.Person = currentuser;
+    	//Prodp.Person = currentuser;          //
+		extracom = Prodp.Person;       // by Ira 
+        fieldnam = "Person";          	 //  by Ira 
+        res = 1854; 		          	//  by Ira
+        goto LProdVcRecordCheck;    //  by Ira
     end;
     
     if (nonblank(Prodp.Person)) then begin
