@@ -2037,6 +2037,8 @@ SetLangMode(LangRussian,"RUS",0);
 	
 	Import("€мпорт цен",ImportPLClass,ImportPLIn,modDI);// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 13 April 2018 17:09:00
 
+	Report("FinfPO",NewPORClass,NewPORn,0,modPO);
+
 	
 	SString(964,"");	
 	
@@ -6501,4 +6503,17 @@ begin
     RadioButton(h,v+=16,2,0,"‚кл.,реж.погруз.выкл.",WHMForkLiftSystem);
   end;
   EndWindow;
+end;
+
+
+
+window NewPORClass:1
+begin
+  real h, h2,v,vs,l,hs, v2;
+  WindowBegin("New PO",NewPORClass,CGRcW,RcType);
+  SetWRect(20,80,500,800);
+  Sizeable(0,150,0,0);                                                     
+  h = 60; vs = 20; v=10; l = 130; h2 = 10; hs=100;  
+  EditField(h,v+=vs ,l,"Item",Normal,f1,false,0);
+EndWindow;
 end;
