@@ -2009,6 +2009,8 @@ working:
 
 //external inner inner procedure StockStatusRn();
 
+
+
 event StartUp
 begin
 SetLangMode(LangRussian,"RUS",0);
@@ -2021,6 +2023,9 @@ SetLangMode(LangRussian,"RUS",0);
 	Setting("Настройки принтера этикеток",LabelPrinterTClass,modSO);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 30 10 2020 y. at 4:52:21 PM
 	Setting("Настройки принтера этикеток",LabelPrinterTClass,modProd);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 30 10 2020 y. at 4:52:22 PM
 	Setting("Настройки принтера этикеток",LabelPrinterTClass,modIN);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 30 10 2020 y. at 4:52:24 PM
+	
+	
+	Report("Item Status rep",NewRepItemStatusRClass,NewRepItemStatusRn,0,modIN);  // by Ira
 	
 	Setting("Настройки уникальности eMail",MyAccountTClass,modSO);
 	

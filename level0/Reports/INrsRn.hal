@@ -25,6 +25,10 @@ external procedure HTItemHistType2(Integer,Integer,Integer,Integer,Integer,var s
 external procedure PrintCustName(string,string,integer);
 external procedure ExtractObj(string,var Integer,var string);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 15 05 2020 y. at 9:10:02 AM
 
+
+
+
+
 procedure PrintItemTotals_Overview(record RcVc RepSpec,record INVc INr,
                                    val fwdqty,val fwdcp,val fwdtotcp,val itemqin,val itemqout,val itemcpin,val itemcpout)
 begin

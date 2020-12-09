@@ -515,6 +515,25 @@ begin
   return;
 end;
 
+
+global
+procedure CuPerRn(record RcVc RepSpec)
+begin
+  record ItemStatusVc ISr;
+  boolean TrHs;
+  
+  TrHs = true;
+	startreportnoheaderjob(""); 
+		while(LoopMain(ISr,1,TrHs)) begin
+			if(ISr.POQty - ISr.POUnOKQty < 0) then begin
+				OutString(5,0,ISr.Code,false);
+				OutString(60,0,ISr.POQty - ISr.POUnOKQty,false);
+			end;
+		end;
+	endjob;
+end;
+
+
 global
 procedure CuPerRn(record RcVc RepSpec)
 begin
