@@ -2,7 +2,7 @@ external procedure HT2Per(Date, Date , var string);
 
 SetLangMode(LangRussian,"RUS",0);
 
-procedure FindTransactions(var record RcVc RepSpec,string recepy,var val qty, var val weight, time t1, time t2)
+procedure FindTransactions(var record RcVc RepSpec,string recepy,var val qty, var val weight, time t1, time t2, var string client)
 begin
   record ProdVc Prodr;
   row ProdVc Prodrw;
@@ -20,11 +20,16 @@ begin
     end;
     if (TrHs) then begin
       testf = true;
-	  if (nonblank(RepSpec.f9)) then begin                 // by Ira
-        if (Prodr.Person != RepSpec.f9) then begin			// by Ira
-          testf = false;									// by Ira
-        end;												// by Ira
-      end;  												// by Ira
+		if (nonblank(RepSpec.f9)) then begin                 // by Ira
+			if (Prodr.Person != RepSpec.f9) then begin			// by Ira
+				testf = false;
+			end else begin
+				client = RepSpec.f9;
+			end;
+		end else begin
+			client = Prodr.Person;
+		end;
+		// by Ira
       if (nonblank(RepSpec.f4)) then begin
         if (Prodr.FixAssCode <> RepSpec.f4) then begin
           testf = false;
@@ -92,6 +97,7 @@ begin
   val tqty, tweight,totitemval;
   string 255 tstr;
   integer rw,rwcnt,i;
+  string 255 client;
 
   Time t1,t2,t3;
   t1 = StringToTime(RepSpec.f5);
@@ -146,7 +152,7 @@ begin
         qty = 0;
         weight = 0;
         RepSpec.vals0 = blankval;
-        FindTransactions(RepSpec,Recr.Code,qty,weight,t1,t2);
+        FindTransactions(RepSpec,Recr.Code,qty,weight,t1,t2,client);
         if (qty <> 0) then begin
           StartFormat(15);
           OutString(0,0,Recr.Code,false);
@@ -156,10 +162,8 @@ begin
             OutString(100,0,INr.Unittext2,false);
           end;
           OutString(100,0,Recr.Comment,false);
-		  
-		  if(nonblank(RepSpec.f9)) then begin                          // by Ira
-			OutString(340,0,RepSpec.f9,false);                      // by Ira
-		  end;            										     // by Ira
+			
+		  OutString(340,0,client,false);                      // by Ira
 		  
           if(nonblank(RepSpec.f7))then begin
           	OutString(300,0,RepSpec.f7,false);
