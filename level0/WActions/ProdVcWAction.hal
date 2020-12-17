@@ -699,7 +699,7 @@ BEGIN
   end;  
   switch (fieldname) begin
     case "ActualQty": res = false;
-	case "Person": res = true;
+		case "Person": res = true;
   end;
 
   //	if (Prodr.Disassemble!=0) then begin res = false; end;// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 26 05 2020 y. at 4:31:41 PM
@@ -716,6 +716,11 @@ BEGIN
   res = true;
   GetWindowRecord(wn,Prodr);
   if (Prodr.PRStatusFlag>2) then begin res = false; end;
+  
+  if(WindowActiveField(wn)=="Person")then begin
+  	res = true;
+  end;
+  
   ProdDClassUpdateTest = res;
   RETURN;
 END;
