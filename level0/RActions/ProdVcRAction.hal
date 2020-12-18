@@ -503,8 +503,8 @@ BEGIN
         res = 1120; 
         goto LProdVcRecordCheck;
       end;
-      if (INr.Terminated==1) then begin
-        extracom = Prodrw.Item; 
+      if (INr.Terminated==1 and Prodp.PRStatusFlag < 2) then begin  // by Ira
+        extracom = Prodrw.Item;
         fieldnam = "Item";
         rowno = i;
         res = 1266; 
@@ -758,10 +758,10 @@ BEGIN
                 otherwise qty = qty + Prodrw.InQty*Prodp.Qty;
               end;                    
               FindStockValue(Prodrw.Item,location,ISr);
-              if (ISr.Instock<qty) then begin
+              if (ISr.Instock<qty and Prodp.PRStatusFlag < 2) then begin  // by Ira
                 fieldnam = "InQty";
                 rowno = i;
-                res = 1247; 
+                res = 1247;
                 goto LProdVcRecordCheck;
               end;
             end;
