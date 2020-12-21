@@ -288,7 +288,7 @@ BEGIN
   LongInt sernr;
   LongInt oldnr,newnr;
   Boolean gentrans,relf;
-  Boolean transf;
+  Boolean transf, transf1;
   string 255 location,tstr;
   val t,prev,qty;
   Integer totoutlines,totoutrellines;
@@ -617,156 +617,169 @@ BEGIN
         rowno = i;
         goto LProdVcRecordCheck;
       end;
-      if ((Prodp.PRStatusFlag==3) or (Prodp.PRStatusFlag==5)) then begin
-        if ((INr.SerNrf>0) and (INr.SerNrf<3)) then begin
-          if (IsSerialNrCorrect(Prodrw.SerialNr)==false) then begin
-            extracom = Prodrw.SerialNr;
-            fieldnam = "SerialNr";
-            rowno = i;
-            res = 24154; 
-            goto LProdVcRecordCheck;
-          end;
-          if (MainStockRec.NoSerOnPU==0) then begin
-            if ((blank(Prodrw.SerialNr)) and (Prodrw.OutQty!=0)) then begin
-              fieldnam = "SerialNr";
-              rowno = i;
-              res = 1239; 
-              goto LProdVcRecordCheck;
-            end;
-          end;
-          if (Prodrw.InQty!=0) then begin  // check if ser nr. exists 
-            if (INr.SerNrf==1) then begin
-              if (blank(Prodp.Routing)) then begin
-                switch (Prodp.RowsHoldActualQty) begin
-                  case 1: prev = Prodrw.InQty;
-                  otherwise prev = Prodrw.InQty*Prodp.Qty;
-                end;
-                if (prev!=1) then begin
-                  fieldnam = "SerialNr";
-                  rowno = i;
-                  res = 1242; 
-                  goto LProdVcRecordCheck;
-                end;
-                for (j=0;j<i;j=j+1) begin
-                  MatRowGet(Prodp,j,Prod2rw);
-                  if ((Prodrw.Item==Prod2rw.Item) and (Prodrw.SerialNr==Prod2rw.SerialNr)) then begin
-                    fieldnam = "SerialNr";
-                    rowno = i;
-                    res = 1242; 
-                    goto LProdVcRecordCheck;
-                  end;
-                end;
-                switch (Prodp.RowsHoldActualQty) begin
-                  case 1: t = Prodrw.InQty;
-                  otherwise t = Prodrw.InQty*Prodp.Qty;
-                end;
-                if (SerialNrAvail(Prodrw.Item,Prodrw.SerialNr,location,t)==false) then begin
-                  fieldnam = "SerialNr";
-                  rowno = i;
-                  res = 1240; 
-                  goto LProdVcRecordCheck;
-                end;
-              end;
-            end else begin
-              prev = 0;
-              for (cnt=0;cnt<i;cnt=cnt+1) begin
-                MatRowGet(Prodp,cnt,Prod2rw);
-                if ((Prod2rw.Item==Prodrw.Item) and (Prod2rw.SerialNr==Prodrw.SerialNr)) then begin
-                  switch (Prodp.RowsHoldActualQty) begin
-                    case 1: prev = prev + Prod2rw.InQty;
-                    otherwise prev = prev + Prod2rw.InQty*Prodp.Qty;
-                  end;                  
-                end;
-              end;
-              switch (Prodp.RowsHoldActualQty) begin
-                case 1: prev = prev + Prodrw.InQty;
-                otherwise prev = prev + Prodrw.InQty*Prodp.Qty;
-              end;
-              if (blank(Prodp.Routing)) then begin
-                if (SerialNrAvail(Prodrw.Item,Prodrw.SerialNr,location,prev)==false) then begin
-                  fieldnam = "SerialNr";
-                  rowno = i;
-                  res = 1240; 
-                  goto LProdVcRecordCheck;
-                end;
-              end;
-            end;   
-            if (INr.SerNrf==1) then begin              
-              switch (Prodp.RowsHoldActualQty) begin
-                case 1: t = Prodrw.InQty;
-                otherwise t = Prodrw.InQty*Prodp.Qty;
-              end;      
-              if (t!=1) then begin
-                RecordCheckError(1242,"",i,"SerialNr");      
-                fieldnam = "SerialNr";
-                rowno = i;
-                res = 1240; 
-                goto LProdVcRecordCheck;
-              end;
-              if (blank(Prodp.Routing)) then begin
-                if (SerialNrAvail(Prodrw.Item,Prodrw.SerialNr,location,t)==false) then begin
-                  fieldnam = "SerialNr";
-                  rowno = i;
-                  res = 1240; 
-                  goto LProdVcRecordCheck;
-                end;
-              end;
-            end;
-          end;
-          if (Prodrw.OutQty!=0) then begin  // check if ser nr. exists 
-            if (INr.SerNrf==1) then begin // serial nr checking 
-//              if (Prodrw.InQty>0) then begin
-//              if (SerialNrAvail(Prodrw.Item,Prodrw.SerialNr,Prodp.Location,Prodrw.InQty)==true) then begin
-              if (SerialNrAvail2(Prodrw.Item,Prodrw.SerialNr,1)==true) then begin //We cannot produce a item if at least one exists in stock            
-                fieldnam = "SerialNr";
-                rowno = i;
-                res = 1241; 
-                goto LProdVcRecordCheck;
-              end;
-//            end;
-              if (MainStockRec.NoSerOnPU==0) then begin   
-                switch (Prodp.RowsHoldActualQty) begin
-                  case 1: t = Prodrw.OutQty;
-                  otherwise t = Prodrw.OutQty*Prodp.Qty;
-                end;      
-                if (t!=1) then begin
-                  fieldnam = "SerialNr";
-                  rowno = i;
-                  res = 1242; 
-                  goto LProdVcRecordCheck;
-                end;
-              end;
-            end;
-          end;
-        end;
-        if (check>0) then begin
-        if (MainStockRec.dontAllowOvership==1) then begin
-          if (Prodrw.InQty!=0) then begin
-            if (INr.ItemType==1) and (blank(Prodp.Routing)) then begin
-              qty = 0;
-              for (j=0;j<i;j=j+1) begin
-                MatRowGet(Prodp,j,Prod2rw);
-                if (Prod2rw.Item==Prodrw.Item) then begin                  
-                  switch (Prodp.RowsHoldActualQty) begin
-                    case 1: qty = qty + Prod2rw.InQty;
-                    otherwise qty = qty + Prod2rw.InQty*Prodp.Qty;
-                  end;      
-                end;
-              end;
-              switch (Prodp.RowsHoldActualQty) begin
-                case 1: qty = qty + Prodrw.InQty;
-                otherwise qty = qty + Prodrw.InQty*Prodp.Qty;
-              end;                    
-              FindStockValue(Prodrw.Item,location,ISr);
-              if (ISr.Instock<qty) then begin
-                fieldnam = "InQty";
-                rowno = i;
-                res = 1247; 
-                goto LProdVcRecordCheck;
-              end;
-            end;
-          end;
-        end;
+	    // by Ira
+		transf1 = true;
+	    if (stat==insertmode) then begin
+			if (Prod2p.PRStatusFlag!=3) and (Prod2p.PRStatusFlag!=5) then begin
+				transf1 = false;
+			end;
+		if (stat==updatemode) then begin
+			if ((Prodp.PRStatusFlag==3 and Prod2p.PRStatusFlag!=3) or (Prodp.PRStatusFlag==5 and Prod2p.PRStatusFlag!=5)) then begin
+				transf1 = false;
+			end;
+		end;
+		if(transf1)then begin  // by Ira
+		  if ((Prodp.PRStatusFlag==3) or (Prodp.PRStatusFlag==5)) then begin
+			if ((INr.SerNrf>0) and (INr.SerNrf<3)) then begin
+			  if (IsSerialNrCorrect(Prodrw.SerialNr)==false) then begin
+				extracom = Prodrw.SerialNr;
+				fieldnam = "SerialNr";
+				rowno = i;
+				res = 24154; 
+				
+				goto LProdVcRecordCheck;
+			  end;
+			  if (MainStockRec.NoSerOnPU==0) then begin
+				if ((blank(Prodrw.SerialNr)) and (Prodrw.OutQty!=0)) then begin
+				  fieldnam = "SerialNr";
+				  rowno = i;
+				  res = 1239; 
+				  goto LProdVcRecordCheck;
+				end;
+			  end;
+			  if (Prodrw.InQty!=0) then begin  // check if ser nr. exists 
+				if (INr.SerNrf==1) then begin
+				  if (blank(Prodp.Routing)) then begin
+					switch (Prodp.RowsHoldActualQty) begin
+					  case 1: prev = Prodrw.InQty;
+					  otherwise prev = Prodrw.InQty*Prodp.Qty;
+					end;
+					if (prev!=1) then begin
+					  fieldnam = "SerialNr";
+					  rowno = i;
+					  res = 1242; 
+					  goto LProdVcRecordCheck;
+					end;
+					for (j=0;j<i;j=j+1) begin
+					  MatRowGet(Prodp,j,Prod2rw);
+					  if ((Prodrw.Item==Prod2rw.Item) and (Prodrw.SerialNr==Prod2rw.SerialNr)) then begin
+						fieldnam = "SerialNr";
+						rowno = i;
+						res = 1242; 
+						goto LProdVcRecordCheck;
+					  end;
+					end;
+					switch (Prodp.RowsHoldActualQty) begin
+					  case 1: t = Prodrw.InQty;
+					  otherwise t = Prodrw.InQty*Prodp.Qty;
+					end;
+					if (SerialNrAvail(Prodrw.Item,Prodrw.SerialNr,location,t)==false) then begin
+					  fieldnam = "SerialNr";
+					  rowno = i;
+					  res = 1240; 
+					  goto LProdVcRecordCheck;
+					end;
+				  end;
+				end else begin
+				  prev = 0;
+				  for (cnt=0;cnt<i;cnt=cnt+1) begin
+					MatRowGet(Prodp,cnt,Prod2rw);
+					if ((Prod2rw.Item==Prodrw.Item) and (Prod2rw.SerialNr==Prodrw.SerialNr)) then begin
+					  switch (Prodp.RowsHoldActualQty) begin
+						case 1: prev = prev + Prod2rw.InQty;
+						otherwise prev = prev + Prod2rw.InQty*Prodp.Qty;
+					  end;                  
+					end;
+				  end;
+				  switch (Prodp.RowsHoldActualQty) begin
+					case 1: prev = prev + Prodrw.InQty;
+					otherwise prev = prev + Prodrw.InQty*Prodp.Qty;
+				  end;
+				  if (blank(Prodp.Routing)) then begin
+					if (SerialNrAvail(Prodrw.Item,Prodrw.SerialNr,location,prev)==false) then begin
+					  fieldnam = "SerialNr";
+					  rowno = i;
+					  res = 1240; 
+					  goto LProdVcRecordCheck;
+					end;
+				  end;
+				end;   
+				if (INr.SerNrf==1) then begin              
+				  switch (Prodp.RowsHoldActualQty) begin
+					case 1: t = Prodrw.InQty;
+					otherwise t = Prodrw.InQty*Prodp.Qty;
+				  end;      
+				  if (t!=1) then begin
+					RecordCheckError(1242,"",i,"SerialNr");      
+					fieldnam = "SerialNr";
+					rowno = i;
+					res = 1240; 
+					goto LProdVcRecordCheck;
+				  end;
+				  if (blank(Prodp.Routing)) then begin
+					if (SerialNrAvail(Prodrw.Item,Prodrw.SerialNr,location,t)==false) then begin
+					  fieldnam = "SerialNr";
+					  rowno = i;
+					  res = 1240; 
+					  goto LProdVcRecordCheck;
+					end;
+				  end;
+				end;
+			  end;
+			  if (Prodrw.OutQty!=0) then begin  // check if ser nr. exists 
+				if (INr.SerNrf==1) then begin // serial nr checking 
+	//              if (Prodrw.InQty>0) then begin
+	//              if (SerialNrAvail(Prodrw.Item,Prodrw.SerialNr,Prodp.Location,Prodrw.InQty)==true) then begin
+				  if (SerialNrAvail2(Prodrw.Item,Prodrw.SerialNr,1)==true) then begin //We cannot produce a item if at least one exists in stock            
+					fieldnam = "SerialNr";
+					rowno = i;
+					res = 1241; 
+					goto LProdVcRecordCheck;
+				  end;
+	//            end;
+				  if (MainStockRec.NoSerOnPU==0) then begin   
+					switch (Prodp.RowsHoldActualQty) begin
+					  case 1: t = Prodrw.OutQty;
+					  otherwise t = Prodrw.OutQty*Prodp.Qty;
+					end;      
+					if (t!=1) then begin
+					  fieldnam = "SerialNr";
+					  rowno = i;
+					  res = 1242; 
+					  goto LProdVcRecordCheck;
+					end;
+				  end;
+				end;
+			  end;
+			end;
+			if (check>0) then begin
+			if (MainStockRec.dontAllowOvership==1) then begin
+			  if (Prodrw.InQty!=0) then begin
+				if (INr.ItemType==1) and (blank(Prodp.Routing)) then begin
+				  qty = 0;
+				  for (j=0;j<i;j=j+1) begin
+					MatRowGet(Prodp,j,Prod2rw);
+					if (Prod2rw.Item==Prodrw.Item) then begin                  
+					  switch (Prodp.RowsHoldActualQty) begin
+						case 1: qty = qty + Prod2rw.InQty;
+						otherwise qty = qty + Prod2rw.InQty*Prodp.Qty;
+					  end;      
+					end;
+				  end;
+				  switch (Prodp.RowsHoldActualQty) begin
+					case 1: qty = qty + Prodrw.InQty;
+					otherwise qty = qty + Prodrw.InQty*Prodp.Qty;
+				  end;                    
+				  FindStockValue(Prodrw.Item,location,ISr);
+				  if (ISr.Instock<qty) then begin
+					fieldnam = "InQty";
+					rowno = i;
+					res = 1247; 
+					goto LProdVcRecordCheck;
+				  end;
+				end;
+			  end;
+			end;
         end;
         if (MainStockRec.requireLocation!=0) then begin
           if (blank(Prodp.Location)) then begin
@@ -777,7 +790,9 @@ BEGIN
           end;
         end;
       end;
-    end else begin
+	  end;
+		end;  // by Ira
+	end else begin
       if (Prodrw.InQty!=0) then begin
         fieldnam = "Item";
         rowno = i;
@@ -792,6 +807,7 @@ BEGIN
       end;
     end;
   end;
+
   if (Prodp.PRStatusFlag==3) then begin
     if (totoutlines>0) then begin
       if (Prodp.Disassemble==0) then begin
