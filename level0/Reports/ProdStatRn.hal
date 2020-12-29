@@ -8,6 +8,7 @@ begin
   row ProdVc Prodrw;
   boolean TrHs, testf,foundf;
   integer rwcnt,i;
+  integer sign;
   
   Prodr.Recepy = recepy;
 
@@ -41,14 +42,35 @@ begin
       if (Prodr.PRStatusFlag <> 3) then begin
         testf = false;
       end;
-      
-      if(nonblank(RepSpec.f7))then begin
+	  
+	  // by Ira
+	  sign = 1;
+      if(testf)then begin
+		rwcnt = matrowcnt(Prodr);
+		for(i=0;i<rwcnt;i=i+1)begin
+		    matrowget(Prodr,i,Prodrw);
+			if(Prodrw.Item == Prodr.Recepy) then begin
+				if(Prodrw.InQty > 0) then begin
+					sign = -1;
+				end;
+			end;
+		end;
+	   end;
+	   RepSpec.vals1 = blankval;
+	   RepSpec.vals2 = blankval;
+	  if(nonblank(RepSpec.f7))then begin
 				if(testf)then begin
 					foundf = false;
 					rwcnt = matrowcnt(Prodr);
 					for(i=0;i<rwcnt;i=i+1)begin
 						matrowget(Prodr,i,Prodrw);
 						if(Prodrw.Item==RepSpec.f7)then begin
+							RepSpec.vals1 = Prodrw.ItemCost;
+							if(Prodrw.OutQty > 0) then begin
+								RepSpec.vals2 = Prodrw.ItemCost * Prodr.Qty * Prodrw.OutQty;
+							end else begin
+								RepSpec.vals2 = Prodrw.ItemCost * Prodr.Qty * Prodrw.InQty;
+							end;
 							foundf = true;
 						end;
 					end;
@@ -78,7 +100,7 @@ begin
        end;
        if (testf) then begin
        		RepSpec.vals0 = RepSpec.vals0 + Prodrw.InQty*Prodr.Qty - Prodrw.OutQty*Prodr.Qty;
-         	qty  = qty + Prodr.Qty;
+         	qty  = qty + Prodr.Qty * sign;  // by Ira
         	weight = weight + Prodr.TotOutWeight;
        end;
       end;
@@ -132,8 +154,13 @@ begin
   OutString(80,0,USetStr(15156),false);
   OutString(100,0,USetStr(15157),false);
   OutString(340,0,"Сотрудник",false);        // by Ira
-  OutString(430,0,USetStr(15158),true);
-  OutString(1,0,USetStr(15159),true);
+  OutString(400,0,USetStr(15158),true);
+  if (nonblank(RepSpec.f7)) then begin
+	 OutString(440,0,"Цена",true);
+	 OutString(1,0,"Сумма",true);
+  end else begin
+	OutString(1,0,USetStr(15159),true);
+  end;
   EndFormat;
   Gray_Divider(0,1);
   TrHs = true;
@@ -164,14 +191,18 @@ begin
           OutString(100,0,Recr.Comment,false);
 			
 		  OutString(340,0,client,false);                      // by Ira
-		  
+		  OutVal(400,0,qty,M40Val,true);
           if(nonblank(RepSpec.f7))then begin
-          	OutString(300,0,RepSpec.f7,false);
-          	OutVal(400,0,RepSpec.vals0,M40Val,true);
-          	totitemval = totitemval + RepSpec.vals0;
-          end;
-          OutVal(430,0,qty,M40Val,true);
-          OutVal(1,0,weight,M4Val,true);
+   //       	OutString(300,0,RepSpec.f7,false);
+    //      	OutVal(430,0,RepSpec.vals0,M40Val,true);
+				OutVal(440,0,RepSpec.vals1,M45Val,true);
+				OutVal(1,0,RepSpec.vals2,M45Val,true);
+				totitemval = totitemval + RepSpec.vals0;
+          end else begin
+			OutVal(1,0,weight,M4Val,true);
+		  end;
+          
+          
           EndFormat;
           tqty = tqty + qty;
           tweight = tweight + weight;

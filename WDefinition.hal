@@ -4431,16 +4431,18 @@ begin
   RecordList(4,17,-21,-39);
   RlColKey(4,4,  "Номер",SerNr,false,SerNr);
   RlColKey(51,51,"Структ.",Recepy,false,Recepy);
-  RlCol(230,230,"Кол.",Qty,false);
-  RlColKey(280,280,"Статус",DoneFlag,false,PRStatusFlag);
-  RlColKey(321,321,"Дата нач.",StartDate,false,StartDate);
-  RlColKey(395,395,"Дата пр.",ProdDate,false,ProdDate);
-  
+  RlCol(180,180,"Наим.",RecName,false);  // by Ira
+  RlCol(515,515,"Кол.",Qty,false);
+  RlColKey(550,550,"Склад",Location,false,LocOK);  // by Ira
+  RlColKey(595,595,"Статус",DoneFlag,false,PRStatusFlag);
+  RlColKey(630,630,"Дата нач.",StartDate,false,StartDate);
+  RlColKey(700,700,"Дата пр.",ProdDate,false,ProdDate);
+
   if (StandardHansa==false) then begin
     //RlColKey(-55,-55,"Класс",ProdClass,false,ProdClass);
   end;
-  RlColKey(471,471,"Сотр.",Person,false,Person);
-  RlColKey(510,510,"Комментарий",Comment,false,Comment);
+  RlColKey(770,770,"Сотр.",Person,false,Person);
+  RlColKey(810,810,"Комментарий",Comment,false,Comment);
   SearchField("Поиск");
 //  SpecMenuItem("Finish",' ',0); no code
   SpecMenuGroup("",kSpecMenuGroupTypeExtendedPlusMenu,0);         

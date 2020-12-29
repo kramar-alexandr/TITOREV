@@ -470,6 +470,12 @@ BEGIN
     res = 20851; 
     goto LProdVcRecordCheck;
   end;
+  if (blank(Prodp.Location)) then begin
+    extracom = Prodp.Location;
+    fieldnam = "Location";
+    res = 1058; 
+    goto LProdVcRecordCheck;
+   end;
   if (nonblank(location)) then begin
     Locr.Code = location;
     if (ReadFirstMain(Locr,1,true)==false) then begin
@@ -484,7 +490,7 @@ BEGIN
       res = 1748; 
       goto LProdVcRecordCheck;
     end;
-  end;  
+  end;
   if (nonblank(Prodp.ProdClass)) then begin
     ProdClassr.Code = Prodp.ProdClass;
     if (ReadFirstMain(ProdClassr,1,true)==false) then begin
