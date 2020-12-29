@@ -63,10 +63,9 @@ begin
 					for(i=0;i<rwcnt;i=i+1)begin
 						matrowget(Prodr,i,Prodrw);
 						if(Prodrw.Item==RepSpec.f7)then begin
-							
 							if(Prodrw.OutQty > 0) then begin
 								RepSpec.vals2 = RepSpec.vals2 + Prodrw.ItemCost * Prodr.Qty * Prodrw.OutQty;
-								RepSpec.vals1 = RepSpec.vals1 + Prodr.Qty * Prodrw.OutQt;
+								RepSpec.vals1 = RepSpec.vals1 + Prodr.Qty * Prodrw.OutQty;
 							end else begin
 								RepSpec.vals2 = RepSpec.vals2 + Prodrw.ItemCost * Prodr.Qty * Prodrw.InQty;
 								RepSpec.vals1 = RepSpec.vals1 + Prodr.Qty * Prodrw.InQty;
