@@ -56,8 +56,6 @@ begin
 			end;
 		end;
 	   end;
-	   RepSpec.vals1 = blankval;
-	   RepSpec.vals2 = blankval;
 	  if(nonblank(RepSpec.f7))then begin
 				if(testf)then begin
 					foundf = false;
@@ -179,6 +177,8 @@ begin
         qty = 0;
         weight = 0;
         RepSpec.vals0 = blankval;
+        RepSpec.vals1 = blankval;
+				RepSpec.vals2 = blankval;
         FindTransactions(RepSpec,Recr.Code,qty,weight,t1,t2,client);
         if (qty <> 0) then begin
           StartFormat(15);
