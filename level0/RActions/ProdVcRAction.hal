@@ -499,6 +499,7 @@ BEGIN
       goto LProdVcRecordCheck;
     end;
   end;
+  //messagebox(0,"3");
   for (i = 0;i<rwcnt;i=i+1) begin
     MatRowGet(Prodp,i,Prodrw);
     if (nonblank(Prodrw.Item)) then begin
@@ -589,6 +590,7 @@ BEGIN
           inqtyf = true;
         end;
       end;
+      
       if (Prodrw.InQty<0) then begin
         fieldnam = "InQty";
         rowno = i;
@@ -625,10 +627,11 @@ BEGIN
       end;
 	    // by Ira
 		transf1 = true;
-	    if (stat==insertmode) then begin
+	  if (stat==insertmode) then begin
 			if (Prod2p.PRStatusFlag!=3) and (Prod2p.PRStatusFlag!=5) then begin
 				transf1 = false;
 			end;
+		end;
 		if (stat==updatemode) then begin
 			if ((Prodp.PRStatusFlag==3 and Prod2p.PRStatusFlag==3) or (Prodp.PRStatusFlag==5 and Prod2p.PRStatusFlag==5)) then begin
 				transf1 = false;
@@ -797,7 +800,6 @@ BEGIN
         end;
       end;
 	  end;
-		end;  // by Ira
 	end else begin
       if (Prodrw.InQty!=0) then begin
         fieldnam = "Item";
