@@ -630,7 +630,7 @@ BEGIN
 				transf1 = false;
 			end;
 		if (stat==updatemode) then begin
-			if ((Prodp.PRStatusFlag==3 and Prod2p.PRStatusFlag!=3) or (Prodp.PRStatusFlag==5 and Prod2p.PRStatusFlag!=5)) then begin
+			if ((Prodp.PRStatusFlag==3 and Prod2p.PRStatusFlag==3) or (Prodp.PRStatusFlag==5 and Prod2p.PRStatusFlag==5)) then begin
 				transf1 = false;
 			end;
 		end;
