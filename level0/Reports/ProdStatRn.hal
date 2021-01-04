@@ -114,7 +114,7 @@ begin
   record RecVc Recr;
   record INVc INr;
   boolean TrHs, testf;
-  val qty, weight;
+  val qty, weight, sum;
   val tqty, tweight,totitemval;
   string 255 tstr;
   integer rw,rwcnt,i;
@@ -155,6 +155,7 @@ begin
   OutString(340,0,"Сотрудник",false);        // by Ira
   OutString(400,0,USetStr(15158),true);
   if (nonblank(RepSpec.f7)) then begin
+	sum = 0;
 	 OutString(440,0,"Цена",true);
 	 OutString(1,0,"Сумма",true);
   end else begin
@@ -198,6 +199,7 @@ begin
     //      	OutVal(430,0,RepSpec.vals0,M40Val,true);
 				OutVal(440,0,RepSpec.vals2/RepSpec.vals1,M45Val,true);
 				OutVal(1,0,RepSpec.vals2,M45Val,true);
+				sum = sum + RepSpec.vals2;
 				totitemval = totitemval + RepSpec.vals0;
           end else begin
 			OutVal(1,0,weight,M4Val,true);
@@ -213,6 +215,18 @@ begin
    
   end;
   Gray_Divider(0,1);
+  if(nonblank(RepSpec.f7)) then begin
+   StartFormat(15);
+    OutString(370,0,USetStr(15160) & " " & RepSpec.f7,true);
+	OutVal(400,0,totitemval,M40Val,true);
+	OutString(430,0,"Cума",true);
+	OutVal(480,0,sum,M45Val,true);
+	EndFormat;
+	StartFormat(15);
+  OutString(370,0,USetStr(15161),true);
+	OutVal(400,0,tweight,M40Val,true);
+   EndFormat;
+  end else begin
   StartFormat(15);
   OutString(400,0,USetStr(15160),true);
   OutVal(1,0,tqty,M40Val,true);
@@ -221,14 +235,15 @@ begin
   OutString(400,0,USetStr(15161),true);
   OutVal(1,0,tweight,M40Val,true);
   EndFormat;
-  
+	end;
+	/*
   if(nonblank(RepSpec.f7))then begin
   	StartFormat(15);
 		OutString(400,0,USetStr(15160) & " " & RepSpec.f7,true);
 		OutVal(1,0,totitemval,M40Val,true);
 		EndFormat;
   end;
-  
+  */
   EndJob;
   Return;
 end;
