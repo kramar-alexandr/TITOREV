@@ -112,7 +112,7 @@ begin
   end;
 	GetVectorTags(clInOut,tags);
 	for (i=0;i<tags.length;i=i+1) begin
-		if (clInOut[tags[i]] > 0 and !SetInSet(tags[i],client)) then begin
+		if (clInOut[tags[i]] > 0 and nonblank(tags[i]) and !SetInSet(tags[i],client)) then begin
 			if (nonblank(client)) then begin client = client & ","; end;
 			client = client & Prodr.Person;
 		end;
