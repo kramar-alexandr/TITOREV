@@ -13,7 +13,7 @@ begin
 	array string 255 tags;
   
   Prodr.Recepy = recepy;
-
+	client = "";
   TrHs = true;
   while (LoopKey("Recepy",Prodr,1,TrHs)) begin
     if (TrHs) then begin
