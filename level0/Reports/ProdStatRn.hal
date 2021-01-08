@@ -27,11 +27,6 @@ begin
 			end else begin
 				client = RepSpec.f9;
 			end;
-		end else begin
-			if (nonblank(Prodr.Person) and !SetInSet(Prodr.Person,client)) then begin
-				if (nonblank(client)) then begin client = client & ","; end;
-				client = client & Prodr.Person;
-			end;
 		end;
 		// by Ira
       if (nonblank(RepSpec.f4)) then begin
@@ -104,6 +99,10 @@ begin
        		RepSpec.vals0 = RepSpec.vals0 + Prodrw.InQty*Prodr.Qty - Prodrw.OutQty*Prodr.Qty;
          	qty  = qty + Prodr.Qty * sign;  // by Ira
         	weight = weight + Prodr.TotOutWeight;
+					if (nonblank(Prodr.Person) and !SetInSet(Prodr.Person,client)) then begin
+						if (nonblank(client)) then begin client = client & ","; end;
+						client = client & Prodr.Person;
+				end;
        end;
       end;
     end;  
