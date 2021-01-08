@@ -23,13 +23,13 @@ begin
     end;
     if (TrHs) then begin
       testf = true;
-		if (nonblank(RepSpec.f9)) then begin                 // by Ira
-			if (Prodr.Person != RepSpec.f9) then begin			// by Ira
-				testf = false;
-			end else begin
-				client = RepSpec.f9;
+			if (nonblank(RepSpec.f9)) then begin                 // by Ira
+				if (Prodr.Person != RepSpec.f9) then begin			// by Ira
+					testf = false;
+				end else begin
+					client = RepSpec.f9;
+				end;
 			end;
-		end;
 		// by Ira
       if (nonblank(RepSpec.f4)) then begin
         if (Prodr.FixAssCode <> RepSpec.f4) then begin
@@ -44,38 +44,38 @@ begin
       end;
 	  
 	  // by Ira
-	  sign = 1;
-      if(testf)then begin
-		rwcnt = matrowcnt(Prodr);
-		for(i=0;i<rwcnt;i=i+1)begin
-		    matrowget(Prodr,i,Prodrw);
-			if(Prodrw.Item == Prodr.Recepy) then begin
-				if(Prodrw.InQty > 0) then begin
-					sign = -1;
-				end;
-			end;
-		end;
-	   end;
-	  if(nonblank(RepSpec.f7))then begin
+			sign = 1;
 				if(testf)then begin
-					foundf = false;
-					rwcnt = matrowcnt(Prodr);
-					for(i=0;i<rwcnt;i=i+1)begin
-						matrowget(Prodr,i,Prodrw);
-						if(Prodrw.Item==RepSpec.f7)then begin
-							if(Prodrw.OutQty > 0) then begin
-								RepSpec.vals2 = RepSpec.vals2 + Prodrw.ItemCost * Prodr.Qty * Prodrw.OutQty;
-								RepSpec.vals1 = RepSpec.vals1 + Prodr.Qty * Prodrw.OutQty;
-							end else begin
-								RepSpec.vals2 = RepSpec.vals2 + Prodrw.ItemCost * Prodr.Qty * Prodrw.InQty;
-								RepSpec.vals1 = RepSpec.vals1 + Prodr.Qty * Prodrw.InQty;
-							end;
-							foundf = true;
-						end;
+			rwcnt = matrowcnt(Prodr);
+			for(i=0;i<rwcnt;i=i+1)begin
+					matrowget(Prodr,i,Prodrw);
+				if(Prodrw.Item == Prodr.Recepy) then begin
+					if(Prodrw.InQty > 0) then begin
+						sign = -1;
 					end;
 				end;
-				testf = foundf;
-      end;
+			end;
+	  end;
+	  if(nonblank(RepSpec.f7) and testf)then begin
+			foundf = false;
+			if(testf)then begin
+				rwcnt = matrowcnt(Prodr);
+				for(i=0;i<rwcnt;i=i+1)begin
+					matrowget(Prodr,i,Prodrw);
+					if(Prodrw.Item==RepSpec.f7)then begin
+						if(Prodrw.OutQty > 0) then begin
+							RepSpec.vals2 = RepSpec.vals2 + Prodrw.ItemCost * Prodr.Qty * Prodrw.OutQty;
+							RepSpec.vals1 = RepSpec.vals1 + Prodr.Qty * Prodrw.OutQty;
+						end else begin
+							RepSpec.vals2 = RepSpec.vals2 + Prodrw.ItemCost * Prodr.Qty * Prodrw.InQty;
+							RepSpec.vals1 = RepSpec.vals1 + Prodr.Qty * Prodrw.InQty;
+						end;
+						foundf = true;
+					end;
+				end;
+			end;
+			testf = foundf;
+		end;
       
      if (testf) then begin
        if (nonblank(RepSpec.f5)) and (nonblank(RepSpec.f6)) then begin
