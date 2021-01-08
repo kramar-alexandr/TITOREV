@@ -28,7 +28,8 @@ begin
 				client = RepSpec.f9;
 			end;
 		end else begin
-			client = Prodr.Person;
+			if (nonblank(client)) then begin client = client & ","; end;
+			client = client & Prodr.Person;
 		end;
 		// by Ira
       if (nonblank(RepSpec.f4)) then begin
