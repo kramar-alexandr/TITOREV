@@ -99,7 +99,7 @@ begin
        		RepSpec.vals0 = RepSpec.vals0 + Prodrw.InQty*Prodr.Qty - Prodrw.OutQty*Prodr.Qty;
          	qty  = qty + Prodr.Qty * sign;  // by Ira
         	weight = weight + Prodr.TotOutWeight;
-					if (Prodr.Qty > 0 and nonblank(Prodr.Person) and !SetInSet(Prodr.Person,client)) then begin
+					if (RepSpec.vals0 > 0 and nonblank(Prodr.Person) and !SetInSet(Prodr.Person,client)) then begin
 						if (nonblank(client)) then begin client = client & ","; end;
 						client = client & Prodr.Person;
 				end;
