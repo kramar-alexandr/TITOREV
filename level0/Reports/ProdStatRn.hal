@@ -28,8 +28,10 @@ begin
 				client = RepSpec.f9;
 			end;
 		end else begin
-			if (nonblank(client)) then begin client = client & ","; end;
-			client = client & Prodr.Person;
+			if (nonblank(Prodr.Person) and !SetInSet(Prodr.Person,client)) then begin
+				if (nonblank(client)) then begin client = client & ","; end;
+				client = client & Prodr.Person;
+			end;
 		end;
 		// by Ira
       if (nonblank(RepSpec.f4)) then begin
