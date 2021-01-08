@@ -9,6 +9,8 @@ begin
   boolean TrHs, testf,foundf;
   integer rwcnt,i;
   integer sign;
+	vector val clInOut;
+	array string 255 tags;
   
   Prodr.Recepy = recepy;
 
@@ -96,17 +98,25 @@ begin
          end;
        end;
        if (testf) then begin
-       		RepSpec.vals0 = RepSpec.vals0 + Prodrw.InQty*Prodr.Qty - Prodrw.OutQty*Prodr.Qty;
-         	qty  = qty + Prodr.Qty * sign;  // by Ira
-        	weight = weight + Prodr.TotOutWeight;
-					if (RepSpec.vals0 > 0 and nonblank(Prodr.Person) and !SetInSet(Prodr.Person,client)) then begin
-						if (nonblank(client)) then begin client = client & ","; end;
-						client = client & Prodr.Person;
-				end;
+				RepSpec.vals0 = RepSpec.vals0 + Prodrw.InQty*Prodr.Qty - Prodrw.OutQty*Prodr.Qty;
+				qty  = qty + Prodr.Qty * sign;  // by Ira
+				weight = weight + Prodr.TotOutWeight;
+				clInOut[Prodr.Person] = clInOut[Prodr.Person] + Prodr.Qty;
+				// if (RepSpec.vals0 > 0 and nonblank(Prodr.Person) and !SetInSet(Prodr.Person,client)) then begin
+					// if (nonblank(client)) then begin client = client & ","; end;
+					// client = client & Prodr.Person;
+				// end;
        end;
       end;
     end;  
   end;
+	GetVectorTags(clInOut,tags);
+	for (i=0;i<tags.length;i=i+1) begin
+		if (clInOut[tags[i]] > 0 and !SetInSet(tags[i],client)) then begin
+			if (nonblank(client)) then begin client = client & ","; end;
+			client = client & Prodr.Person;
+		end;
+	end;
   return;
 end; 
 
