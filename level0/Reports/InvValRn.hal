@@ -722,17 +722,17 @@ BEGIN
             OutStringID(2,"DblINVc",lINr.Name,false,INp.Code);
           end else begin
             OutStringID(2,"DblINVc",INp.Name,false,INp.Code);
-						if(RepSpec.Media==mtExcel) then begin
+						if(RepSpec.Media==mtExcel or RepSpec.Media==mtClipBoard) then begin
 							if(RepSpec.flags[26]==1) then begin //  by Ira
-								OutString(3,0,INp.Weight,false);
+								OutVal(3,0,INp.Weight,M45Val,false);
 							end;
 							if(RepSpec.flags[27]==1) then begin //  by Ira
-								OutString(3,0,INp.Density,false);
+								OutVal(3,0,INp.Volume,M45Val,false);
 							end;
 							if(RepSpec.flags[28]==1) then begin //  by Ira
-								OutString(3,0,INp.Width,false);
-								OutString(3,0,INp.Height,false);
-								OutString(3,0,INp.Depth,false);
+								OutVal(3,0,INp.Width,M45Val,false);
+								OutVal(3,0,INp.Height,M45Val,false);
+								OutVal(3,0,INp.Depth,M45Val,false);
 							end;
 						end;
           end;
@@ -1857,7 +1857,7 @@ begin
       OutString(0,0,USetStr(2325),false);
       OutString(2,0,USetStr(2326),false);
 			
-			if(RepSpec.Media==mtExcel) then begin
+			if(RepSpec.Media==mtExcel or RepSpec.Media==mtClipBoard) then begin
 				if(RepSpec.flags[26]==1) then begin  //  by Ira
 					OutString(3,0,"Вес",false);
 				end;

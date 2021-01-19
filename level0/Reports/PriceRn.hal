@@ -496,17 +496,17 @@ begin
       StartFormat(15);
       OutString(0,"DblINVc",artcode,false);
       OutString(2,0,namestr,false);
-			if(RepSpec.Media==mtExcel) then begin
+			if(RepSpec.Media==mtExcel or RepSpec.Media==mtClipBoard) then begin
 				if(RepSpec.flags[16]==1) then begin //  by Ira
-					OutString(3,0,INr.Weight,false);
+					OutVal(3,0,INr.Weight,M45Val,false);
 				end;
 				if(RepSpec.flags[17]==1) then begin //  by Ira
-					OutString(3,0,INr.Density,false);
+					OutVal(3,0,INr.Volume,M45Val,false);
 				end;
 				if(RepSpec.flags[18]==1) then begin //  by Ira
-					OutString(3,0,INr.Width,false);
-					OutString(3,0,INr.Height,false);
-					OutString(3,0,INr.Depth,false);
+					OutVal(3,0,INr.Width,M45Val,false);
+					OutVal(3,0,INr.Height,M45Val,false);
+					OutVal(3,0,INr.Depth,M45Val,false);
 				end;
 			end;
 			if(RepSpec.flags[11]==0)then begin
@@ -1047,7 +1047,7 @@ begin
   if (RepSpec.flags[3]==0) then begin
     OutString(0,0,USetStr(2325),false);
     OutString(2,0,USetStr(2326),false);
-		if(RepSpec.Media==mtExcel) then begin
+		if(RepSpec.Media==mtExcel or RepSpec.Media==mtClipBoard) then begin
 			if(RepSpec.flags[16]==1) then begin  //  by Ira
 				OutString(3,0,"Вес",false);
 			end;
