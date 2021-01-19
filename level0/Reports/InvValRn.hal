@@ -1859,15 +1859,15 @@ begin
 			
 			if(RepSpec.Media==mtExcel or RepSpec.Media==mtClipBoard) then begin
 				if(RepSpec.flags[26]==1) then begin  //  by Ira
-					OutString(3,0,"Вес",false);
+					OutString(3,0,"Вес кг",false);
 				end;
 				if(RepSpec.flags[27]==1) then begin		//  by Ira
-					OutString(3,0,"Объем",false);
+					OutString(3,0,"Объем м3",false);
 				end;
 				if(RepSpec.flags[28]==1) then begin   //  by Ira
-					OutString(3,0,"Ширина",false);
-					OutString(3,0,"Высота",false);
-					OutString(3,0,"Глубина",false);
+					OutString(3,0,"Ширина м ",false);
+					OutString(3,0,"Высота м ",false);
+					OutString(3,0,"Глубина м",false);
 				end;
 			end;
 			
