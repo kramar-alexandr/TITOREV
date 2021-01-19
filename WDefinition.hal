@@ -5405,7 +5405,7 @@ begin
     RadioButton(h3,v+=16,1,0,"Суммировано",flags[19]);
     RadioButton(h3,v+=16,2,0,"Раздельно",flags[19]);
   end;
-  ButtonFrame(h4,v=vm,123,5,"Сортировать по");
+  ButtonFrame(h4,v=vm+20,123,5,"Сортировать по");
   RadioButton(h4,v,0,0,"Номеру",flags[2]);
   if (HasItemGroups) then begin
     RadioButton(h4,v+=16,1,0,"Группе",flags[2]);
