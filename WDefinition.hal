@@ -3852,6 +3852,9 @@ begin
   CheckBox(h,v+=16, 70,"Показать стоимость",flags[13]);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:15:20
 	CheckBox(h,v+=16, 70,"Показать % стоимости",flags[14]);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 15 06 2020 y. at 2:59:40 PM
 	CheckBox(h,v+=16, 70,"Показать щтрих-код",flags[15]);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 02 09 2020 y. at 10:41:40 AM
+	CheckBox(h,v+=16, 70,"Показать вес (Excel)",flags[16]);//	by Ira
+	CheckBox(h,v+=16, 70,"Показать объем (Excel)",flags[17]);//	by Ira
+	CheckBox(h,v+=16, 70,"Показать габариты (Excel)",flags[18]);//		by Ira
  v = vm;
 	CheckBox(h2=200,v,0,"Пок-ть варианты",flags[7]);
 	v = v + 16;
@@ -5327,7 +5330,7 @@ begin
   h = 160; v = 6; vs = 20; h2 = 30; h3 = 180; h4 = 330;
 
   if (IsEnterprise) then begin
-    SetWRect(20,80,580,470);
+    SetWRect(20,80,580,575);
     Tile(0,40,false,"",f1);
     h4 = 330;
   end else begin
@@ -5438,9 +5441,14 @@ begin
       CheckBox(h4,v,0,"Показывать с заменит.",flags[21]); v = v + 16;
     end;
   end;
+	
   CheckBox(h4,v,0,"Возможность производства",flags[24]); v = v + 16;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:49:25 AM
   CheckBox(h4,v,0,"Показать Штрих-код",flags[25]); v = v + 16;// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:49:25 AM
-
+	
+	CheckBox(h4,v,0,"Показать вес (Excel)",flags[26]); v = v + 16;	//	by Ira
+	CheckBox(h4,v,0,"Показать объем (Excel)",flags[27]); v = v + 16;	//	by Ira
+	CheckBox(h4,v,0,"Показать габариты (Excel)",flags[28]); v = v + 16;	//		by Ira
+	
   if (IsEnterprise) then begin
     Tile(tilenr,340,false,tilenr,-); tilenr = tilenr + 1;
     v = 6;

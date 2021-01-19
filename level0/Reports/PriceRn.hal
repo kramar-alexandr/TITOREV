@@ -496,7 +496,20 @@ begin
       StartFormat(15);
       OutString(0,"DblINVc",artcode,false);
       OutString(2,0,namestr,false);
-      if(RepSpec.flags[11]==0)then begin
+			if(RepSpec.Media==mtExcel) then begin
+				if(RepSpec.flags[16]==1) then begin //  by Ira
+					OutString(3,0,INr.Weight,false);
+				end;
+				if(RepSpec.flags[17]==1) then begin //  by Ira
+					OutString(3,0,INr.Density,false);
+				end;
+				if(RepSpec.flags[18]==1) then begin //  by Ira
+					OutString(3,0,INr.Width,false);
+					OutString(3,0,INr.Height,false);
+					OutString(3,0,INr.Depth,false);
+				end;
+			end;
+			if(RepSpec.flags[11]==0)then begin
 				OutString(3,0,INr.Unittext,false);
       end else begin
       	ISr.Code = INr.Code;
@@ -1034,6 +1047,19 @@ begin
   if (RepSpec.flags[3]==0) then begin
     OutString(0,0,USetStr(2325),false);
     OutString(2,0,USetStr(2326),false);
+		if(RepSpec.Media==mtExcel) then begin
+			if(RepSpec.flags[16]==1) then begin  //  by Ira
+				OutString(3,0,"Вес",false);
+			end;
+			if(RepSpec.flags[17]==1) then begin		//  by Ira
+				OutString(3,0,"Объем",false);
+			end;
+			if(RepSpec.flags[18]==1) then begin   //  by Ira
+				OutString(3,0,"Ширина",false);
+				OutString(3,0,"Высота",false);
+				OutString(3,0,"Глубина",false);
+			end;
+		end;
     if(RepSpec.flags[11]==0)then begin
 			OutString(3,0,USetStr(2327),false);
     end else begin

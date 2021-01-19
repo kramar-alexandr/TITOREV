@@ -722,6 +722,19 @@ BEGIN
             OutStringID(2,"DblINVc",lINr.Name,false,INp.Code);
           end else begin
             OutStringID(2,"DblINVc",INp.Name,false,INp.Code);
+						if(RepSpec.Media==mtExcel) then begin
+							if(RepSpec.flags[26]==1) then begin //  by Ira
+								OutString(3,0,INp.Weight,false);
+							end;
+							if(RepSpec.flags[27]==1) then begin //  by Ira
+								OutString(3,0,INp.Density,false);
+							end;
+							if(RepSpec.flags[28]==1) then begin //  by Ira
+								OutString(3,0,INp.Width,false);
+								OutString(3,0,INp.Height,false);
+								OutString(3,0,INp.Depth,false);
+							end;
+						end;
           end;
           OutString(5,0,INp.Unittext,false);
         end;
@@ -735,8 +748,10 @@ BEGIN
       end else begin
         StartFormat(15);
         OutString(inpos,dblstr,INp.Code & variety,false);
+
         OutString(2,0,left(INp.Name,15),false);
         OutVal(3,0,instock,M4UVal,true);
+
       end;
       if(RepSpec.flags[24]==1)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:57:17 AM
      	 	tmpmaxp = blankval;
@@ -755,6 +770,7 @@ BEGIN
 			end;
 			if(RepSpec.flags[25]==1)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:57:17 AM
      	 	OutString(320,0,INp.BarCode,false);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:53:33 AM
+
 			end;
       if (RepSpec.PocketPC == 0) then begin
         OutVal(4,0,t2,M45Val,true);
@@ -827,6 +843,8 @@ BEGIN
         end;
         if(RepSpec.flags[25]==1)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:57:17 AM
      	 	OutString(320,0,INp.BarCode,false);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:53:33 AM
+
+			
 			end;
         OutVal(4,0,t/instock,M45Val,true);
         
@@ -1838,6 +1856,21 @@ begin
       StartFormat(15);
       OutString(0,0,USetStr(2325),false);
       OutString(2,0,USetStr(2326),false);
+			
+			if(RepSpec.Media==mtExcel) then begin
+				if(RepSpec.flags[26]==1) then begin  //  by Ira
+					OutString(3,0,"Вес",false);
+				end;
+				if(RepSpec.flags[27]==1) then begin		//  by Ira
+					OutString(3,0,"Объем",false);
+				end;
+				if(RepSpec.flags[28]==1) then begin   //  by Ira
+					OutString(3,0,"Ширина",false);
+					OutString(3,0,"Высота",false);
+					OutString(3,0,"Глубина",false);
+				end;
+			end;
+			
       OutString(5,0,USetStr(2327),false);
 			if(RepSpec.flags[24]==1)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:57:17 AM
 				OutString(320,0,"Возм. произ.",false);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:53:33 AM
