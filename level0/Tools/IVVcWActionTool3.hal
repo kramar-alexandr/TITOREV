@@ -1398,7 +1398,7 @@ LIVHIDDENLine:;
 	addtexttoarea("\"port\":465,",request);
 	addtexttoarea("\"secure\":true,",request);
 	addtexttoarea("\"user\":\"office@hitmarket.com.ua\",",request);
-	addtexttoarea("\"pass\":\"fgkl7md8fNklmndf\",",request);
+	addtexttoarea("\"pass\":\"mitfix-cojtur-2Sutti\",",request);
 	addtexttoarea("\"from\":\"office@hitmarket.com.ua\",",request);
 	addtexttoarea("\"to\":\"" & CUr.eMail & "\",",request);
 	addtexttoarea("\"subject\":\"‘÷/ô: " & IVr.SerNr & "\",",request);
