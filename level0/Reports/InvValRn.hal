@@ -562,7 +562,11 @@ BEGIN
           OutString(100,0,tstr,false);
           OutString(260,0,USetStr(3248),true);
           OutVal(310,0,groupqtyp,M4Qty,true);
-          OutVal(480,0,groupsump,M45Val,true);
+          if (UserCanAction("ViewCostPrice",true)) then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 09 03 2021 y. at 4:16:58 PM
+          	OutVal(480,0,groupsump,M45Val,true);
+          end else begin
+          	OutString(260,0,"",true);
+          end;
           EndFormat;
           groupsump = blankval;
           groupqtyp = blankval;
@@ -652,7 +656,9 @@ BEGIN
         end;
         EndFormat;
       end;
-      GetCostPrice(RepSpec,INp,orgINr,varf,fManyLocations,CAb,GOb.UseDiscount,roundof,instock,instockwithconsig,orginstock,t2,t,adjstockq); 
+    	if (UserCanAction("ViewCostPrice",true)) then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 09 03 2021 y. at 4:16:58 PM
+				GetCostPrice(RepSpec,INp,orgINr,varf,fManyLocations,CAb,GOb.UseDiscount,roundof,instock,instockwithconsig,orginstock,t2,t,adjstockq); 
+      end;
       t = t + totcpsin;
       if (desummarisedkoef!=0) and (RepSpec.flags[19]==2) then begin 
         instockwithconsig = Round(instockwithconsig/desummarisedkoef,DefaultRoundMode);
@@ -668,16 +674,21 @@ BEGIN
         Black_Divider(2,1);
         StartFormat(15);
         OutVal(3,0,instockwithconsig,M4UVal,true);
-        OutVal(4,0,t/instockwithconsig,M45Val,true);
-        if (RepSpec.flags[15]==1) then begin 
-          OutValBiDi(350,0,instock2,M4UVal,true,390);
-        end;  
-        typ = M45Val;
-        if ((RepSpec.flags[16]!=0) or (roundof.decimals==2)) then begin
-          t = Round(t,DefaultRoundMode);
-          typ = M4Val;
+        if (UserCanAction("ViewCostPrice",true)) then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 09 03 2021 y. at 4:16:58 PM
+					OutVal(4,0,t/instockwithconsig,M45Val,true);
+					if (RepSpec.flags[15]==1) then begin 
+						OutValBiDi(350,0,instock2,M4UVal,true,390);
+					end;  
+					typ = M45Val;
+					if ((RepSpec.flags[16]!=0) or (roundof.decimals==2)) then begin
+						t = Round(t,DefaultRoundMode);
+						typ = M4Val;
+					end;
+					OutVal(6,0,t,typ,true);
+        end else begin
+        	OutString(4,0,"",false);
+        	OutString(6,0,"",false);
         end;
-        OutVal(6,0,t,typ,true);
         EndFormat;
         if (RepSpec.flags[10]!=0) then begin
           PrintSerialNumbers_InvVal2(INp,INp.Code,INp.ItemType,instock,RepSpec.d1,RepSpec.f2,RepSpec.flags[12],RepSpec.flags[22]);
@@ -770,21 +781,26 @@ BEGIN
 			end;
 			if(RepSpec.flags[25]==1)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:57:17 AM
      	 	OutString(320,0,INp.BarCode,false);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:53:33 AM
-
 			end;
-      if (RepSpec.PocketPC == 0) then begin
-        OutVal(4,0,t2,M45Val,true);
-      end;
-      typ = M45Val;
-      if ((RepSpec.flags[16]!=0) or (roundof.decimals==2)) then begin
-        t = Round(t,DefaultRoundMode);
-        typ = M4Val;
-      end;
-      if (RepSpec.repname=="InvValVarRn") then begin
-        OutVal(1,0,t,typ,true);
+			if (UserCanAction("ViewCostPrice",true)) then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 09 03 2021 y. at 4:16:58 PM
+				if (RepSpec.PocketPC == 0) then begin
+					OutVal(4,0,t2,M45Val,true);
+				end;
+				typ = M45Val;
+				if ((RepSpec.flags[16]!=0) or (roundof.decimals==2)) then begin
+					t = Round(t,DefaultRoundMode);
+					typ = M4Val;
+				end;
+				if (RepSpec.repname=="InvValVarRn") then begin
+					OutVal(1,0,t,typ,true);
+				end else begin
+					OutVal(6,0,t,typ,true);
+				end;
       end else begin
-        OutVal(6,0,t,typ,true);
-      end;
+				OutString(4,0,"",false);
+				OutString(6,0,"",false);
+			end;
+      
       EndFormat;
       end;
 /*      
@@ -828,11 +844,13 @@ BEGIN
         end;
         EndFormat;
       end;
-      if (RepSpec.flags[22]!=0) then begin
-        INp.Code = INp.Code;
-        FindStockValue2(INp,variety,RepSpec.f2,RepSpec.flags[1],RepSpec.d1,RepSpec.flags[14],fManyLocations,t,instock,instock2,RepSpec.flags[15],RepSpec.flags[11],RepSpec.flags[12],RepSpec.flags[20],true,vlocationtotals);
-      end else begin
-        FindStockValue2(INp,"",RepSpec.f2,RepSpec.flags[1],RepSpec.d1,RepSpec.flags[14],fManyLocations,t,instock,instock2,RepSpec.flags[15],RepSpec.flags[11],RepSpec.flags[12],RepSpec.flags[20],true,vlocationtotals);
+      if (UserCanAction("ViewCostPrice",true)) then begin
+				if (RepSpec.flags[22]!=0) then begin
+					INp.Code = INp.Code;
+					FindStockValue2(INp,variety,RepSpec.f2,RepSpec.flags[1],RepSpec.d1,RepSpec.flags[14],fManyLocations,t,instock,instock2,RepSpec.flags[15],RepSpec.flags[11],RepSpec.flags[12],RepSpec.flags[20],true,vlocationtotals);
+				end else begin
+					FindStockValue2(INp,"",RepSpec.f2,RepSpec.flags[1],RepSpec.d1,RepSpec.flags[14],fManyLocations,t,instock,instock2,RepSpec.flags[15],RepSpec.flags[11],RepSpec.flags[12],RepSpec.flags[20],true,vlocationtotals);
+				end;
       end;
       if (printf) then begin
         Black_Divider(2,1);      
@@ -843,17 +861,20 @@ BEGIN
         end;
         if(RepSpec.flags[25]==1)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:57:17 AM
      	 	OutString(320,0,INp.BarCode,false);// Edit ************************** BPI Ukraine - KramarAlexandr - 04, 02 01 2020 y. at 11:53:33 AM
-
-			
 			end;
-        OutVal(4,0,t/instock,M45Val,true);
-        
-        typ = M45Val;
-        if ((RepSpec.flags[16]!=0) or (roundof.decimals==2)) then begin
-          t = Round(t,DefaultRoundMode);
-          typ = M4Val;
+				if (UserCanAction("ViewCostPrice",true)) then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 09 03 2021 y. at 4:16:58 PM
+					OutVal(4,0,t/instock,M45Val,true);
+					typ = M45Val;
+					if ((RepSpec.flags[16]!=0) or (roundof.decimals==2)) then begin
+						t = Round(t,DefaultRoundMode);
+						typ = M4Val;
+					end;
+					OutVal(6,0,t,typ,true);
+        end else begin
+        	OutString(4,0,"",false);
+        	OutString(6,0,"",false);
         end;
-        OutVal(6,0,t,typ,true);
+        
         EndFormat;
       end;      
       sum1p = sum1p + t;
@@ -1682,7 +1703,9 @@ BEGIN
     OutString(100,0,tstr,false);
     OutString(260,0,USetStr(3248),true);
     OutVal(310,0,groupqty,M4Qty,true);
-    OutVal(6,0,groupsum,M45Val,true);
+		if (UserCanAction("ViewCostPrice",true)) then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 09 03 2021 y. at 4:16:58 PM
+			OutVal(6,0,groupsum,M45Val,true);
+    end;
     groupsum = 0;
     groupqty = 0;
     EndFormat;
@@ -1949,7 +1972,9 @@ begin
           if (vlocationtotals[Locr.Code]!=0) then begin
             StartFormat(15);
             OutString(0,0,Locr.Code,false);
-            OutVal(5,0,vlocationtotals[Locr.Code],M4UVal,true);
+						if (UserCanAction("ViewCostPrice",true)) then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 09 03 2021 y. at 4:16:58 PM
+							OutVal(5,0,vlocationtotals[Locr.Code],M4UVal,true);
+						end;
             sum1 = sum1 + vlocationtotals[Locr.Code];
             EndFormat;
           end;
@@ -1957,9 +1982,11 @@ begin
       end;
     end;
     Gray_Divider(0,1);
-    StartFormat(15);
-    OutVal(5,0,sum1,M4UVal,true);
-    EndFormat;
+		if (UserCanAction("ViewCostPrice",true)) then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 09 03 2021 y. at 4:16:58 PM
+			StartFormat(15);
+			OutVal(5,0,sum1,M4UVal,true);
+			EndFormat;
+    end;
   end else begin
     if (RepSpec.ArtMode==0) then begin
       Gray_Divider(0,1);
@@ -1973,6 +2000,7 @@ begin
       OutString(0,0,USetStr(30067),false);
       OutVal(2,0,vreptotals["itemscount"],M4UVal,false);
     end;
+    
     OutVal(3,0,nr,M4UVal,true);
     if (RepSpec.flags[15]==1) then begin  
       OutValBiDi(350,0,nrq2,M4UVal,true,390);
@@ -1980,7 +2008,9 @@ begin
     if (RepSpec.Media==mtFile or RepSpec.Media==mtExcel) then begin
       OutString(2,0,"",false);
     end;
-    OutVal(6,0,sum1,M45Val,true);
+		if (UserCanAction("ViewCostPrice",true)) then begin// Edit ************************** BPI Ukraine - KramarAlexandr - 02, 09 03 2021 y. at 4:16:58 PM
+			OutVal(6,0,sum1,M45Val,true);
+    end;
     EndFormat;
   end;
 LInvValRn:; 
