@@ -1,7 +1,7 @@
 //<halrule>server-only</halrule>
 external inner function string 255 StrReplace(string,string,string);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 18:09:21
 external inner procedure ExtractObj(string,var Integer,var string);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 17 01 2020 y. at 2:27:07 PM
-
+external procedure exportCustomerCSV(record RcVc);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 02 04 2021 y. at 6:24:51 PM
 procedure GetCurTimeInStr(var string res)
 BEGIN
   Time tt;
@@ -208,6 +208,8 @@ string 255 headers,rows;// Edit ************************** BPI Ukraine - KramarA
 		end;
   	
   CloseFile;
+  
+  exportCustomerCSV(RepSpec);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 02 04 2021 y. at 6:24:27 PM
   
   return;
 END;

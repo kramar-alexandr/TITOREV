@@ -1,0 +1,194 @@
+external inner procedure GetFindCustBalance(string,LongInt,var val,var val,var val,var val,Integer,Integer,Integer,Integer,Integer,Integer,Boolean,var Boolean);
+external inner procedure GetOnAccBalance(record RcVc,string,string,Boolean,Integer,var val,var val,var val,var val,var val,var val,var val,record SMVc,
+                   Array string,Array val,var Integer);
+
+SetLangMode(LangRussian,"RUS",0);
+
+global function val getCustomerbalance(string custcode)
+begin
+	record CUVc CUr;
+	val sbal,ebal;
+	val t,t1,t2,t3,t4,t5,speriod,eperiod;
+	boolean limitdaysf;
+	integer i1,i,mtrw,cred;
+	array val at1;
+	array string 100 debaccs;
+	record SMVc OnAccCurTotalsr;
+	record IVVc IVr;
+	row IVVc IVrw;
+  record IPVc IPr;
+  row IPVc IPrw;
+	record IPrsVc IPrsr;
+	boolean TrHs,testf;
+	vector boolean ipused;
+	boolean haspayments;
+	record RcVc RepSpec;
+
+	
+	RepSpec.sStartDate = stringtodate("01/01/2015");
+	RepSpec.sEndDate = currentdate;
+	
+	CUr.Code = custcode;
+	readfirstmain(CUr,1,true);
+	RepSpec.f1 = custcode;
+	t1 = 0;
+	
+	speriod = 0;
+	
+	TrHs = true;
+	IPrsr.CustCode = RepSpec.f1;
+	while(loopmain(IPrsr,1,TrHs))begin
+		if(IPrsr.CustCode!=RepSpec.f1)then begin TrHs = false; end;
+		if(IPrsr.TransDate>=RepSpec.sStartDate)then begin TrHs = false; end;
+		
+		if(TrHs)then begin			
+			if(IPrsr.TransType==0)then begin
+				IVr.SerNr = IPrsr.TransNr;
+				if(readfirstmain(IVr,1,true))then begin
+					cred = 1;
+					if(IVr.InvType==kInvoiceTypeCredit)then begin
+						cred = -1;
+					end;
+					haspayments = false;
+					for(i=0;i<matrowcnt(IVr);i=i+1)begin
+						matrowget(IVr,i,IVrw);
+						switch(IVrw.stp)begin
+							case kInvoiceRowTypeCashPayment: IVr.Sum4 = IVr.Sum4 - IVrw.Sum; haspayments = true;
+							case kInvoiceRowTypeCreditCardPayment: IVr.Sum4 = IVr.Sum4 - IVrw.Sum; haspayments = true;
+							case kInvoiceRowTypeGiftVoucherPayment: IVr.Sum4 = IVr.Sum4 - IVrw.Sum; haspayments = true;
+						end;
+					end;
+					
+					if(haspayments)then begin
+						IVr.Sum4 = IVr.Sum4 + IVr.RetValue;
+					end;
+					
+					if(IVr.InvDate<RepSpec.sStartDate)then begin
+						speriod = speriod + IVr.Sum4*cred;
+					end else begin
+						eperiod = eperiod + IVr.Sum4*cred;
+					end;
+				end;
+			end;
+			
+			if(IPrsr.TransType==1)then begin
+				IPr.SerNr = IPrsr.TransNr;
+				if(readfirstmain(IPr,1,true))then begin
+					
+					mtrw = matrowcnt(IPr);
+					t1 = 0;
+					for(i=0;i<mtrw;i=i+1)begin
+						matrowget(IPr,i,IPrw);
+						if(IPrw.CustCode==RepSpec.f1 and ipused[IPr.SerNr]==false)then begin
+							t1 = t1 - IPrw.InvVal;
+						end;
+					end;
+					if(IPr.TransDate<RepSpec.sStartDate)then begin
+						speriod = speriod + t1;
+					end else begin
+						eperiod = eperiod + t1;
+					end;
+					ipused[IPr.SerNr] = true;
+					
+				end;
+			end;			
+		end;
+	end;
+	
+	resetloop(IPrsr);
+	
+	eperiod = speriod;
+	
+	TrHs = true;
+	IPrsr.CustCode = RepSpec.f1;
+	IPrsr.CustDate = RepSpec.sStartDate;
+	while(loopmain(IPrsr,2,TrHs))begin
+		if(IPrsr.CustCode!=RepSpec.f1)then begin TrHs = false; end;
+		if(IPrsr.TransDate<RepSpec.sStartDate)then begin TrHs = false; end;
+		
+		if(TrHs)then begin			
+			if(IPrsr.TransType==0)then begin
+				IVr.SerNr = IPrsr.TransNr;
+				if(readfirstmain(IVr,1,true))then begin
+					cred = 1;
+					if(IVr.InvType==kInvoiceTypeCredit)then begin
+						cred = -1;
+					end;
+					
+					haspayments = false;
+					for(i=0;i<matrowcnt(IVr);i=i+1)begin
+						matrowget(IVr,i,IVrw);
+						switch(IVrw.stp)begin
+							case kInvoiceRowTypeCashPayment: IVr.Sum4 = IVr.Sum4 - IVrw.Sum; haspayments = true;
+							case kInvoiceRowTypeCreditCardPayment: IVr.Sum4 = IVr.Sum4 - IVrw.Sum; haspayments = true;
+							case kInvoiceRowTypeGiftVoucherPayment: IVr.Sum4 = IVr.Sum4 - IVrw.Sum; haspayments = true;
+						end;
+					end;
+					if(haspayments)then begin
+						IVr.Sum4 = IVr.Sum4 + IVr.RetValue;
+					end;
+					
+					if(IVr.InvDate<RepSpec.sStartDate)then begin
+						speriod = speriod + IVr.Sum4*cred;
+					end else begin
+						eperiod = eperiod + IVr.Sum4*cred;
+					end;
+				end;
+			end;
+			
+			if(IPrsr.TransType==1)then begin
+				IPr.SerNr = IPrsr.TransNr;
+				if(readfirstmain(IPr,1,true))then begin
+					mtrw = matrowcnt(IPr);
+					t1 = 0;
+					for(i=0;i<mtrw;i=i+1)begin
+						matrowget(IPr,i,IPrw);
+						if(IPrw.CustCode==RepSpec.f1 and ipused[IPr.SerNr]==false)then begin
+							t1 = t1 - IPrw.InvVal;
+						end;						
+					end;
+					
+					if(IPr.TransDate<RepSpec.sStartDate)then begin
+						speriod = speriod + t1;
+					end else begin
+						eperiod = eperiod + t1;
+						if(ipused[IPr.SerNr]==false)then begin
+							
+						end;
+					end;
+					ipused[IPr.SerNr] = true;
+				end;
+			end;			
+		end;
+	end;
+
+	getCustomerbalance = eperiod;
+return;
+end;
+
+
+
+global procedure exportCustomerCSV(record RcVc RepSpec)
+begin
+	record CUVc CUr;
+	area aexp;
+	val bal;
+	
+	
+	addtexttoarea("email;balance" & chr(13) & chr(10),aexp);
+	while(loopmain(CUr,1,true))begin
+		if(CUr.CUType==1)then begin
+			if(CUr.blockedFlag==0)then begin
+				if(nonblank(CUr.eMail))then begin
+					bal = getCustomerbalance(CUr.Code);
+					addtexttoarea(CUr.eMail & ";" & bal & chr(13) & chr(10),aexp);
+				end;
+			end;
+		end;
+	end;
+	
+	writeareatofile(aexp,RepSpec.f1 & "customer.csv",0);
+
+	
+return;
+end;

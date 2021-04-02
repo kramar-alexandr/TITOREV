@@ -2044,6 +2044,8 @@ SetLangMode(LangRussian,"RUS",0);
 
 	Report("FinfPO",NewPORClass,NewPORn,0,modPO);
 
+	Maintenance("customer.csv",AccTransVClass,exportCustomerCSV,modTC);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 02 04 2021 y. at 6:16:40 PM
+	
 	
 	SString(964,"");	
 	
