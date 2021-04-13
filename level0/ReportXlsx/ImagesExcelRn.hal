@@ -1,0 +1,149 @@
+//server-only
+external function string 255 MonthName(Date);
+external procedure ExtractObj(string,var Integer,var string);
+//external procedure CopyFile(string,string);
+external function string 255 ConvertXml(string);
+external procedure FindAwerageCostCurProc(string,string,string,date,string,string,var val,var val);
+
+external procedure XmlXlsxWorkBegin(string,string);
+external procedure CreateSheetsXLSX(integer,array string,string,integer,boolean);
+external procedure AddImagesToXLSX(integer,string,string,string,integer);
+external procedure EndSheet(integer,string,integer);
+external procedure SetSheetsCols(integer,array val,array integer,string);
+external procedure BeginSheetData(integer,string);
+external procedure EndSheetData(integer,string);
+external procedure BeginRow(integer,string,integer,integer,val);
+external procedure EndRow(integer,string,var integer);
+external procedure StringCell(integer,string,var integer,integer,integer,string,var array string,var integer,var integer);
+external procedure NumericCell(integer,string,var integer,integer,integer,val);
+external procedure EmptyCell(integer,string,var integer,integer,integer,integer);
+external procedure MergeCells(integer,string,array string,integer);
+external procedure FillSharedStrings(string,array string,integer,integer,array string);
+external procedure ConvertToXLSX(string,boolean);
+external procedure PrepToAddImgToAllSheet(integer,string);
+external procedure AddImageOnCurrentSheet(integer,string,string,integer,integer,integer,integer,integer,longint,longint,longint,longint,integer,longint,longint);
+external procedure EndToAddImgToAllSheet(integer,string);
+external function string 10 GetStringCellNum(integer,integer);
+external function string 255 StrReplace(string,string,string);// Edit ************************** Tuesday, 3 October 2017 17:25:37
+external function string 255 imgStrReplace(string);// Edit ************************** Tuesday, 10 October 2017 15:20:55
+external procedure FindAndStoreINVcImgLink(record INVc,integer,var string,var string);
+external procedure LogProcTime(string,longint);
+
+
+SetLangMode(LangRussian,"RUS",0);
+
+global
+procedure ImagesExcel(record RcVc RepSpec, array string acode,array string aname,array string abarcode)
+begin
+	
+	string 50 sheetNames;
+	array val sheetColls;
+	array string 21 mergeCell;
+	string 255 fileToSave,pathToImg;
+	integer qtyOfSheets,sheetnum,rownum,colnum,style,qtyOfEmpStr;
+	array string 100 SharedStrings;
+	integer numOfUniqueSharedStrings,numOfSharedStrings,qtyMergeCell;
+	string 6 reportName;
+  array string 255 mas;
+  array integer lvlArray;
+  longint fromcoloff,tocoloff,fromrowoff,torowoff;
+  integer fromcol,tocol,fromrow,torow;
+  integer imgCounter;
+	
+  record CompaniesBlock Compb;
+	record DIVc DIr;
+  record PLVc PLr;
+  record PLDefVc PLDefr;
+  record ItemStatusVc ISr,IS2r;
+  record INVc INr,dupINr;
+  record CTypeVc CTyper;
+  string 100 tstr;
+  string 50 uloc,brand,brandcode,pricecur,dicode,diname,ditype;
+  integer pos,cnt,SQi,TSi,i,Ccntr,Scntr,rowcnt,mtrw,curcomp;
+  boolean TrHs,TrHs1,testf,test2f,f,testf1,locflag,dublikateItem;
+  val price;
+  vector boolean stockInArr;
+  vector integer stockQty;
+  array string 20 stocks;
+  array string 100 typeClassif,classif;
+	vector string 255 INDubCodes;
+	
+	setexportcodepage("UTF8");
+  logtext(0,currentcompany & " - " & currentuser & " - ImagesExcel started");
+	reportName = "ImagesExcelRn";
+	if (windowsmode==1) then begin
+		//fileToSave = "tmpxlsx.xlsx";
+    fileToSave = RepSpec.f6;
+	end else begin
+		//fileToSave = "/tmpxlsx.xlsx";
+    fileToSave = "/" & RepSpec.f6;
+	end;
+  delete_file(fileToSave);
+	deletefolder(Left(fileToSave,(len(fileToSave) - 5)));
+	sheetNames = "Test";
+	sheetColls[0] = 0.625;
+	sheetColls[1] = 21.375;
+	sheetColls[2] = 10.125;
+	sheetColls[3] = 26.875;
+	sheetColls[4] = 13.125;
+	sheetColls[5] = 20;
+	sheetColls[6] = 29.5;
+
+  fromcoloff = 457200;
+  fromrowoff = 333375;
+  tocoloff = 5627;
+  torowoff = 51820;
+  fromcol = 3;
+  tocol = 4;
+  fromrow = 3;
+  // torow = 11;
+  curcomp = CurrentCompany;
+	
+  numOfUniqueSharedStrings = 0;
+	numOfSharedStrings = 0;
+	XmlXlsxWorkBegin(fileToSave,reportName);
+
+	sheetnum = 1;
+	SetSheetsCols(sheetnum,sheetColls,lvlArray,fileToSave);
+  BeginSheetData(sheetnum,fileToSave);
+    rownum = 1;
+    BeginRow(sheetnum,fileToSave,rownum,0,3.75);
+    EndRow(sheetnum,fileToSave,rownum);
+			if (testf) then begin
+						// FindAndStoreINVcImgLink(INr,curcomp,pathToImg,tstr);
+				Ccntr = 0;
+				Scntr = 0;
+				rowcnt = 0;
+				for(i=0;i<acode.length;i=i+1) begin
+					BeginRow(sheetnum,fileToSave,rownum,0,blankval);
+						colnum = 2;
+						style = 5;
+
+							StringCell(sheetnum,fileToSave,colnum,rownum,style,acode[i],SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+							style = 1;
+							StringCell(sheetnum,fileToSave,colnum,rownum,style,aname[i],SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+							style = 2;
+							StringCell(sheetnum,fileToSave,colnum,rownum,style,abarcode[i],SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+							style = 3;
+					
+					EndRow(sheetnum,fileToSave,rownum);
+					rowcnt = rowcnt + 1;
+				end;
+			end;
+    if rowcnt<>0 then begin
+      BeginRow(sheetnum,fileToSave,rownum,0,blankval);
+        colnum = 2;
+        style = 18;
+        qtyOfEmpStr = 6;
+        EmptyCell(sheetnum,fileToSave,colnum,rownum,style,qtyOfEmpStr);
+      EndRow(sheetnum,fileToSave,rownum);
+    end;
+	EndSheetData(sheetnum,fileToSave);
+  MergeCells(sheetnum,fileToSave,mergeCell,qtyMergeCell);
+	EndSheet(sheetnum,fileToSave,sheetnum);
+  EndToAddImgToAllSheet(qtyOfSheets,fileToSave);
+	FillSharedStrings(fileToSave,SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings,mas);
+	ConvertToXLSX(fileToSave,true);
+	MilliSleep(5000);
+  return;
+end;

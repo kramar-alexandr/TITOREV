@@ -3,6 +3,7 @@ SourceFile("halcust\\level0",0);
 SourceFile("halcust\\level0\\RActions",0);
 SourceFile("halcust\\level0\\WActions",0);
 SourceFile("halcust\\level0\\Reports",0);
+SourceFile("halcust\\level0\\ReportXlsx",0);
 SourceFile("halcust\\level0\\Tools",0);
 SourceFile("halcust\\level0\\Maint",0);
 

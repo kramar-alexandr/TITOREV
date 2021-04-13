@@ -2026,6 +2026,7 @@ SetLangMode(LangRussian,"RUS",0);
 	
 	
 	Report("Item Status rep",NewRepItemStatusRClass,NewRepItemStatusRn,0,modIN);  // by Ira
+	Report("Прейскурант New",NewPriceRClass,NewPriceRn,0,modDI); // Edit ************************* Vas-P 	13.04.2021
 	
 	Setting("Настройки уникальности eMail",MyAccountTClass,modSO);
 	
@@ -3810,7 +3811,7 @@ begin
   EndWindow;
 end;
 
-window PriceRClass:3
+window PriceRClass:3   // Edit********************************************* 		Vas-P 		13.04.2021
   wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h2,v,vm,vs;
@@ -3820,17 +3821,15 @@ begin
   EditFieldTL(h,v, 150,"Товар",   M4UStr,Normal,50,f1,false,INSClass);
   EditFieldTL(h,v+=vs, 150,"Группа",   M4UStr,Normal,100,f3,false,ITSClass);
 	EditFieldTL(h,v+=vs, 150,"Классификация",   M4UStr,Normal,11,ObjStr,false,DISClass);
-	//EditFieldTL(h,v+=vs, 150,"Отдел",   M4UStr,Normal,11,f4,false,DepSClass);
   EditFieldTL(h,v+=vs, 150,"Клиент",   M4UStr,Normal,20,f5,false,CUSClass); 
 	EditFieldTL(h,v+=vs, 150,"Прейскурант",   M4UStr,Normal,50,f2,false,PLDefSClass);
-	EditFieldTL(h,v+=vs, 70,"Склад",   M4UStr,Normal,50,f6,false,LocationSClass);// Edit ************************** Tuesday, 21 March 2017 10:15:11
+	EditFieldTL(h,v+=vs, 70,"Склад",   M4UStr,Normal,50,f6,false,LocationSClass);
 	EditFieldTL(h,v+=vs, 70,"Язык",   M4UStr,Normal,5,Stext,false,LangSClass);
   vm = v+=41;
   if (IsEnterprise) then begin
     ButtonFrame(h+=80,v=vm,123,2,"Функция");
     RadioButton(h,v,0,0,"Внешний",flags[3]);
     RadioButton(h,v+=16,1,0,"Внутренний",flags[3]);
-//    ButtonFrame(h+=150,v=vm,123,3,"Сортировка");
     h = 50;
   end else begin
   end;
@@ -3849,20 +3848,65 @@ begin
   CheckBox(h,v+=16, 70,"Только товары с остатком",flags[4]);
   CheckBox(h,v+=16, 70,"Только товары из этого прейскуранта",flags[5]);
   CheckBox(h,v+=16, 70,"Умножить на курс (валюта прейскуранта)",flags[6]);
-  CheckBox(h,v+=16, 70,"Показывать количество штук",flags[11]);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:15:20
-  CheckBox(h,v+=16, 70,"Возможность производства",flags[12]);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:15:20
-  CheckBox(h,v+=16, 70,"Показать стоимость",flags[13]);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:15:20
-	CheckBox(h,v+=16, 70,"Показать % стоимости",flags[14]);// Edit ************************** BPI Ukraine - KramarAlexandr - 01, 15 06 2020 y. at 2:59:40 PM
-	CheckBox(h,v+=16, 70,"Показать щтрих-код",flags[15]);// Edit ************************** BPI Ukraine - KramarAlexandr - 03, 02 09 2020 y. at 10:41:40 AM
-	CheckBox(h,v+=16, 70,"Показать вес (Excel)",flags[16]);//	by Ira
-	CheckBox(h,v+=16, 70,"Показать объем (Excel)",flags[17]);//	by Ira
-	CheckBox(h,v+=16, 70,"Показать габариты (Excel)",flags[18]);//		by Ira
+  CheckBox(h,v+=16, 70,"Показывать количество штук",flags[11]);
+  CheckBox(h,v+=16, 70,"Возможность производства",flags[12]);
+  CheckBox(h,v+=16, 70,"Показать стоимость",flags[13]);
+	CheckBox(h,v+=16, 70,"Показать % стоимости",flags[14]);
+	CheckBox(h,v+=16, 70,"Показать щтрих-код",flags[15]);
+	CheckBox(h,v+=16, 70,"Показать вес (Excel)",flags[16]);
+	CheckBox(h,v+=16, 70,"Показать объем (Excel)",flags[17]);
+	CheckBox(h,v+=16, 70,"Показать габариты (Excel)",flags[18]);
  v = vm;
 	CheckBox(h2=200,v,0,"Пок-ть варианты",flags[7]);
 	v = v + 16;
   if (IsEnterprise) then begin
   CheckBox(h2,v,0,"Вкл. скидки по кол-ву товара",flags[10]); 
   end;
+  EndWindow;
+end;
+
+window NewPriceRClass:1  //Edit **********************************************Vas-P  13.04.2021
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h2,v,vm,vs;
+  WindowBegin("Определите прейскурант NEW",NewPriceRClass,CGRcW,RcType);
+  SetWRect(20,80,420,350);
+  v = 6; vs = 20; h = 120;
+  EditFieldTL(h,v, 150,"Товар",   M4UStr,Normal,50,f1,false,INSClass);
+  EditFieldTL(h,v+=vs, 150,"Группа",   M4UStr,Normal,100,f3,false,ITSClass);
+	EditFieldTL(h,v+=vs, 150,"Классификация",   M4UStr,Normal,11,ObjStr,false,DISClass);
+  EditFieldTL(h,v+=vs, 150,"Клиент",   M4UStr,Normal,20,f5,false,CUSClass); 
+	EditFieldTL(h,v+=vs, 150,"Прейскурант",   M4UStr,Normal,50,f2,false,PLDefSClass);
+	EditFieldTL(h,v+=vs, 70,"Склад",   M4UStr,Normal,50,f6,false,LocationSClass);
+  vm = v+=41;
+  if (IsEnterprise) then begin
+    ButtonFrame(h+=80,v=vm,123,2,"Функция");
+    RadioButton(h,v,0,0,"Внешний",flags[3]);
+    RadioButton(h,v+=16,1,0,"Внутренний",flags[3]);
+    h = 50;
+  end else begin
+  end;
+  ButtonFrame(h,v=vm,123,4,"Сортировать по");
+  RadioButton(h,v,0,0,"Коду товара",flags[2]);
+  RadioButton(h,v+=16,1,0,"Группе",flags[2]);
+  RadioButton(h,v+=16,2,0,"Наименованию",flags[2]);
+  RadioButton(h,v+=16,3,0,"Группе/Наименованию",flags[2]);
+  EndFrame;
+  v = v + 24;
+  if (IsEnterprise) then begin
+    h = 50;
+  end;
+  // CheckBox(h,vm=v, 70,"Цены вкл. НДС",flags[8]);
+  // CheckBox(h,v+=16, 70,"Цены без НДС",flags[9]);
+  // CheckBox(h,v+=16, 70,"Только товары с остатком",flags[4]);
+  // CheckBox(h,v+=16, 70,"Показывать количество штук",flags[11]);
+	// CheckBox(h,v+=16, 70,"Показать щтрих-код",flags[15]);
+	// CheckBox(h,v+=16, 70,"Показать вес (Excel)",flags[16]);
+	// CheckBox(h,v+=16, 70,"Показать объем (Excel)",flags[17]);
+	// CheckBox(h,v+=16, 70,"Показать габариты (Excel)",flags[18]);
+	// CheckBox(h,v+=16, 70,"Показывать фото",flags[19]);
+ // v = vm;
+	// CheckBox(h2=200,v,0,"Пок-ть варианты",flags[7]);
   EndWindow;
 end;
 
