@@ -1,6 +1,6 @@
 external function string 255 StrReplace(string,string,string);
 external function string 255 ConvertXml(string);
-external procedure LogProcTime(string,longint);
+// external procedure LogProcTime(string,longint);
 
 
 global
@@ -181,6 +181,7 @@ BEGIN
 		AddTextToArea("<Override PartName=" & Chr(34) & Chr(47) & "xl" & Chr(47) & "drawings" & Chr(47) & "drawing" & (i+1) & ".xml" & Chr(34) & " ContentType=" & Chr(34) & "application" & Chr(47) & "vnd.openxmlformats-officedocument.drawing+xml" & Chr(34) & Chr(47) & ">",tempArea);
 	end;
 	AddTextToArea("<Override PartName=" & Chr(34) & Chr(47) & "docProps" & Chr(47) & "core.xml" & Chr(34) & " ContentType=" & Chr(34) & "application" & Chr(47) & "vnd.openxmlformats-package.core-properties+xml" & Chr(34) & Chr(47) & "><Override PartName=" & Chr(34) & Chr(47) & "docProps" & Chr(47) & "app.xml" & Chr(34) & " ContentType=" & Chr(34) & "application" & Chr(47) & "vnd.openxmlformats-officedocument.extended-properties+xml" & Chr(34) & Chr(47) & "><" & Chr(47) & "Types>",tempArea);
+	
 	WriteAreaToFile(tempArea,path & "/[Content_Types].xml",0);
 //---/docProps/app.xml
 	SetAreaZeroSize(tempArea);
@@ -190,7 +191,7 @@ BEGIN
 	end;
 	AddTextToArea("<" & Chr(47) & "vt:vector><" & Chr(47) & "TitlesOfParts><LinksUpToDate>false<" & Chr(47) & "LinksUpToDate><SharedDoc>false<" & Chr(47) & "SharedDoc><HyperlinksChanged>false<" & Chr(47) & "HyperlinksChanged><AppVersion>14.0300<" & Chr(47) & "AppVersion><" & Chr(47) & "Properties>",tempArea);
 	WriteAreaToFile(tempArea,path & "/docProps/app.xml",0);
-//---/xl/_rels/workbook.xml.rels
+// ---/xl/_rels/workbook.xml.rels
 	SetAreaZeroSize(tempArea);
 	AddTextToArea("<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "UTF-8" & Chr(34) & " standalone=" & Chr(34) & "yes" & Chr(34) & "?><Relationships xmlns=" & Chr(34) & "http:" & Chr(47) & Chr(47) & "schemas.openxmlformats.org" & Chr(47) & "package" & Chr(47) & "2006" & Chr(47) & "relationships" & Chr(34) & ">",tempArea);
 	for (i=0;i<qtyOfSheets;i=i+1) begin
@@ -216,7 +217,7 @@ BEGIN
 		AddTextToArea("workbookViewId=" & Chr(34) & "0" & Chr(34) & Chr(47) & "><" & Chr(47) & "sheetViews><sheetFormatPr defaultRowHeight=" & Chr(34) & "15" & Chr(34) & " x14ac:dyDescent=" & Chr(34) & "0.25" & Chr(34) & Chr(47) & ">",tempArea);
     WriteAreaToFile(tempArea,path & "/xl/worksheets/sheet" & i+1 & ".xml",0);
 	end;
-	LogProcTime("CreateSheetsXLSX",getcurtick() - curtick);
+	// LogProcTime("CreateSheetsXLSX",getcurtick() - curtick);
 	RETURN;
 END;
 
@@ -233,8 +234,8 @@ BEGIN
 		//case:
 	end;
 //---/xl/media/image1 ... n.png
-	if (!FileExists(path & "/xl/media/image" & imgNum & ".png")) then begin
-		CopyFile("tmp/" & reportName & "/image" & imgNum & ".png",path & "/xl/media/image" & imgNum & ".png");
+	if (!FileExists(path & "/xl/media/image" & imgNum & ".jpg")) then begin
+		CopyFile("tmp/" & reportName & "/image" & imgNum & ".jpg",path & "/xl/media/image" & imgNum & ".jpg");
 	end;
 //---/xl/worksheets/_rels/sheet1 ... n.xml.rels
 	SetAreaZeroSize(tempArea);

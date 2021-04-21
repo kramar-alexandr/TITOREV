@@ -24,23 +24,51 @@ external procedure PrepToAddImgToAllSheet(integer,string);
 external procedure AddImageOnCurrentSheet(integer,string,string,integer,integer,integer,integer,integer,longint,longint,longint,longint,integer,longint,longint);
 external procedure EndToAddImgToAllSheet(integer,string);
 external function string 10 GetStringCellNum(integer,integer);
-external function string 255 StrReplace(string,string,string);// Edit ************************** Tuesday, 3 October 2017 17:25:37
-external function string 255 imgStrReplace(string);// Edit ************************** Tuesday, 10 October 2017 15:20:55
-external procedure FindAndStoreINVcImgLink(record INVc,integer,var string,var string);
+external function string 255 StrReplace(string,string,string);
 external procedure LogProcTime(string,longint);
 
-
+//Edit **********************************************Vas-P 21.04.2021
 SetLangMode(LangRussian,"RUS",0);
 
+function string 255 imgStrReplace(string instr)
+begin
+	string 255 res;
+	
+	res = StrReplace(instr,"/","-");
+	res = StrReplace(res,"\"","-");
+  res = StrReplace(res,"*","-");
+	
+	imgStrReplace = res;
+return;
+end;
+
+procedure FindAndStoreINVcImgLink(string acode, integer compnr, var string myfullpath, var string myfilename)
+begin
+
+  string 50 incode,incodeurl;
+	integer i;
+  myfullpath = "";
+  myfilename = "";
+
+	if fileexists("StandartERPimages/" & acode & ".jpg") then begin
+		myfilename = acode & ".jpg";
+	end;
+	if (nonblank(myfilename)) then begin
+		myfullpath = "StandartERPimages/" & myfilename;
+	end;
+	return;
+end;
+
 global
-procedure ImagesExcel(record RcVc RepSpec, array string acode,array string aname,array string abarcode)
+procedure ImagesExcel(record RcVc RepSpec, array string agroup, array string acode,array string aname,array string abarcode, array string apcode, array string apartcode, array string apprice)
 begin
 	
-	string 50 sheetNames;
+	array string 50 sheetNames;
 	array val sheetColls;
 	array string 21 mergeCell;
 	string 255 fileToSave,pathToImg;
 	integer qtyOfSheets,sheetnum,rownum,colnum,style,qtyOfEmpStr;
+	string 255 imagestr;
 	array string 100 SharedStrings;
 	integer numOfUniqueSharedStrings,numOfSharedStrings,qtyMergeCell;
 	string 6 reportName;
@@ -49,101 +77,169 @@ begin
   longint fromcoloff,tocoloff,fromrowoff,torowoff;
   integer fromcol,tocol,fromrow,torow;
   integer imgCounter;
-	
-  record CompaniesBlock Compb;
-	record DIVc DIr;
+	array string 255 image;
+	val rrpprice, partnerprice;
+
   record PLVc PLr;
   record PLDefVc PLDefr;
-  record ItemStatusVc ISr,IS2r;
   record INVc INr,dupINr;
   record CTypeVc CTyper;
   string 100 tstr;
-  string 50 uloc,brand,brandcode,pricecur,dicode,diname,ditype;
-  integer pos,cnt,SQi,TSi,i,Ccntr,Scntr,rowcnt,mtrw,curcomp;
+  integer pos,cnt,SQi,TSi,i,j,Ccntr,Scntr,rowcnt,mtrw,curcomp;
   boolean TrHs,TrHs1,testf,test2f,f,testf1,locflag,dublikateItem;
-  val price;
-  vector boolean stockInArr;
-  vector integer stockQty;
-  array string 20 stocks;
-  array string 100 typeClassif,classif;
-	vector string 255 INDubCodes;
+	string 255 oldgroup;
 	
 	setexportcodepage("UTF8");
   logtext(0,currentcompany & " - " & currentuser & " - ImagesExcel started");
 	reportName = "ImagesExcelRn";
 	if (windowsmode==1) then begin
-		//fileToSave = "tmpxlsx.xlsx";
-    fileToSave = RepSpec.f6;
+		fileToSave = "tmpxlsx.xlsx";
 	end else begin
-		//fileToSave = "/tmpxlsx.xlsx";
     fileToSave = "/" & RepSpec.f6;
 	end;
   delete_file(fileToSave);
 	deletefolder(Left(fileToSave,(len(fileToSave) - 5)));
-	sheetNames = "Test";
-	sheetColls[0] = 0.625;
-	sheetColls[1] = 21.375;
-	sheetColls[2] = 10.125;
-	sheetColls[3] = 26.875;
+	sheetNames[qtyOfSheets] = "Test";
+	qtyOfSheets = 1;
+	sheetColls[0] = 19.83;
+	sheetColls[1] = 14.16;
+	sheetColls[2] = 61;
+	sheetColls[3] = 12.8;
 	sheetColls[4] = 13.125;
-	sheetColls[5] = 20;
-	sheetColls[6] = 29.5;
+	sheetColls[5] = 10.83;
+	sheetColls[6] = 10.83;
+	sheetColls[7] = 10.83;
+	sheetColls[8] = 13.66;
 
-  fromcoloff = 457200;
-  fromrowoff = 333375;
-  tocoloff = 5627;
-  torowoff = 51820;
+  fromcoloff = 127000;
+  fromrowoff = 152400;
+  tocoloff = 811000;
+  torowoff = 836400;
   fromcol = 3;
-  tocol = 4;
-  fromrow = 3;
-  // torow = 11;
-  curcomp = CurrentCompany;
+  tocol = 3;
+  fromrow = 1;
+  torow = 1;
 	
+  curcomp = 1;
+	tstr = "";
   numOfUniqueSharedStrings = 0;
 	numOfSharedStrings = 0;
+	
 	XmlXlsxWorkBegin(fileToSave,reportName);
-
+	CreateSheetsXLSX(qtyOfSheets,sheetNames,fileToSave,1,false);
+	PrepToAddImgToAllSheet(qtyOfSheets,fileToSave);
 	sheetnum = 1;
 	SetSheetsCols(sheetnum,sheetColls,lvlArray,fileToSave);
   BeginSheetData(sheetnum,fileToSave);
     rownum = 1;
-    BeginRow(sheetnum,fileToSave,rownum,0,3.75);
+		colnum = 1;
+    BeginRow(sheetnum,fileToSave,rownum,0,26);
+			style = 2;
+			StringCell(sheetnum,fileToSave,colnum,rownum,style,"Код товара",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+			style = 2;
+			StringCell(sheetnum,fileToSave,colnum,rownum,style,"Штрих-код",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+			style = 2;
+			StringCell(sheetnum,fileToSave,colnum,rownum,style,"Наимен.",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+			style = 11;
+			StringCell(sheetnum,fileToSave,colnum,rownum,style,"Фото",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+			style = 12;
+			StringCell(sheetnum,fileToSave,colnum,rownum,style,"Партнер",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+			style = 11;
+			StringCell(sheetnum,fileToSave,colnum,rownum,style,"Заказ",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+			style = 12;
+			StringCell(sheetnum,fileToSave,colnum,rownum,style,"Сумма",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+			style = 12;
+			StringCell(sheetnum,fileToSave,colnum,rownum,style,"РРЦ",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+			style = 5;
+			StringCell(sheetnum,fileToSave,colnum,rownum,style,"Примечание",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
     EndRow(sheetnum,fileToSave,rownum);
-			if (testf) then begin
-						// FindAndStoreINVcImgLink(INr,curcomp,pathToImg,tstr);
-				Ccntr = 0;
-				Scntr = 0;
-				rowcnt = 0;
-				for(i=0;i<acode.length;i=i+1) begin
-					BeginRow(sheetnum,fileToSave,rownum,0,blankval);
-						colnum = 2;
-						style = 5;
+		rowcnt = rowcnt + 1;
+		testf = true;
+		if (testf) then begin
+			rownum = 2;
+			for(j=0;j<agroup.length;j=j+1) begin
+			
+				rrpprice = blankval;
+				partnerprice = blankval;
+				
+				PLr.ArtCode = acode[j];
+				PLr.PLCode = "1";
 
-							StringCell(sheetnum,fileToSave,colnum,rownum,style,acode[i],SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
-							style = 1;
-							StringCell(sheetnum,fileToSave,colnum,rownum,style,aname[i],SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
-							style = 2;
-							StringCell(sheetnum,fileToSave,colnum,rownum,style,abarcode[i],SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
-							style = 3;
-					
+				if(ReadFirstMain(PLr,2,true)) then begin
+					partnerprice = PLr.ExVatPrice;
+				end;
+				
+				PLr.ArtCode = acode[j];
+				PLr.PLCode = "1";
+
+				if(ReadFirstMain(PLr,2,true)) then begin
+					rrpprice = PLr.ExVatPrice;
+				end;
+				if(oldgroup!=agroup[j]) then begin
+					oldgroup = agroup[j];
+					colnum = 1;
+					BeginRow(sheetnum,fileToSave,rownum,0,23);
+						style = 6;
+						StringCell(sheetnum,fileToSave,colnum,rownum,style,"",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+						style = 6;
+						StringCell(sheetnum,fileToSave,colnum,rownum,style,"",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+						style = 3;
+						StringCell(sheetnum,fileToSave,colnum,rownum,style,agroup[j],SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+						style = 13;
+						StringCell(sheetnum,fileToSave,colnum,rownum,style,"",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+						style = 14;
+						StringCell(sheetnum,fileToSave,colnum,rownum,style,"",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+						style = 13;
+						StringCell(sheetnum,fileToSave,colnum,rownum,style,"",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+						style = 14;
+						StringCell(sheetnum,fileToSave,colnum,rownum,style,"",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+						style = 14;
+						StringCell(sheetnum,fileToSave,colnum,rownum,style,"",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+						style = 4;
+						StringCell(sheetnum,fileToSave,colnum,rownum,style,"",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
 					EndRow(sheetnum,fileToSave,rownum);
+					fromrow = fromrow + 1;
+					torow = torow + 1;
 					rowcnt = rowcnt + 1;
 				end;
+				FindAndStoreINVcImgLink(acode[j],curcomp,pathToImg,tstr);
+				BeginRow(sheetnum,fileToSave,rownum,0,77);
+					colnum = 1;
+					
+					style = 7;
+					StringCell(sheetnum,fileToSave,colnum,rownum,style,acode[j],SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+					style = 7;
+					StringCell(sheetnum,fileToSave,colnum,rownum,style,abarcode[j],SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+					style = 7;
+					StringCell(sheetnum,fileToSave,colnum,rownum,style,aname[j],SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+					style = 9;
+					StringCell(sheetnum,fileToSave,colnum,rownum,style,"",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+					style = 10;
+					NumericCell(sheetnum,fileToSave,colnum,rownum,style,partnerprice);
+					style = 9;
+					StringCell(sheetnum,fileToSave,colnum,rownum,style,"",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+					style = 10;
+					StringCell(sheetnum,fileToSave,colnum,rownum,style,"",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+					style = 10;
+					StringCell(sheetnum,fileToSave,colnum,rownum,style,"",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+					style = 8;
+					StringCell(sheetnum,fileToSave,colnum,rownum,style,"",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);					
+				EndRow(sheetnum,fileToSave,rownum);
+				
+				rowcnt = rowcnt + 1;
+				imgCounter = imgCounter + 1;
+				AddImageOnCurrentSheet(sheetnum,fileToSave,pathToImg,imgCounter,fromcol,tocol,fromrow,torow,fromcoloff,tocoloff,fromrowoff,torowoff,2,0,0);
+				fromrow = fromrow + 1;
+				torow = torow + 1;
 			end;
-    if rowcnt<>0 then begin
-      BeginRow(sheetnum,fileToSave,rownum,0,blankval);
-        colnum = 2;
-        style = 18;
-        qtyOfEmpStr = 6;
-        EmptyCell(sheetnum,fileToSave,colnum,rownum,style,qtyOfEmpStr);
-      EndRow(sheetnum,fileToSave,rownum);
-    end;
+		end;
 	EndSheetData(sheetnum,fileToSave);
   MergeCells(sheetnum,fileToSave,mergeCell,qtyMergeCell);
 	EndSheet(sheetnum,fileToSave,sheetnum);
   EndToAddImgToAllSheet(qtyOfSheets,fileToSave);
 	FillSharedStrings(fileToSave,SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings,mas);
 	ConvertToXLSX(fileToSave,true);
-	MilliSleep(5000);
+		
+	// MilliSleep(5000);
   return;
 end;

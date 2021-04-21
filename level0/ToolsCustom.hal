@@ -26,3 +26,11 @@ begin
 	GetServerUUIDRemote = uuid1;
 return;
 end;
+
+global
+procedure DblImagesExcel(string dblstr,string l,Integer currepwn)
+begin
+	OpenWebBrowser(dblstr);
+	
+	return;
+end;
