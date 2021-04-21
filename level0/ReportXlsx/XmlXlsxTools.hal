@@ -6,7 +6,7 @@ external function string 255 ConvertXml(string);
 global
 procedure ExcelUploadSetting()
 BEGIN
-	RunProgram("tmp" & Chr(92) & "AddJDKtoPath.bat","");
+	//RunProgram("tmp" & Chr(92) & "AddJDKtoPath.bat","");
 RETURN;
 END;
 

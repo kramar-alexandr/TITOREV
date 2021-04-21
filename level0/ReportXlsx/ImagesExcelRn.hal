@@ -122,7 +122,7 @@ begin
   numOfUniqueSharedStrings = 0;
 	numOfSharedStrings = 0;
 	
-	XmlXlsxWorkBegin(fileToSave,reportName);
+	/*XmlXlsxWorkBegin(fileToSave,reportName);
 	CreateSheetsXLSX(qtyOfSheets,sheetNames,fileToSave,1,false);
 	PrepToAddImgToAllSheet(qtyOfSheets,fileToSave);
 	sheetnum = 1;
@@ -235,7 +235,7 @@ begin
 	EndSheet(sheetnum,fileToSave,sheetnum);
   EndToAddImgToAllSheet(qtyOfSheets,fileToSave);
 	FillSharedStrings(fileToSave,SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings,mas);
-	ConvertToXLSX(fileToSave,true);
+	ConvertToXLSX(fileToSave,true);*/
 	
 	MilliSleep(5000);
   return;
