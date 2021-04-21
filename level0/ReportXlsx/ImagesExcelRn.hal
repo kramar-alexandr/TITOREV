@@ -98,15 +98,15 @@ begin
 	deletefolder(Left(fileToSave,(len(fileToSave) - 5)));
 	sheetNames[qtyOfSheets] = "Report";
 	qtyOfSheets = 1;
-	sheetColls[0] = 19.83;
-	sheetColls[1] = 14.16;
-	sheetColls[2] = 61;
+	sheetColls[0] = 25;
+	sheetColls[1] = 15;
+	sheetColls[2] = 100;
 	sheetColls[3] = 12.8;
 	sheetColls[4] = 13.125;
 	sheetColls[5] = 10.83;
 	sheetColls[6] = 10.83;
 	sheetColls[7] = 10.83;
-	sheetColls[8] = 13.66;
+	sheetColls[8] = 50;
 
   fromcoloff = 127000;
   fromrowoff = 152400;
