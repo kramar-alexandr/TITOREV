@@ -3865,6 +3865,7 @@ begin
   EndWindow;
 end;
 
+
 window NewPriceRClass:1  //Edit **********************************************Vas-P  13.04.2021
   wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
@@ -3872,41 +3873,11 @@ begin
   WindowBegin("Определите прейскурант NEW",NewPriceRClass,CGRcW,RcType);
   SetWRect(20,80,420,350);
   v = 6; vs = 20; h = 120;
-  EditFieldTL(h,v, 150,"Товар",   M4UStr,Normal,50,f1,false,INSClass);
-  EditFieldTL(h,v+=vs, 150,"Группа",   M4UStr,Normal,100,f3,false,ITSClass);
-	EditFieldTL(h,v+=vs, 150,"Классификация",   M4UStr,Normal,11,ObjStr,false,DISClass);
-  EditFieldTL(h,v+=vs, 150,"Клиент",   M4UStr,Normal,20,f5,false,CUSClass); 
-	EditFieldTL(h,v+=vs, 150,"Прейскурант",   M4UStr,Normal,50,f2,false,PLDefSClass);
-	EditFieldTL(h,v+=vs, 70,"Склад",   M4UStr,Normal,50,f6,false,LocationSClass);
-  vm = v+=41;
-  if (IsEnterprise) then begin
-    ButtonFrame(h+=80,v=vm,123,2,"Функция");
-    RadioButton(h,v,0,0,"Внешний",flags[3]);
-    RadioButton(h,v+=16,1,0,"Внутренний",flags[3]);
-    h = 50;
-  end else begin
-  end;
-  ButtonFrame(h,v=vm,123,4,"Сортировать по");
-  RadioButton(h,v,0,0,"Коду товара",flags[2]);
-  RadioButton(h,v+=16,1,0,"Группе",flags[2]);
-  RadioButton(h,v+=16,2,0,"Наименованию",flags[2]);
-  RadioButton(h,v+=16,3,0,"Группе/Наименованию",flags[2]);
-  EndFrame;
-  v = v + 24;
+  EditFieldTL(h,v, 150,"Товар",M4UStr,Normal,50,f1,false,INSClass);
+  EditFieldTL(h,v+=vs, 150,"Группа",M4UStr,Normal,100,f3,false,ITSClass);
   if (IsEnterprise) then begin
     h = 50;
   end;
-  // CheckBox(h,vm=v, 70,"Цены вкл. НДС",flags[8]);
-  // CheckBox(h,v+=16, 70,"Цены без НДС",flags[9]);
-  // CheckBox(h,v+=16, 70,"Только товары с остатком",flags[4]);
-  // CheckBox(h,v+=16, 70,"Показывать количество штук",flags[11]);
-	// CheckBox(h,v+=16, 70,"Показать щтрих-код",flags[15]);
-	// CheckBox(h,v+=16, 70,"Показать вес (Excel)",flags[16]);
-	// CheckBox(h,v+=16, 70,"Показать объем (Excel)",flags[17]);
-	// CheckBox(h,v+=16, 70,"Показать габариты (Excel)",flags[18]);
-	// CheckBox(h,v+=16, 70,"Показывать фото",flags[19]);
- // v = vm;
-	// CheckBox(h2=200,v,0,"Пок-ть варианты",flags[7]);
   EndWindow;
 end;
 
