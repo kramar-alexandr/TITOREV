@@ -47,8 +47,8 @@ begin
 	ImagesExcel(RepSpec, agroup, acode, aname, abarcode);
 	// RunProgram("buildXLSX.bat","");
 	filename = left(RepSpec.f6,len(RepSpec.f6)-5);
-	logtext(0,"jar " & "-cf0M ./webcust" & filename & ".xlsx -C /" & filename & "/ .");
-	  RunProgram("jar","-cf0M ./webcust" & filename & " -C /" & filename & "/ .");
+	logtext(0,"jar " & "-cf0M ./webcust/" & filename & ".xlsx -C ./" & filename & "/ .");
+	  RunProgram("jar","-cf0M ./webcust/" & filename & ".xlsx -C ./" & filename & "/ .");
 	  StartFormat(15);
 		OutString(0,"DblImagesExcel","http://" & RepSpec.f4 & ":" & RepSpec.f5 & "/" & filename & ".xlsx",false);
 	  EndFormat;
