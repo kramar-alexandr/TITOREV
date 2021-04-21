@@ -34,3 +34,23 @@ begin
 	
 	return;
 end;
+
+global
+procedure NewPriceRClassReportDefaults(Integer wn)
+BEGIN
+  record RcVc RepSpec;
+  record CompaniesBlock Compb;
+  row CompaniesBlock Comprw;
+  
+  blockload(Compb);
+  matrowget(Compb,0,Comprw);
+  
+  DeselectWindow(wn,false);
+  GetWindowRecord(wn,RepSpec);
+  ReportDefaults(RepSpec,"NewPriceRClass");  
+  RepSpec.f4 = Comprw.TCPIP;
+  RepSpec.f5 = "1301";
+  PutWindowRecord(wn,RepSpec);
+  SelectWindow(wn);
+  RETURN;
+END;

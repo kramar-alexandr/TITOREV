@@ -507,11 +507,11 @@ BEGIN
 	PosOfSleshInPath = FindStringInArea(Chr(92),tempArea);
 	end;
 	if(windowsmode==1)then begin
-    if towebcust then begin
+    /*if towebcust then begin
 			RunProgram("tmp" & Chr(92) & "buildXLSXtowebcust.bat",Chr(34) & path & Chr(34));
     end else begin
 			RunProgram("tmp" & Chr(92) & "buildXLSX.bat",Chr(34) & path & Chr(34));
-		end;
+		end;*/
 	end else begin
 		if(fileexists("/" & path & "/.DS_Store"))then begin
 			delete_file("/" & path & "/.DS_Store");
@@ -519,11 +519,11 @@ BEGIN
 		if(fileexists("/" & path & "/xl/.DS_Store"))then begin
 			delete_file("/" & path & "/xl/.DS_Store");
 		end;
-    if towebcust then begin
+    /*if towebcust then begin
       RunProgram("jar","-cf0M /usr/local/bin/StandardERPServer/webcust" & path & ".xlsx -C /" & path & "/ .");
     end else begin
       RunProgram("jar","-cf0M " & path & ".xlsx -C " & path & "/ .");
-    end;
+    end;*/
 	end;
 	RETURN;
 END;

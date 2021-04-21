@@ -60,9 +60,8 @@ begin
 end;
 
 global
-procedure ImagesExcel(record RcVc RepSpec, array string agroup, array string acode,array string aname,array string abarcode, array string apcode, array string apartcode, array string apprice)
+procedure ImagesExcel(record RcVc RepSpec, array string agroup, array string acode,array string aname,array string abarcode)
 begin
-	
 	array string 50 sheetNames;
 	array val sheetColls;
 	array string 21 mergeCell;
@@ -79,27 +78,25 @@ begin
   integer imgCounter;
 	array string 255 image;
 	val rrpprice, partnerprice;
-
   record PLVc PLr;
   record PLDefVc PLDefr;
   record INVc INr,dupINr;
-  record CTypeVc CTyper;
   string 100 tstr;
   integer pos,cnt,SQi,TSi,i,j,Ccntr,Scntr,rowcnt,mtrw,curcomp;
   boolean TrHs,TrHs1,testf,test2f,f,testf1,locflag,dublikateItem;
 	string 255 oldgroup;
-	
+
 	setexportcodepage("UTF8");
   logtext(0,currentcompany & " - " & currentuser & " - ImagesExcel started");
 	reportName = "ImagesExcelRn";
 	if (windowsmode==1) then begin
-		fileToSave = "tmpxlsx.xlsx";
+		fileToSave = RepSpec.f6;
 	end else begin
-    fileToSave = "/" & RepSpec.f6;
+    fileToSave = RepSpec.f6;
 	end;
   delete_file(fileToSave);
 	deletefolder(Left(fileToSave,(len(fileToSave) - 5)));
-	sheetNames[qtyOfSheets] = "Test";
+	sheetNames[qtyOfSheets] = "Report";
 	qtyOfSheets = 1;
 	sheetColls[0] = 19.83;
 	sheetColls[1] = 14.16;
@@ -170,7 +167,7 @@ begin
 				end;
 				
 				PLr.ArtCode = acode[j];
-				PLr.PLCode = "1";
+				PLr.PLCode = "2";
 
 				if(ReadFirstMain(PLr,2,true)) then begin
 					rrpprice = PLr.ExVatPrice;
@@ -221,7 +218,7 @@ begin
 					style = 10;
 					StringCell(sheetnum,fileToSave,colnum,rownum,style,"",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
 					style = 10;
-					StringCell(sheetnum,fileToSave,colnum,rownum,style,"",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+					NumericCell(sheetnum,fileToSave,colnum,rownum,style,rrpprice);
 					style = 8;
 					StringCell(sheetnum,fileToSave,colnum,rownum,style,"",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);					
 				EndRow(sheetnum,fileToSave,rownum);
@@ -239,7 +236,7 @@ begin
   EndToAddImgToAllSheet(qtyOfSheets,fileToSave);
 	FillSharedStrings(fileToSave,SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings,mas);
 	ConvertToXLSX(fileToSave,true);
-		
-	// MilliSleep(5000);
+	
+	MilliSleep(5000);
   return;
 end;

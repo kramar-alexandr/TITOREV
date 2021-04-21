@@ -1,1 +1,57 @@
-//<halrule>server-only</halrule>external procedure HTCusts(string, string, var string);external procedure ExtractObj(string,var Integer,var string);external function Boolean GetItemNameStr(Integer,var string,string,string,string);external procedure HTSort1(Integer, var string);external procedure HTArtSel(string,string,var string);external procedure ImagesExcel(record RcVc,array string,array string,array string,array string,array string,array string,array string);SetLangMode(LangRussian,"RUS",0);globalprocedure NewPriceRn(record RcVc RepSpec)begin  record INVc INr;	record PLVc PLr;  String 200 tstr;	string 255 filename;  Boolean testf;  Boolean TrHs;  Integer i,j,rwcnt;	array string 255 agroup, acode, aname, abarcode, apcode, apcom, apartcode, apprice;	  // Gray_Divider(0,1);  TrHs = true;  while (LoopKey("Group",INr,1,TrHs)) begin    testf = true;    if (testf) then begin			if(INr.Group>="66") then begin				agroup[agroup.length] = INr.Group;				acode[acode.length] = INr.Code;				aname[aname.length] = INr.Name;				abarcode[abarcode.length] = INr.BarCode;			end;    end;  end;	ImagesExcel(RepSpec, agroup, acode, aname, abarcode, apcode, apartcode, apprice);	// RunProgram("buildXLSX.bat","");	tstr = "test";	tstr = tstr & "_" & CurrentUser & "_" & DateToString(CurrentDate,"DDMMYYYY") & "_" & CurrentTime;	filename = tstr & ".xlsx";		StartReportNoHeaderJob("Прейскурант с картинками");	  StartFormat(15);		OutString(0,"DblImagesExcel",RepSpec.f7 & filename,false);	  EndFormat;	EndJob;  return;  end;            
+//<halrule>server-only</halrule>
+external procedure HTCusts(string, string, var string);
+external procedure ExtractObj(string,var Integer,var string);
+external function Boolean GetItemNameStr(Integer,var string,string,string,string);
+external procedure HTSort1(Integer, var string);
+external procedure HTArtSel(string,string,var string);
+external procedure ImagesExcel(record RcVc,array string,array string,array string,array string);
+
+SetLangMode(LangRussian,"RUS",0);
+
+global
+procedure NewPriceRn(record RcVc RepSpec)
+begin
+  record INVc INr;
+	record PLVc PLr;
+  String 200 tstr;
+	string 255 filename;
+  Boolean testf;
+  Boolean TrHs;
+  Integer i,j,rwcnt;
+	array string 255 agroup, acode, aname, abarcode, apcode, apcom, apartcode, apprice;
+	
+  // Gray_Divider(0,1);
+  TrHs = true;
+  StartReportNoHeaderJob("Прейскурант с картинками");
+  if(nonblank(RepSpec.f2))then begin
+    INr.Group = RepSpec.f2;
+  end;
+  
+  while (LoopKey("Group",INr,1,TrHs)) begin
+    testf = true;
+    if(nonblank(RepSpec.f2) and INr.Group!=RepSpec.f2)then begin
+      TrHs = false;
+      testf = false;
+    end;
+    if(nonblank(RepSpec.f1) and INr.Code!=RepSpec.f1)then begin
+      testf = false;
+    end;
+    if (testf) then begin
+      agroup[agroup.length] = INr.Group;
+      acode[acode.length] = INr.Code;
+      aname[aname.length] = INr.Name;
+      abarcode[abarcode.length] = INr.BarCode;
+    end;
+  end;
+  RepSpec.f6 = "PricesWithImages.xlsx";
+	ImagesExcel(RepSpec, agroup, acode, aname, abarcode);
+	// RunProgram("buildXLSX.bat","");
+	filename = left(RepSpec.f6,len(RepSpec.f6)-5);
+	logtext(0,"jar " & "-cf0M ./webcust" & filename & ".xlsx -C /" & filename & "/ .");
+	  //RunProgram("jar","-cf0M ./webcust" & filename & " -C /" & filename & "/ .");
+	  StartFormat(15);
+		OutString(0,"DblImagesExcel","http://" & RepSpec.f4 & ":" & RepSpec.f5 & "./" & filename & ".xlsx",false);
+	  EndFormat;
+	EndJob;
+  return;  
+end;            
