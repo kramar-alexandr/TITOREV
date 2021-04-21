@@ -494,18 +494,20 @@ BEGIN
 	area command,newcmd;
 	string 1 c;
 	longint alen,i;
- 
-	logtext(0,"ConvertToXLSX");
+
   PosOfSleshInPath = 0;
 	path = PathCorrection(pathToXLSX);
 	fileName = path;
 	AddTextToArea(fileName,tempArea);
-	while (PosOfSleshInPath!=len(fileName)) begin
-	fileName = Right(fileName,(len(fileName) - PosOfSleshInPath-1));
-	SetAreaZeroSize(tempArea);
-	AddTextToArea(fileName,tempArea);
-	PosOfSleshInPath = FindStringInArea(Chr(92),tempArea);
-	end;
+	// Если путь находится не в корне папки, перебираем слэши
+	// while(PosOfSleshInPath!=len(fileName)) begin
+		// fileName = Right(fileName,(len(fileName) - PosOfSleshInPath-1));
+		// logtext(0,fileName);
+		// SetAreaZeroSize(tempArea);
+		// AddTextToArea(fileName,tempArea);
+		// PosOfSleshInPath = FindStringInArea(Chr(92),tempArea);
+		// logtext(0,PosOfSleshInPath);
+	// end;
 	if(windowsmode==1)then begin
     /*if towebcust then begin
 			RunProgram("tmp" & Chr(92) & "buildXLSXtowebcust.bat",Chr(34) & path & Chr(34));
