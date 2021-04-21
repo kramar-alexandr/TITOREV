@@ -12,6 +12,7 @@ global
 procedure NewPriceRn(record RcVc RepSpec)
 begin
   record INVc INr;
+	record ITVc ITr;
 	record PLVc PLr;
   String 200 tstr;
 	string 255 filename;
@@ -21,6 +22,7 @@ begin
 	array string 255 agroup, acode, aname, abarcode, apcode, apcom, apartcode, apprice;
 	
   // Gray_Divider(0,1);
+
   TrHs = true;
   StartReportNoHeaderJob("Прейскурант с картинками");
   if(nonblank(RepSpec.f2))then begin
@@ -33,11 +35,13 @@ begin
       TrHs = false;
       testf = false;
     end;
-    if(nonblank(RepSpec.f1) and INr.Code!=RepSpec.f1)then begin
+    if(nonblank(RepSpec.f1) and INr.Group!=RepSpec.f1)then begin
       testf = false;
     end;
     if (testf) then begin
-      agroup[agroup.length] = INr.Group;
+			ITr.Code = INr.Group;
+			ReadFirstMain(ITr,1,true);
+      agroup[agroup.length] = ITr.Comment;
       acode[acode.length] = INr.Code;
       aname[aname.length] = INr.Name;
       abarcode[abarcode.length] = INr.BarCode;
