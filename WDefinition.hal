@@ -3874,7 +3874,9 @@ begin
   SetWRect(20,80,420,350);
   v = 6; vs = 20; h = 120;
   EditFieldTL(h,v, 150,"Товар",M4UStr,Normal,50,f1,false,INSClass);
-  EditFieldTL(h,v+=vs, 150,"Группа",M4UStr,Normal,100,f2,false,ITSClass);
+  EditFieldTL(h,v+=vs, 150,"Группа",M4UStr,Normal,100,f3,false,ITSClass);
+	EditFieldTL(h,v+=vs, 150,"Классификация",M4UStr,Normal,11,ObjStr,false,DISClass);
+	EditFieldTL(h,v+=vs, 70,"Склад",M4UStr,Normal,50,f6,false,LocationSClass);
   if (IsEnterprise) then begin
     h = 50;
   end;

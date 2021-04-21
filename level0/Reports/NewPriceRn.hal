@@ -14,6 +14,7 @@ begin
   record INVc INr;
 	record ITVc ITr;
 	record PLVc PLr;
+  record ItemStatusVc ISr;
   String 200 tstr;
 	string 255 filename;
   Boolean testf;
@@ -38,6 +39,14 @@ begin
     if(nonblank(RepSpec.f1) and INr.Group!=RepSpec.f1)then begin
       testf = false;
     end;
+		if(nonblank(RepSpec.f6))then begin
+			ISr.Code = INr.Code;
+			ISr.Location = RepSpec.f6;
+			ReadFirstMain(ISr,2,true);
+			if(ISr.Instock<=0)then begin
+				testf = false;
+			end;
+		end;
     if (testf) then begin
 			ITr.Code = INr.Group;
 			ReadFirstMain(ITr,1,true);
