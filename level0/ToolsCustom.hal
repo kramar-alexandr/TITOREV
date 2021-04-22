@@ -49,7 +49,7 @@ BEGIN
   GetWindowRecord(wn,RepSpec);
   ReportDefaults(RepSpec,"NewPriceRClass");  
   RepSpec.f4 = Comprw.TCPIP;
-  RepSpec.f5 = "1301";
+  RepSpec.f5 = "1302";
   PutWindowRecord(wn,RepSpec);
   SelectWindow(wn);
   RETURN;
