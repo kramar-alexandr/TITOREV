@@ -32,12 +32,17 @@ begin
   
   while (LoopKey("Group",INr,1,TrHs)) begin
     testf = true;
-    if(nonblank(RepSpec.f2) and INr.Group!=RepSpec.f2)then begin
+    if(nonblank(RepSpec.f3) and INr.Group!=RepSpec.f3)then begin
       TrHs = false;
       testf = false;
     end;
-    if(nonblank(RepSpec.f1) and INr.Group!=RepSpec.f1)then begin
+    if(nonblank(RepSpec.f1) and INr.Code!=RepSpec.f1)then begin
       testf = false;
+    end;
+    if (nonblank(RepSpec.ObjStr)) then begin
+      if (SetInSet(RepSpec.ObjStr,INr.DispGroups)==false) then begin
+        testf = false;
+      end;
     end;
 		if(nonblank(RepSpec.f6))then begin
 			ISr.Code = INr.Code;
@@ -56,6 +61,7 @@ begin
       abarcode[abarcode.length] = INr.BarCode;
     end;
   end;
+	
   RepSpec.f6 = "PricesWithImages.xlsx";
 	ImagesExcel(RepSpec, agroup, acode, aname, abarcode);
 	// RunProgram("buildXLSX.bat","");
