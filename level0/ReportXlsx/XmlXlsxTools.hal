@@ -421,6 +421,40 @@ BEGIN
 END;
 
 global
+procedure FormulaCell(integer SheetNum, string pathToXLSX, var integer ColNum, integer RowNum, integer style, string str, var array string SharedStrings, var integer numOfUniqueSharedStrings, var integer numOfSharedStrings)
+BEGIN
+	area tempArea;
+	string 225 path;
+	string 10 r;
+	integer i, foundStr;
+	
+	r = GetStringCellNum(ColNum, RowNum);
+	
+	path = PathCorrection(pathToXLSX);
+	AddTextToArea("<c r=" & Chr(34) & r & Chr(34) & " s=" & Chr(34) & style & Chr(34) & " t=" & Chr(34) & "s" & Chr(34) & "><f>" & str & "<" & Chr(47) & "f><" & Chr(47) & "c>",tempArea);
+	WriteAreaToFile(tempArea,path & "/xl/worksheets/sheet" & SheetNum & ".xml",1);
+	ColNum = ColNum + 1;
+	RETURN;
+END;
+
+global
+procedure SumCell(integer SheetNum, string pathToXLSX, var integer ColNum, integer RowNum, integer style, string str, var array string SharedStrings, var integer numOfUniqueSharedStrings, var integer numOfSharedStrings)
+BEGIN
+	area tempArea;
+	string 225 path;
+	string 10 r;
+	integer i, foundStr;
+	
+	r = GetStringCellNum(ColNum, RowNum);
+	
+	path = PathCorrection(pathToXLSX);
+	AddTextToArea("<c r=" & Chr(34) & r & Chr(34) & " s=" & Chr(34) & style & Chr(34) & " t=" & Chr(34) & "s" & Chr(34) & "><f>SUM(" & str & ")<" & Chr(47) & "f><" & Chr(47) & "c>",tempArea);
+	WriteAreaToFile(tempArea,path & "/xl/worksheets/sheet" & SheetNum & ".xml",1);
+	ColNum = ColNum + 1;
+	RETURN;
+END;
+
+global
 procedure MergeCells(integer SheetNum, string pathToXLSX, array string mergeCell, integer qtyMergeCell)
 BEGIN
 	area tempArea;

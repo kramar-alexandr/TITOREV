@@ -17,6 +17,7 @@ begin
   record ItemStatusVc ISr;
   String 200 tstr;
 	string 255 filename;
+	string 100 sortkey;
   Boolean testf;
   Boolean TrHs;
   Integer i,j,rwcnt;
@@ -26,32 +27,43 @@ begin
 
   TrHs = true;
   StartReportNoHeaderJob("Прейскурант с картинками");
-  if(nonblank(RepSpec.f2))then begin
-    INr.Group = RepSpec.f2;
-  end;
-  
-  while (LoopKey("Group",INr,1,TrHs)) begin
+  sortkey = "Group";
+	if(nonblank(RepSpec.f3)) then begin
+		sortkey = "Name";
+	end;
+  while (LoopKey(sortkey,INr,1,TrHs)) begin
     testf = true;
+		
     if(nonblank(RepSpec.f3) and INr.Group!=RepSpec.f3)then begin
-      TrHs = false;
       testf = false;
     end;
+		
     if(nonblank(RepSpec.f1) and INr.Code!=RepSpec.f1)then begin
       testf = false;
     end;
+		
     if (nonblank(RepSpec.ObjStr)) then begin
       if (SetInSet(RepSpec.ObjStr,INr.DispGroups)==false) then begin
         testf = false;
       end;
     end;
-		if(nonblank(RepSpec.f6))then begin
-			ISr.Code = INr.Code;
-			ISr.Location = RepSpec.f6;
-			ReadFirstMain(ISr,2,true);
-			if(ISr.Instock<=0)then begin
-				testf = false;
-			end;
+		
+		if (INr.Terminated<>0) then begin
+			testf = false;
 		end;
+		
+		ISr.Code = INr.Code;
+		if(nonblank(RepSpec.f6))then begin
+			ISr.Location = RepSpec.f6;
+		end else begin
+			ISr.Location = ";;;";
+		end;		
+		
+		ReadFirstMain(ISr,2,true);
+		if(ISr.Instock<=0)then begin
+			testf = false;
+		end;
+		
     if (testf) then begin
 			ITr.Code = INr.Group;
 			ReadFirstMain(ITr,1,true);
