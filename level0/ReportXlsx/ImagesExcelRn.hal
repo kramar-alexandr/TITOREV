@@ -111,10 +111,10 @@ begin
 	sheetColls[7] = 10.83203125;
 	sheetColls[8] = 13.6640625;
 
-  fromcoloff = 127000;
-  fromrowoff = 152400;
-  tocoloff = 811000;
-  torowoff = 836400;
+  fromcoloff = 47624;
+  fromrowoff = 42423;
+  tocoloff = 952499;
+  torowoff = 955545;
   fromcol = 3;
   tocol = 3;
   fromrow = 2;
