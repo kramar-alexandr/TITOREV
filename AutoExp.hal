@@ -209,7 +209,7 @@ string 255 headers,rows;// Edit ************************** BPI Ukraine - KramarA
   	
   CloseFile;
   
-  exportCustomerCSV(RepSpec);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 02 04 2021 y. at 6:24:27 PM
+  //exportCustomerCSV(RepSpec);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 02 04 2021 y. at 6:24:27 PM
   
   return;
 END;
