@@ -290,7 +290,7 @@ begin
   integer rwcnt,i,numoffiles;
   String 100 fname;
   String 255 dexist,dway;
-  Time t;
+  Time t,tt;
   Date d;
   integer curcomp;
  	record CompaniesBlock CBb;// Edit ************************** Tuesday, 29 November 2016 12:59:58
@@ -298,6 +298,14 @@ begin
 	integer mtrw,j;// Edit ************************** Tuesday, 29 November 2016 12:59:59
  	
  	blockload(CBb);
+ 	
+ 	tt = currenttime;
+ 	if(tt.minute==0)then begin
+ 	  if(mod(tt.hour,2)==0)then begin
+ 	    logtext(0,"EVERY 2hr MAINTENANCE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      exportCustomerCSV(RepSpec);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 02 04 2021 y. at 6:24:27 PM
+ 	  end;
+  end;
  	
  	mtrw = matrowcnt(CBb);// Edit ************************** Tuesday, 29 November 2016 13:00:00
  	For(j=0;j<mtrw;j=j+1) begin// Edit ************************** Tuesday, 29 November 2016 13:00:00

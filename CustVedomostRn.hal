@@ -174,6 +174,7 @@ begin
 	area aexp;
 	val bal;
 	
+	logtext(0,"exportCustomerCSV");
 	
 	addtexttoarea("email;balance" & chr(13) & chr(10),aexp);
 	while(loopmain(CUr,1,true))begin
@@ -188,7 +189,8 @@ begin
 	end;
 	
 	writeareatofile(aexp,RepSpec.f1 & "customers.csv",0);
-
+  writeareatofile(aexp,"customers.csv",0);
+  runprogram("customersCSVSend.sh","");
 	
 return;
 end;
