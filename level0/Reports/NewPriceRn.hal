@@ -81,7 +81,7 @@ begin
 	logtext(0,"jar " & "-cf0M ./webcust/" & filename & ".xlsx -C ./" & filename & "/ .");
 	  RunProgram("jar","-cf0M ./webcust/" & filename & ".xlsx -C ./" & filename & "/ .");
 	  StartFormat(15);
-		OutString(0,"DblImagesExcel","http://" & RepSpec.f4 & ":" & RepSpec.f5 & "/" & filename & ".xlsx",false);
+		OutString(0,"DblImagesExcel","https://" & RepSpec.f4 & ":" & RepSpec.f5 & "/" & filename & ".xlsx",false);
 	  EndFormat;
 	EndJob;
   return;  
