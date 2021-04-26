@@ -189,7 +189,7 @@ begin
 	end;
 	
 	writeareatofile(aexp,RepSpec.f1 & "customers.csv",0);
-  writeareatofile(aexp,"customers.csv",0);
+  writeareatofile(aexp,"customerscsv/customers.csv",0);
   runprogram("customersCSVSend.sh","");
 	
 return;
