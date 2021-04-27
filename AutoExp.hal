@@ -299,6 +299,31 @@ begin
  	
  	blockload(CBb);
  	
+ 	logtext(0,"1 " & mod(1,2));
+ 	logtext(0,"2 " & mod(2,2));
+ 	logtext(0,"3 " & mod(3,2));
+ 	logtext(0,"4 " & mod(4,2));
+ 	logtext(0,"5 " & mod(5,2));
+ 	logtext(0,"6 " & mod(6,2));
+ 	logtext(0,"7 " & mod(7,2));
+ 	logtext(0,"8 " & mod(8,2));
+ 	logtext(0,"9 " & mod(9,2));
+ 	logtext(0,"10 " & mod(10,2));
+ 	logtext(0,"11 " & mod(11,2));
+ 	logtext(0,"12 " & mod(12,2));
+ 	logtext(0,"13 " & mod(13,2));
+ 	logtext(0,"14 " & mod(14,2));
+ 	logtext(0,"15 " & mod(15,2));
+ 	logtext(0,"16 " & mod(16,2));
+ 	logtext(0,"17 " & mod(17,2));
+ 	logtext(0,"18 " & mod(18,2));
+ 	logtext(0,"19 " & mod(19,2));
+ 	logtext(0,"20 " & mod(20,2));
+ 	logtext(0,"21 " & mod(21,2));
+ 	logtext(0,"22 " & mod(22,2));
+ 	logtext(0,"23 " & mod(23,2));
+ 	logtext(0,"24 " & mod(24,2));
+ 	
  	tt = currenttime;
  	if(tt.minute==0)then begin
  	  if(mod(tt.hour,2)==0)then begin
