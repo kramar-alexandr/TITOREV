@@ -325,7 +325,7 @@ begin
  	logtext(0,"24 " & mod(24,2));
  	
  	tt = currenttime;
- 	if(tt.minute==0)then begin
+ 	if(tt.minute==0 or tt.minute==1)then begin
  	  if(mod(tt.hour,2)==0)then begin
  	    logtext(0,"EVERY 2hr MAINTENANCE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
       exportCustomerCSV(RepSpec);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 02 04 2021 y. at 6:24:27 PM
