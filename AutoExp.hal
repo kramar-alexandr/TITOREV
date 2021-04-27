@@ -299,7 +299,7 @@ begin
  	
  	blockload(CBb);
  	
- 	logtext(0,"1 " & mod(1,2));
+ 	/*logtext(0,"1 " & mod(1,2));
  	logtext(0,"2 " & mod(2,2));
  	logtext(0,"3 " & mod(3,2));
  	logtext(0,"4 " & mod(4,2));
@@ -322,7 +322,7 @@ begin
  	logtext(0,"21 " & mod(21,2));
  	logtext(0,"22 " & mod(22,2));
  	logtext(0,"23 " & mod(23,2));
- 	logtext(0,"24 " & mod(24,2));
+ 	logtext(0,"24 " & mod(24,2));*/
  	
  	tt = currenttime;
  	if(tt.minute==0 or tt.minute==1)then begin
