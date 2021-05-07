@@ -1,0 +1,64 @@
+//Edit **********************************************Vas-P 06.05.2021
+
+global webpublic Procedure webgetprice()
+begin	
+	record INVc INr;
+	record ITVc ITr;
+  record ItemStatusVc ISr;
+	record RcVc RepSpec;
+	string 100 sortkey;
+  Boolean testf;
+  Boolean TrHs;
+	array string 255 agroup, acode, aname, abarcode;
+	
+  TrHs = true;
+
+  sortkey = "Group";
+	if(nonblank(RepSpec.f3)) then begin
+		sortkey = "Name";
+	end;
+  while (LoopKey(sortkey,INr,1,TrHs)) begin
+    testf = true;
+		
+    if(nonblank(RepSpec.f3) and INr.Group!=RepSpec.f3)then begin
+      testf = false;
+    end;
+		
+    if(nonblank(RepSpec.f1) and INr.Code!=RepSpec.f1)then begin
+      testf = false;
+    end;
+		
+    if (nonblank(RepSpec.ObjStr)) then begin
+      if (SetInSet(RepSpec.ObjStr,INr.DispGroups)==false) then begin
+        testf = false;
+      end;
+    end;
+		
+		if (INr.Terminated<>0) then begin
+			testf = false;
+		end;
+		
+		ISr.Code = INr.Code;
+		if(nonblank(RepSpec.f6))then begin
+			ISr.Location = RepSpec.f6;
+		end else begin
+			ISr.Location = ";;;";
+		end;		
+		
+		ReadFirstMain(ISr,2,true);
+		if(ISr.Instock<=0)then begin
+			testf = false;
+		end;
+		
+    if (testf) then begin
+			ITr.Code = INr.Group;
+			ReadFirstMain(ITr,1,true);
+      agroup[agroup.length] = ITr.Comment;
+      acode[acode.length] = INr.Code;
+      aname[aname.length] = INr.Name;
+      abarcode[abarcode.length] = INr.BarCode;
+    end;
+  end;
+	
+	return;
+end;
