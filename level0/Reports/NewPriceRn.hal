@@ -8,9 +8,10 @@ external procedure ImagesExcel(record RcVc,array string,array string,array strin
 
 SetLangMode(LangRussian,"RUS",0);
 
+
 global
-procedure NewPriceRn(record RcVc RepSpec)
-begin
+procedure NewPriceGeneration(record RcVc RepSpec)
+begin 
   record INVc INr;
 	record ITVc ITr;
 	record PLVc PLr;
@@ -21,12 +22,11 @@ begin
   Boolean testf;
   Boolean TrHs;
   Integer i,j,rwcnt;
-	array string 255 agroup, acode, aname, abarcode, apcode, apcom, apartcode, apprice;
+	array string 255 agroup, acode, aname, abarcode;
 	
-  // Gray_Divider(0,1);
-
-  TrHs = true;
-  StartReportNoHeaderJob("Прейскурант с картинками");
+	
+	TrHs = true;
+	
   sortkey = "Group";
 	if(nonblank(RepSpec.f3)) then begin
 		sortkey = "Name";
@@ -77,11 +77,35 @@ begin
   RepSpec.f6 = "PricesWithImages.xlsx";
 	ImagesExcel(RepSpec, agroup, acode, aname, abarcode);
 	// RunProgram("buildXLSX.bat","");
-	filename = left(RepSpec.f6,len(RepSpec.f6)-5);
-	logtext(0,"jar " & "-cf0M ./webcust/" & filename & ".xlsx -C ./" & filename & "/ .");
-	  RunProgram("jar","-cf0M ./webcust/" & filename & ".xlsx -C ./" & filename & "/ .");
+	RepSpec.f10 = left(RepSpec.f6,len(RepSpec.f6)-5);
+	logtext(0,"jar " & "-cf0M ./webcust/" & RepSpec.f10 & ".xlsx -C ./" & RepSpec.f10 & "/ .");
+	  RunProgram("jar","-cf0M ./webcust/" & RepSpec.f10 & ".xlsx -C ./" & RepSpec.f10 & "/ .");
+		
+		
+  return;  
+end;            
+
+
+global
+procedure NewPriceRn(record RcVc RepSpec)
+begin
+  record INVc INr;
+	record ITVc ITr;
+	record PLVc PLr;
+  record ItemStatusVc ISr;
+  String 200 tstr;
+	string 255 filename;
+	string 100 sortkey;
+  Boolean testf;
+  Boolean TrHs;
+  Integer i,j,rwcnt;
+	array string 255 agroup, acode, aname, abarcode;
+	
+	NewPriceGeneration(RepSpec);
+  StartReportNoHeaderJob("Прейскурант с картинками");
+		RepSpec.f10 = left(RepSpec.f6,len(RepSpec.f6)-5);
 	  StartFormat(15);
-		OutString(0,"DblImagesExcel","https://" & RepSpec.f4 & ":" & RepSpec.f5 & "/" & filename & ".xlsx",false);
+		OutString(0,"DblImagesExcel","https://" & RepSpec.f4 & ":" & RepSpec.f5 & "/" & RepSpec.f10 & ".xlsx",false);
 	  EndFormat;
 	EndJob;
   return;  
