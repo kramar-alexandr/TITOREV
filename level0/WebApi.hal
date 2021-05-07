@@ -1,64 +1,95 @@
-//Edit **********************************************Vas-P 06.05.2021
+//Edit **********************************************Vas-P 07.05.2021
+external outer function val getCustomerbalance(string);
 
-global webpublic Procedure webgetprice()
+SetLangMode(LangRussian,"RUS",0);
+
+global webpublic Procedure Webgetpersonalprice()
 begin	
+	area a_reply;
+	json jobj;
+	record CUVc CUr;
+	record PLVc PLr;
 	record INVc INr;
-	record ITVc ITr;
-  record ItemStatusVc ISr;
-	record RcVc RepSpec;
-	string 100 sortkey;
-  Boolean testf;
+	record ItemStatusVc ISr;
+	string 100 plcode,phone;
+	integer i;
+  Boolean testf,isfirst;
   Boolean TrHs;
-	array string 255 agroup, acode, aname, abarcode;
-	
-  TrHs = true;
 
-  sortkey = "Group";
-	if(nonblank(RepSpec.f3)) then begin
-		sortkey = "Name";
+	webgetpostdata(a_reply);
+	jobj = parsejsonarea(a_reply);
+
+	phone = JSONGet(jobj,"phone");
+
+	WebOutString("\{""products\" : \[");
+	CUr.Phone = phone;
+	if(ReadFirstKey("Phone",CUr,1,true))then begin
+		while (LoopMain(INr,1,true)) begin
+			testf = true;
+			
+			if (INr.Terminated<>0)then begin
+				testf = false;
+			end;
+			
+			ISr.Code = INr.Code;
+			ISr.Location = "1";
+			ReadFirstMain(ISr,2,true);
+			if(ISr.Instock<=0)then begin
+				testf = false;
+			end;
+			
+			PLr.PLCode = CUr.PLCode;
+			PLr.ArtCode = INr.Code;
+			if(ReadFirstMain(PLr,2,true)==false)then begin
+				testf = false;
+			end;
+			
+			if(testf)then begin
+				if(isfirst)then begin
+					WebOutString(",");
+				end;
+				isfirst = true;
+				WebOutString("\{""Товар\" : \"" & PLr.ArtCode & "\"," & "\"Цена\" : \"" & PLr.ExVatPrice & "\"," & "\"Наименование\" : \"" & INr.Name & "\"" & "}");	
+			end;
+		end;
 	end;
-  while (LoopKey(sortkey,INr,1,TrHs)) begin
-    testf = true;
-		
-    if(nonblank(RepSpec.f3) and INr.Group!=RepSpec.f3)then begin
-      testf = false;
-    end;
-		
-    if(nonblank(RepSpec.f1) and INr.Code!=RepSpec.f1)then begin
-      testf = false;
-    end;
-		
-    if (nonblank(RepSpec.ObjStr)) then begin
-      if (SetInSet(RepSpec.ObjStr,INr.DispGroups)==false) then begin
-        testf = false;
-      end;
-    end;
-		
-		if (INr.Terminated<>0) then begin
-			testf = false;
-		end;
-		
-		ISr.Code = INr.Code;
-		if(nonblank(RepSpec.f6))then begin
-			ISr.Location = RepSpec.f6;
-		end else begin
-			ISr.Location = ";;;";
-		end;		
-		
-		ReadFirstMain(ISr,2,true);
-		if(ISr.Instock<=0)then begin
-			testf = false;
-		end;
-		
-    if (testf) then begin
-			ITr.Code = INr.Group;
-			ReadFirstMain(ITr,1,true);
-      agroup[agroup.length] = ITr.Comment;
-      acode[acode.length] = INr.Code;
-      aname[aname.length] = INr.Name;
-      abarcode[abarcode.length] = INr.BarCode;
-    end;
-  end;
+	WebOutString("]" & "}");
+	return;
+end;
+
+
+global webpublic Procedure Webgetcustomerbalance()
+begin
+	area a_reply;
+	json jobj;
+	record CUVc CUr;	
+	val bal;
+	string 100 phone;
+	
+	webgetpostdata(a_reply);
+	jobj = parsejsonarea(a_reply);
+	phone = JSONGet(jobj,"phone");
+	
+	CUr.Phone = phone;
+	if(ReadFirstKey("Phone",CUr,1,true))then begin
+		bal = getCustomerbalance(CUr.Code);
+		WebOutString("\{""Balance\" : \"" & bal & "\"," & "\"CustomerCode\" : \"" & CUr.Code & "\"," & "\"Email\" : \"" & CUr.eMail & "\"" & "}");
+	end;
 	
 	return;
 end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
