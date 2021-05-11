@@ -21,9 +21,10 @@ begin
 
 	phone = JSONGet(jobj,"phone");
 
-	WebOutString("\{""products\" : \[");
+	
 	CUr.Phone = phone;
 	if(ReadFirstKey("Phone",CUr,1,true))then begin
+	  WebOutString("\{""products\" : \[");
 		while (LoopMain(INr,1,true)) begin
 			testf = true;
 			
@@ -52,8 +53,11 @@ begin
 				WebOutString("\{""Товар\" : \"" & PLr.ArtCode & "\"," & "\"Цена\" : \"" & PLr.ExVatPrice & "\"," & "\"Наименование\" : \"" & INr.Name & "\"" & "}");	
 			end;
 		end;
+		WebOutString("]" & "}");
+	end else begin
+	  WebOutString("{\"result\":\"error\"}");
 	end;
-	WebOutString("]" & "}");
+	
 	return;
 end;
 
@@ -74,6 +78,8 @@ begin
 	if(ReadFirstKey("Phone",CUr,1,true))then begin
 		bal = getCustomerbalance(CUr.Code);
 		WebOutString("\{""Balance\" : \"" & bal & "\"," & "\"CustomerCode\" : \"" & CUr.Code & "\"," & "\"Email\" : \"" & CUr.eMail & "\"" & "}");
+	end else begin
+	  WebOutString("{\"result\":\"error\"}");
 	end;
 	
 	return;
