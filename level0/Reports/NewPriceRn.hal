@@ -74,7 +74,6 @@ begin
     end;
   end;
 	
-  RepSpec.f6 = "PricesWithImages.xlsx";
 	ImagesExcel(RepSpec, agroup, acode, aname, abarcode);
 	// RunProgram("buildXLSX.bat","");
 	RepSpec.f10 = left(RepSpec.f6,len(RepSpec.f6)-5);
@@ -101,6 +100,9 @@ begin
   Integer i,j,rwcnt;
 	array string 255 agroup, acode, aname, abarcode;
 	
+	
+	RepSpec.f6 = "PricesWithImages.xlsx";
+	
 	NewPriceGeneration(RepSpec);
   StartReportNoHeaderJob("Прейскурант с картинками");
 		RepSpec.f10 = left(RepSpec.f6,len(RepSpec.f6)-5);
@@ -110,3 +112,20 @@ begin
 	EndJob;
   return;  
 end;            
+
+
+global
+procedure CurrentPriceXlsx()
+begin
+	record CUVc CUr;
+	area aexp;
+	val bal;
+	record RcVc RepSpec;
+	
+	logtext(0,"CurrentPriceXlsx");
+	
+	RepSpec.f6 = "CurrentPriceXlsx.xlsx";
+	NewPriceGeneration(RepSpec);
+	
+return;
+end;
