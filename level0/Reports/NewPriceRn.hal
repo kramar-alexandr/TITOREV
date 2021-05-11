@@ -115,16 +115,16 @@ end;
 
 
 global
-procedure CurrentPriceXlsx()
+procedure PartnerPricesXlsx()
 begin
 	record CUVc CUr;
 	area aexp;
 	val bal;
 	record RcVc RepSpec;
 	
-	logtext(0,"CurrentPriceXlsx");
+	logtext(0,"PartnerPrices");
 	
-	RepSpec.f7 = "CurrentPriceXlsx.xlsx";
+	RepSpec.f7 = "PartnerPrices.xlsx";
 	NewPriceGeneration(RepSpec);
 	
 return;
