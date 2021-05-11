@@ -3,7 +3,7 @@ external inner function string 255 StrReplace(string,string,string);// Edit ****
 external inner procedure ExtractObj(string,var Integer,var string);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 17 01 2020 y. at 2:27:07 PM
 external procedure exportCustomerCSV(record RcVc);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 02 04 2021 y. at 6:24:51 PM
 external procedure exportcurrencyCSV(record RcVc);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 02 04 2021 y. at 6:24:51 PM
-external procedure CurrentPriceXlsx();
+external inner procedure CurrentPriceXlsx();
 
 
 procedure GetCurTimeInStr(var string res)
