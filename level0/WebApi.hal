@@ -16,7 +16,9 @@ begin
 	integer i;
   Boolean testf,isfirst;
   Boolean TrHs;
-
+  
+  WebSetContentType("application/json");	
+  
 	webgetpostdata(a_reply);
 	jobj = parsejsonarea(a_reply);
 
@@ -72,6 +74,8 @@ begin
 	record CUVc CUr;	
 	val bal;
 	string 100 phone;
+	
+	WebSetContentType("application/json");	
 	
 	webgetpostdata(a_reply);
 	jobj = parsejsonarea(a_reply);
