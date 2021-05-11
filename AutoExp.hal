@@ -3,6 +3,8 @@ external inner function string 255 StrReplace(string,string,string);// Edit ****
 external inner procedure ExtractObj(string,var Integer,var string);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 17 01 2020 y. at 2:27:07 PM
 external procedure exportCustomerCSV(record RcVc);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 02 04 2021 y. at 6:24:51 PM
 external procedure exportcurrencyCSV(record RcVc);// Edit ************************** BPI Ukraine - KramarAlexandr - 05, 02 04 2021 y. at 6:24:51 PM
+external procedure CurrentPriceXlsx();
+
 
 procedure GetCurTimeInStr(var string res)
 BEGIN
@@ -336,6 +338,13 @@ begin
   if(right(tt.minute,1)=="0")then begin
     exportcurrencyCSV(RepSpec);
   end;
+  
+  
+  if(right(tt.minute,1)=="0")then begin
+ 	    logtext(0,"CurrentPriceXlsx EVERY 10 min MAINTENANCE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      CurrentPriceXlsx;
+  end;
+ 
  	
  	mtrw = matrowcnt(CBb);// Edit ************************** Tuesday, 29 November 2016 13:00:00
  	For(j=0;j<mtrw;j=j+1) begin// Edit ************************** Tuesday, 29 November 2016 13:00:00
