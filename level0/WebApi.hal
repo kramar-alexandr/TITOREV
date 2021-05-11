@@ -1,5 +1,6 @@
 //Edit **********************************************Vas-P 07.05.2021
 external outer function val getCustomerbalance(string);
+external outer function string 255 NormalizeStrToJson(string);
 
 SetLangMode(LangRussian,"RUS",0);
 
@@ -50,7 +51,9 @@ begin
 					WebOutString(",");
 				end;
 				isfirst = true;
-				WebOutString("\{""Товар\" : \"" & PLr.ArtCode & "\"," & "\"Цена\" : \"" & PLr.ExVatPrice & "\"," & "\"Наименование\" : \"" & INr.Name & "\"" & "}");	
+				WebOutString("\{""Товар\" : \"" & PLr.ArtCode & "\",")
+				WebOutString("\"Цена\" : \"" & PLr.ExVatPrice & "\",")
+				WebOutString("\"Наименование\" : \"" & NormalizeStrToJson(INr.Name) & "\"" & "}");	
 			end;
 		end;
 		WebOutString("]" & "}");
@@ -77,7 +80,9 @@ begin
 	CUr.Phone = phone;
 	if(nonblank(CUr.Phone) and ReadFirstKey("Phone",CUr,1,true))then begin
 		bal = getCustomerbalance(CUr.Code);
-		WebOutString("\{""Balance\" : \"" & bal & "\"," & "\"CustomerCode\" : \"" & CUr.Code & "\"," & "\"Email\" : \"" & CUr.eMail & "\"" & "}");
+		WebOutString("\{""Balance\" : \"" & bal & "\",");
+		WebOutString("\"CustomerCode\" : \"" & CUr.Code & "\",");
+		WebOutString("\"Email\" : \"" & CUr.eMail & "\"" & "}");
 	end else begin
 	  WebOutString("{\"result\":\"error\"}");
 	end;
