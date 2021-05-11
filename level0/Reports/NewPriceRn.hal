@@ -105,7 +105,7 @@ begin
 	
 	NewPriceGeneration(RepSpec);
   StartReportNoHeaderJob("Прейскурант с картинками");
-		RepSpec.f10 = left(RepSpec.f7,len(RepSpec.f6)-5);
+		RepSpec.f10 = left(RepSpec.f7,len(RepSpec.f7)-5);
 	  StartFormat(15);
 		OutString(0,"DblImagesExcel","https://" & RepSpec.f4 & ":" & RepSpec.f5 & "/" & RepSpec.f10 & ".xlsx",false);
 	  EndFormat;
@@ -124,7 +124,7 @@ begin
 	
 	logtext(0,"CurrentPriceXlsx");
 	
-	RepSpec.f6 = "CurrentPriceXlsx.xlsx";
+	RepSpec.f7 = "CurrentPriceXlsx.xlsx";
 	NewPriceGeneration(RepSpec);
 	
 return;
