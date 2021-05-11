@@ -23,7 +23,7 @@ begin
 
 	
 	CUr.Phone = phone;
-	if(ReadFirstKey("Phone",CUr,1,true))then begin
+	if(nonblank(CUr.Phone) and ReadFirstKey("Phone",CUr,1,true))then begin
 	  WebOutString("\{""products\" : \[");
 		while (LoopMain(INr,1,true)) begin
 			testf = true;
@@ -75,7 +75,7 @@ begin
 	phone = JSONGet(jobj,"phone");
 	
 	CUr.Phone = phone;
-	if(ReadFirstKey("Phone",CUr,1,true))then begin
+	if(nonblank(CUr.Phone) and ReadFirstKey("Phone",CUr,1,true))then begin
 		bal = getCustomerbalance(CUr.Code);
 		WebOutString("\{""Balance\" : \"" & bal & "\"," & "\"CustomerCode\" : \"" & CUr.Code & "\"," & "\"Email\" : \"" & CUr.eMail & "\"" & "}");
 	end else begin
