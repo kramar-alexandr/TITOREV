@@ -86,16 +86,14 @@ begin
 	if(nonblank(CUr.Phone) and ReadFirstKey("Phone",CUr,1,true))then begin
 		bal = getCustomerbalance(CUr.Code);
 		WebOutString("{\"Balance\" : \"" & bal & "\",");
-		WebOutString("\"CustomerCode\" : \"" & CUr.Code & "\",");
-		WebOutString("\"Email\" : \"" & CUr.eMail & "\"" & "}");
+		WebOutString("\"CustomerCode\" : \"" & CUr.Code & "\"");
+		//WebOutString("\"Email\" : \"" & CUr.eMail & "\"" & "}");
 	end else begin
 	  WebOutString("{\"result\":\"error\"}");
 	end;
 	
 	return;
 end;
-
-
 
 global webpublic Procedure Webgetcustomerexists()
 begin
