@@ -53,9 +53,10 @@ begin
 					WebOutString(",");
 				end;
 				isfirst = true;
-				WebOutString("\{""Товар\" : \"" & PLr.ArtCode & "\",")
-				WebOutString("\"Цена\" : \"" & PLr.ExVatPrice & "\",")
-				WebOutString("\"Наименование\" : \"" & NormalizeStrToJson(INr.Name) & "\"" & "}");	
+				WebOutString("{\"Item\" : \"" & PLr.ArtCode & "\",")
+				WebOutString("\"Price\" : \"" & PLr.ExVatPrice & "\",")
+				WebOutString("\"Name\" : \"" & NormalizeStrToJson(INr.Name) & "\",");
+				WebOutString("\"InStock\" : \"" & ISr.Instock & "\"" & "}");
 			end;
 		end;
 		WebOutString("]" & "}");
@@ -84,7 +85,7 @@ begin
 	CUr.Phone = phone;
 	if(nonblank(CUr.Phone) and ReadFirstKey("Phone",CUr,1,true))then begin
 		bal = getCustomerbalance(CUr.Code);
-		WebOutString("\{""Balance\" : \"" & bal & "\",");
+		WebOutString("{\"Balance\" : \"" & bal & "\",");
 		WebOutString("\"CustomerCode\" : \"" & CUr.Code & "\",");
 		WebOutString("\"Email\" : \"" & CUr.eMail & "\"" & "}");
 	end else begin
@@ -95,6 +96,30 @@ begin
 end;
 
 
+
+global webpublic Procedure Webgetcustomerexists()
+begin
+	area a_reply;
+	json jobj;
+	record CUVc CUr;	
+	val bal;
+	string 100 phone;
+	
+	WebSetContentType("application/json");	
+	
+	webgetpostdata(a_reply);
+	jobj = parsejsonarea(a_reply);
+	phone = JSONGet(jobj,"phone");
+	
+	CUr.Phone = phone;
+	if(nonblank(CUr.Phone) and ReadFirstKey("Phone",CUr,1,true))then begin
+		WebOutString("{\"result\":\"true\"}");
+	end else begin
+	  WebOutString("{\"result\":\"false\"}");
+	end;
+	
+	return;
+end;
 
 
 
