@@ -55,8 +55,8 @@ begin
 				isfirst = true;
 				WebOutString("{\"Item\" : \"" & PLr.ArtCode & "\",")
 				WebOutString("\"Price\" : \"" & PLr.ExVatPrice & "\",")
-				WebOutString("\"Name\" : \"" & NormalizeStrToJson(INr.Name) & "\",");
-				WebOutString("\"InStock\" : \"" & ISr.Instock & "\"" & "}");
+				WebOutString("\"Name\" : \"" & NormalizeStrToJson(INr.Name) & "\"}");
+				//WebOutString("\"InStock\" : \"" & ISr.Instock & "\"" & "}");
 			end;
 		end;
 		WebOutString("]" & "}");
@@ -86,7 +86,7 @@ begin
 	if(nonblank(CUr.Phone) and ReadFirstKey("Phone",CUr,1,true))then begin
 		bal = getCustomerbalance(CUr.Code);
 		WebOutString("{\"Balance\" : \"" & bal & "\",");
-		WebOutString("\"CustomerCode\" : \"" & CUr.Code & "\"");
+		WebOutString("\"CustomerCode\" : \"" & CUr.Code & "\"}");
 		//WebOutString("\"Email\" : \"" & CUr.eMail & "\"" & "}");
 	end else begin
 	  WebOutString("{\"result\":\"error\"}");
