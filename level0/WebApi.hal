@@ -1,6 +1,7 @@
 //Edit **********************************************Vas-P 07.05.2021
 external outer function val getCustomerbalance(string);
 external outer function string 255 NormalizeStrToJson(string);
+external outer procedure PersonalPriceGeneration(record CUVc);
 
 SetLangMode(LangRussian,"RUS",0);
 
@@ -27,7 +28,8 @@ begin
 	
 	CUr.Phone = phone;
 	if(nonblank(CUr.Phone) and ReadFirstKey("Phone",CUr,1,true))then begin
-	  WebOutString("\{""products\" : \[");
+		PersonalPriceGeneration(CUr);
+	  /*WebOutString("\{""products\" : \[");
 		while (LoopMain(INr,1,true)) begin
 			testf = true;
 			
@@ -59,7 +61,7 @@ begin
 				//WebOutString("\"InStock\" : \"" & ISr.Instock & "\"" & "}");
 			end;
 		end;
-		WebOutString("]" & "}");
+		WebOutString("]" & "}");*/
 	end else begin
 	  WebOutString("{\"result\":\"error\"}");
 	end;

@@ -1,0 +1,67 @@
+//<halrule>server-only</halrule>
+external procedure HTCusts(string, string, var string);
+external procedure ExtractObj(string,var Integer,var string);
+external function Boolean GetItemNameStr(Integer,var string,string,string,string);
+external procedure HTSort1(Integer, var string);
+external procedure HTArtSel(string,string,var string);
+external procedure PersonalPriceExcel(record RcVc,array string,array val,array string,array string,string);
+
+SetLangMode(LangRussian,"RUS",0);
+
+
+global
+procedure PersonalPriceGeneration(record CUVc CUr)
+begin 
+  record INVc INr;
+	record ITVc ITr;
+	record PLVc PLr;
+	record RcVc RepSpec;
+  record ItemStatusVc ISr;
+  String 200 tstr;
+	string 255 filename;
+	string 100 sortkey,contname;
+  Boolean testf;
+  Boolean TrHs;
+  Integer i,j,rwcnt;
+	array string 255 agroup, acode, aname, abarcode;
+	array string 255 aitem;
+	array val aprice;
+	
+	
+	TrHs = true;
+
+	while (LoopMain(INr,1,TrHs)) begin
+		testf = true;
+		
+		if (INr.Terminated<>0)then begin
+			testf = false;
+		end;
+		
+		ISr.Code = INr.Code;
+		ISr.Location = "1";
+		ReadFirstMain(ISr,2,true);
+		if(ISr.Instock<=0)then begin
+			testf = false;
+		end;
+		
+		PLr.PLCode = CUr.PLCode;
+		PLr.ArtCode = INr.Code;
+		if(ReadFirstMain(PLr,2,true)==false)then begin
+			testf = false;
+		end;
+		if(testf)then begin
+			aitem[aitem.length] = PLr.ArtCode;
+			aprice[aprice.length] = PLr.ExVatPrice;
+			aname[aname.length] = INr.Name;
+			abarcode[abarcode.length] = INr.BarCode;
+			contname = CUr.Name;
+		end;
+	end;
+	
+	PersonalPriceExcel(RepSpec, aitem, aprice, aname, abarcode, contname);
+	// RunProgram("buildXLSX.bat","");
+	RepSpec.f10 = left(RepSpec.f7,len(RepSpec.f7)-5);
+	RunProgram("jar","-cf0M ./webcust/" & CUr.Code & "_PersonalPrice.xlsx -C ./" & RepSpec.f10 & "/ .");
+		
+  return;  
+end;            

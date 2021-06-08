@@ -1,0 +1,175 @@
+//server-only
+external function string 255 MonthName(Date);
+external procedure ExtractObj(string,var Integer,var string);
+external function string 255 ConvertXml(string);
+external procedure FindAwerageCostCurProc(string,string,string,date,string,string,var val,var val);
+
+external procedure XmlXlsxWorkBegin(string,string);
+external procedure CreateSheetsXLSX(integer,array string,string,integer,boolean);
+external procedure EndSheet(integer,string,integer);
+external procedure SetSheetsCols(integer,array val,array integer,string);
+external procedure BeginSheetData(integer,string);
+external procedure EndSheetData(integer,string);
+external procedure BeginRow(integer,string,integer,integer,val);
+external procedure EndRow(integer,string,var integer);
+external procedure StringCell(integer,string,var integer,integer,integer,string,var array string,var integer,var integer);
+external procedure FormulaCell(integer,string,var integer,integer,integer,string,var array string,var integer,var integer);
+external procedure SumCell(integer,string,var integer,integer,integer,string,var array string,var integer,var integer);
+external procedure NumericCell(integer,string,var integer,integer,integer,val);
+external procedure EmptyCell(integer,string,var integer,integer,integer,integer);
+external procedure MergeCells(integer,string,array string,integer);
+external procedure FillSharedStrings(string,array string,integer,integer,array string);
+external procedure ConvertToXLSX(string,boolean);
+external procedure PrepToAddImgToAllSheet(integer,string);
+external function string 10 GetStringCellNum(integer,integer);
+external function string 255 StrReplace(string,string,string);
+external procedure LogProcTime(string,longint);
+
+//Edit **********************************************Vas-P 02.06.2021
+SetLangMode(LangRussian,"RUS",0);
+
+global
+procedure PersonalPriceExcel(record RcVc RepSpec, array string aitem, array val aprice,array string aname,array string abarcode,string contname)
+begin
+	array string 50 sheetNames;
+	array val sheetColls;
+	array string 21 mergeCell;
+	string 255 fileToSave,pathToImg;
+	integer qtyOfSheets,sheetnum,rownum,colnum,style,qtyOfEmpStr;
+	string 255 imagestr;
+	array string 100 SharedStrings;
+	integer numOfUniqueSharedStrings,numOfSharedStrings,qtyMergeCell;
+	string 6 reportName;
+  array string 255 mas;
+  array integer lvlArray;
+  integer imgCounter;
+	array string 255 image;
+	val rrpprice, partnerprice;
+  record PLVc PLr;
+  record PLDefVc PLDefr;
+  record INVc INr,dupINr;
+  string 100 tstr;
+  integer pos,cnt,SQi,TSi,i,j,Ccntr,Scntr,rowcnt,mtrw,curcomp;
+  boolean TrHs,TrHs1,testf,test2f,f,testf1,locflag,dublikateItem;
+	string 255 oldgroup;
+	string 10 r, t;
+	
+	setexportcodepage("UTF8");
+	reportName = "PersonalPriceExcelRn";
+	if (windowsmode==1) then begin
+		fileToSave = RepSpec.f7;
+	end else begin
+    fileToSave = RepSpec.f7;
+	end;
+  delete_file(fileToSave);
+	deletefolder(Left(fileToSave,(len(fileToSave) - 5)));
+	sheetNames[qtyOfSheets] = "Report";
+	qtyOfSheets = 1;
+	sheetColls[0] = 19.83203125;
+	sheetColls[1] = 14.1640625;
+	sheetColls[2] = 61;
+	sheetColls[3] = 10.83203125;
+	sheetColls[4] = 10.83203125;
+	sheetColls[5] = 10.83203125;
+	sheetColls[6] = 10.83203125;
+	sheetColls[7] = 13.6640625;
+	
+  curcomp = 1;
+	tstr = "";
+  numOfUniqueSharedStrings = 0;
+	numOfSharedStrings = 0;
+	
+	XmlXlsxWorkBegin(fileToSave,reportName);
+	CreateSheetsXLSX(qtyOfSheets,sheetNames,fileToSave,1,false);
+	sheetnum = 1;
+	SetSheetsCols(sheetnum,sheetColls,lvlArray,fileToSave);
+  BeginSheetData(sheetnum,fileToSave);
+    rownum = 1;
+		colnum = 1;
+		BeginRow(sheetnum,fileToSave,rownum,0,11);
+    EndRow(sheetnum,fileToSave,rownum);
+    rownum = 2;
+		colnum = 1;
+		BeginRow(sheetnum,fileToSave,rownum,0,26);
+			style = 37;
+			StringCell(sheetnum,fileToSave,colnum,rownum,style,contname,SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+    EndRow(sheetnum,fileToSave,rownum);
+    rownum = 3;
+		colnum = 1;
+    BeginRow(sheetnum,fileToSave,rownum,0,26);
+			style = 37;
+			StringCell(sheetnum,fileToSave,colnum,rownum,style,"Код товара",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+			style = 38;
+			StringCell(sheetnum,fileToSave,colnum,rownum,style,"Штрих-код",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+			style = 37;
+			StringCell(sheetnum,fileToSave,colnum,rownum,style,"Наимен.",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+			style = 37;
+			StringCell(sheetnum,fileToSave,colnum,rownum,style,"Цена",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+			style = 37;
+			StringCell(sheetnum,fileToSave,colnum,rownum,style,"Заказ",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+			style = 37;
+			StringCell(sheetnum,fileToSave,colnum,rownum,style,"Сумма",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+			style = 39;
+			StringCell(sheetnum,fileToSave,colnum,rownum,style,"РРЦ",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+			style = 17;
+			StringCell(sheetnum,fileToSave,colnum,rownum,style,"Примечание",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+    EndRow(sheetnum,fileToSave,rownum);
+		rowcnt = rowcnt + 1;
+		testf = true;
+		if (testf) then begin
+			rownum = 4;
+			for(j=0;j<aitem.length;j=j+1)begin
+				rrpprice = blankval;
+				
+				PLr.ArtCode = aitem[j];
+				PLr.PLCode = "2";
+
+				if(ReadFirstMain(PLr,2,true)) then begin
+					rrpprice = PLr.ExVatPrice;
+				end;
+
+				BeginRow(sheetnum,fileToSave,rownum,0,26);
+					colnum = 1;
+					style = 27;
+					StringCell(sheetnum,fileToSave,colnum,rownum,style,aitem[j],SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+					style = 27;
+					StringCell(sheetnum,fileToSave,colnum,rownum,style,abarcode[j],SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+					style = 23;
+					StringCell(sheetnum,fileToSave,colnum,rownum,style,aname[j],SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+					style = 31;
+					r = rownum;
+					NumericCell(sheetnum,fileToSave,colnum,rownum,style,aprice[j]);
+					style = 31;
+					t = rownum;
+					StringCell(sheetnum,fileToSave,colnum,rownum,style,"",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+					style = 31;
+					FormulaCell(sheetnum,fileToSave,colnum,rownum,style,"D" & r & "*" & "E" & t,SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+					style = 31;
+					NumericCell(sheetnum,fileToSave,colnum,rownum,style,rrpprice);
+					style = 28;
+					StringCell(sheetnum,fileToSave,colnum,rownum,style,"",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);					
+				EndRow(sheetnum,fileToSave,rownum);
+				rowcnt = rowcnt + 1;
+			end;
+		end;
+		colnum = 1;
+		BeginRow(sheetnum,fileToSave,rownum,0,15.75);
+		EndRow(sheetnum,fileToSave,rownum);
+		colnum = 4;
+		BeginRow(sheetnum,fileToSave,rownum,0,15.75);
+			style = 35;
+			StringCell(sheetnum,fileToSave,colnum,rownum,style,"Сумма",SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+			style = 35;
+			SumCell(sheetnum,fileToSave,colnum,rownum,style,"E4:E" & rownum - 1,SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+			style = 36;
+			SumCell(sheetnum,fileToSave,colnum,rownum,style,"F4:F" & rownum - 1,SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
+		EndRow(sheetnum,fileToSave,rownum);
+	EndSheetData(sheetnum,fileToSave);
+  MergeCells(sheetnum,fileToSave,mergeCell,qtyMergeCell);
+	EndSheet(sheetnum,fileToSave,sheetnum);
+	FillSharedStrings(fileToSave,SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings,mas);
+	ConvertToXLSX(fileToSave,true);
+	
+	MilliSleep(5000);
+  return;
+end;

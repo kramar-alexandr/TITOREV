@@ -3884,7 +3884,6 @@ begin
   EndWindow;
 end;
 
-
 window MyCuPer2RClass:1// Edit ************************** Thursday, 23 March 2017 14:40:12
   wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
