@@ -26,6 +26,7 @@ begin
 	array string 255 agroup, acode, aname, abarcode;
 	array string 255 aitem;
 	array val aprice;
+	area areturn;
 	
 	
 	TrHs = true;
@@ -62,6 +63,13 @@ begin
 	// RunProgram("buildXLSX.bat","");
 	RepSpec.f10 = left(RepSpec.f7,len(RepSpec.f7)-5);
 	RunProgram("jar","-cf0M ./webcust/" & CUr.Code & "_PersonalPrice.xlsx -C ./" & RepSpec.f10 & "/ .");
-		
+	
+	millisleep(2000);
+	
+	addfiletoarea("./webcust/" & CUr.Code & "_PersonalPrice.xlsx", areturn,0);
+	WebSetContentType("application/binary");	
+	WebSetContentDisposition("inline;filename=" & CUr.Code & "_PersonalPrice.xlsx");
+	weboutarea2(areturn);
+	
   return;  
 end;            
