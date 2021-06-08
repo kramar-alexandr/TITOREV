@@ -80,7 +80,7 @@ begin
 	numOfSharedStrings = 0;
 	
 	XmlXlsxWorkBegin(fileToSave,reportName);
-	CreateSheetsXLSX(qtyOfSheets,sheetNames,fileToSave,1,false);
+	CreateSheetsXLSX(qtyOfSheets,sheetNames,fileToSave,0,false);
 	sheetnum = 1;
 	SetSheetsCols(sheetnum,sheetColls,lvlArray,fileToSave);
   BeginSheetData(sheetnum,fileToSave);
@@ -166,7 +166,7 @@ begin
 		EndRow(sheetnum,fileToSave,rownum);
 	EndSheetData(sheetnum,fileToSave);
   MergeCells(sheetnum,fileToSave,mergeCell,qtyMergeCell);
-	EndSheet(sheetnum,fileToSave,sheetnum);
+	EndSheet(sheetnum,fileToSave,0);
 	FillSharedStrings(fileToSave,SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings,mas);
 	ConvertToXLSX(fileToSave,true);
 	
