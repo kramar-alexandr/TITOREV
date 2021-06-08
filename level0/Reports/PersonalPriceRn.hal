@@ -57,7 +57,7 @@ begin
 			contname = CUr.Name;
 		end;
 	end;
-	
+	RepSpec.f7 = CUr.Code & "_PersonalPrice.xlsx";
 	PersonalPriceExcel(RepSpec, aitem, aprice, aname, abarcode, contname);
 	// RunProgram("buildXLSX.bat","");
 	RepSpec.f10 = left(RepSpec.f7,len(RepSpec.f7)-5);
