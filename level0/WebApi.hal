@@ -23,11 +23,8 @@ begin
   
   WebSetContentType("application/json");	
   
-	webgetpostdata(a_reply);
-	jobj = parsejsonarea(a_reply);
-
-	phone = JSONGet(jobj,"phone");
-  token = stringtolongint(JSONGet(jobj,"token"));
+	phone = webgetarg("phone");
+  token = stringtolongint(webgetarg("token"));
 	
 	CUr.Phone = phone;
 	if(nonblank(CUr.Phone) and ReadFirstKey("Phone",CUr,1,true) and (token==calcpassword(CUr.Code,"",0)))then begin
