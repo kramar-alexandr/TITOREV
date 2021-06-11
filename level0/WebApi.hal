@@ -13,8 +13,9 @@ begin
 	record PLVc PLr;
 	record INVc INr;
 	record ItemStatusVc ISr;
-	string 100 plcode,phone,token;
+	string 100 plcode,phone;
 	integer i;
+	longint token;
   Boolean testf,isfirst;
   Boolean TrHs;
   
@@ -26,10 +27,10 @@ begin
 	jobj = parsejsonarea(a_reply);
 
 	phone = JSONGet(jobj,"phone");
-  token = JSONGet(jobj,"token");
+  token = stringtolongint(JSONGet(jobj,"token"));
 	
 	CUr.Phone = phone;
-	if(nonblank(CUr.Phone) and ReadFirstKey("Phone",CUr,1,true) and token==calcpassword(CUr.Code,"",0))then begin
+	if(nonblank(CUr.Phone) and ReadFirstKey("Phone",CUr,1,true) and (token==calcpassword(CUr.Code,"",0)))then begin
 		PersonalPriceGeneration(CUr);
 	  /*WebOutString("\{""products\" : \[");
 		while (LoopMain(INr,1,true)) begin
