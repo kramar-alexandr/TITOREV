@@ -18,6 +18,8 @@ begin
   Boolean testf,isfirst;
   Boolean TrHs;
   
+  setcompany(1,false);
+  
   WebSetContentType("application/json");	
   
 	webgetpostdata(a_reply);
@@ -78,6 +80,8 @@ begin
 	val bal;
 	string 100 phone;
 	
+	setcompany(1,false);
+	
 	WebSetContentType("application/json");	
 	
 	webgetpostdata(a_reply);
@@ -105,7 +109,11 @@ begin
 	val bal;
 	string 100 phone;
 	
+	setcompany(1,false);
+	
 	WebSetContentType("application/json");	
+	
+	logtext(0,"Webgetcustomerexists");
 	
 	webgetpostdata(a_reply);
 	jobj = parsejsonarea(a_reply);
