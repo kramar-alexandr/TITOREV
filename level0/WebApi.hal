@@ -113,7 +113,7 @@ begin
 	
 	CUr.Phone = phone;
 	if(nonblank(CUr.Phone) and ReadFirstKey("Phone",CUr,1,true))then begin
-		WebOutString("{\"result\":\"true\"}");
+		WebOutString("{\"result\":\"true\", \"token\":\"" & calcpassword(CUr.Code,"",0) & "\"}");
 	end else begin
 	  WebOutString("{\"result\":\"false\"}");
 	end;
