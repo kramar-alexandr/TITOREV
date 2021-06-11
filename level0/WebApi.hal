@@ -25,6 +25,8 @@ begin
   
 	phone = webgetarg("phone");
   token = stringtolongint(webgetarg("token"));
+  logtext(0,"phone " & phone);
+  logtext(0,"token " & token);
 	
 	CUr.Phone = phone;
 	if(nonblank(CUr.Phone) and ReadFirstKey("Phone",CUr,1,true) and (token==calcpassword(CUr.Code,"",0)))then begin
