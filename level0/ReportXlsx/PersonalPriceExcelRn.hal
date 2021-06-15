@@ -91,7 +91,7 @@ begin
     rownum = 2;
 		colnum = 1;
 		BeginRow(sheetnum,fileToSave,rownum,0,26);
-			style = 37;
+			style = 38;
 			StringCell(sheetnum,fileToSave,colnum,rownum,style,contname,SharedStrings,numOfUniqueSharedStrings,numOfSharedStrings);
     EndRow(sheetnum,fileToSave,rownum);
     rownum = 3;
