@@ -128,7 +128,7 @@ begin
 	record RcVc RepSpec;
 	
 	logtext(0,"PartnerPrices");
-	
+	RepSpec.f3 = "1";
 	RepSpec.f7 = "PartnerPrices.xlsx";
 	NewPriceGeneration(RepSpec);
 	
