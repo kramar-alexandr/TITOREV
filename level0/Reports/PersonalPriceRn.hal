@@ -31,7 +31,7 @@ begin
 	
 	TrHs = true;
 
-	while (LoopMain(INr,1,TrHs)) begin
+	while (Loopkey("Name",INr,1,TrHs)) begin
 		testf = true;
 		
 		if (INr.Terminated<>0)then begin
@@ -43,6 +43,9 @@ begin
 		ReadFirstMain(ISr,2,true);
 		if(ISr.Instock<=0)then begin
 			testf = false;
+		end;
+		if(INr.Group!="1")then begin
+		  testf = false;
 		end;
 		
 		PLr.PLCode = CUr.PLCode;
@@ -63,12 +66,12 @@ begin
 	// RunProgram("buildXLSX.bat","");
 	RepSpec.f10 = left(RepSpec.f7,len(RepSpec.f7)-5);
 	RunProgram("jar","-cf0M ./webcust/" & CUr.Code & "_PersonalPrice.xlsx -C ./" & RepSpec.f10 & "/ .");
-	
+		
 	millisleep(2000);
 	
 	addfiletoarea("./webcust/" & CUr.Code & "_PersonalPrice.xlsx", areturn,0);
 	WebSetContentType("application/binary");	
-	WebSetContentDisposition("inline;filename=" & CUr.Code & "_PersonalPrice.xlsx");
+	WebSetContentDisposition("inline;filename=PersonalPrice(" & datetostring(currentdate,"DD_MM_YYYY") &  ").xlsx");
 	weboutarea2(areturn);
 	
   return;  
