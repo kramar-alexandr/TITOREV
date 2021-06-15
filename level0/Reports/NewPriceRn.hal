@@ -27,7 +27,8 @@ begin
 	
 	TrHs = true;
 	
-  sortkey = "Group";
+  //sortkey = "Group";
+  sortkey = "Name";
 	if(nonblank(RepSpec.f3)) then begin
 		sortkey = "Name";
 	end;
@@ -67,7 +68,11 @@ begin
     if (testf) then begin
 			ITr.Code = INr.Group;
 			ReadFirstMain(ITr,1,true);
-      agroup[agroup.length] = ITr.Comment;
+			if(nonblank(RepSpec.f3))then  begin
+        agroup[agroup.length] = ITr.Comment;
+      end else begin
+        agroup[agroup.length] = "";
+      end;
       acode[acode.length] = INr.Code;
       aname[aname.length] = INr.Name;
       abarcode[abarcode.length] = INr.BarCode;
