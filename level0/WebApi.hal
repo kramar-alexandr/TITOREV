@@ -130,6 +130,24 @@ begin
 end;
 
 
+global webpublic Procedure Webgetpartnerprice()
+begin
+	area a_reply;
+	json jobj;
+	record CUVc CUr;	
+	val bal;
+	string 100 phone;
+	area areturn;
+		
+	addfiletoarea("./webcust/PricesWithImages.xlsx", areturn,0);
+	WebSetContentType("application/binary");	
+	WebSetContentDisposition("inline;filename=PartnerPrices(" & datetostring(currentdate,"DD_MM_YYYY") &  ").xlsx");
+	weboutarea2(areturn);
+	
+	return;
+end;
+
+
 
 
 

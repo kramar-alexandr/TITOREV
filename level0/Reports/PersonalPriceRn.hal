@@ -71,7 +71,7 @@ begin
 	
 	addfiletoarea("./webcust/" & CUr.Code & "_PersonalPrice.xlsx", areturn,0);
 	WebSetContentType("application/binary");	
-	WebSetContentDisposition("inline;filename=PersonalPrice(" & datetostring(currentdate,"DD_MM_YYYY") &  ").xlsx");
+	WebSetContentDisposition("inline;filename=PersonalPrices(" & datetostring(currentdate,"DD_MM_YYYY") &  ").xlsx");
 	weboutarea2(areturn);
 	
   return;  
