@@ -154,7 +154,9 @@ begin
   OutStringAdjust(6,0,USetStr(10915),true,M4Val);
   OutStringAdjust(7,0,"1->2",true,M4Val);
   OutStringAdjust(8,0,USetStr(10916),true,M4Val);
-	OutString(9,0,"Вос.произ.",false);
+	if(RepSpec.flags[3]==1)then begin
+		OutString(9,0,"Вос.произ.",false);
+	end;
   EndFormat;
   Gray_Divider(0,1);
   to1 = 0;
