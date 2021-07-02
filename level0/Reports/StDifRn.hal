@@ -5,6 +5,10 @@ external function Boolean HasItemGroups();
 external function Boolean ItemInItemGroupOrClass(string,string,string);
 external procedure GetStockValue(string,string,var record ItemStatusVc);
 external procedure HTArtSel(string ,string ,var string);
+external procedure ExpandProduction(string,string,string,Integer,var val,var val,Boolean,Integer);
+external function boolean HasSubStructure(record INVc);
+
+SetLangMode(LangRussian,"RUS",0);
 
 procedure FindHistory(string item, string st1, string st2, date fromd, var val df)
 begin
@@ -84,6 +88,7 @@ begin
   Integer rw;
   val stock1,stock2,order1,order2,free1,free2,absfree2,dif;
   val to1,to2,ts1,ts2,totship,totable;
+	val maxp,tmpmaxp,t;
 
   fromart = FirstInRange(RepSpec.f1,50);
   toart   = LastInRange(RepSpec.f1,50);
@@ -132,12 +137,13 @@ begin
   EndHeader;
 
   SetRepCol(2,85);
-  SetRepColBiDi(3,280,320);
-  SetRepColBiDi(4,320,360);
-  SetRepColBiDi(5,360,400);
-  SetRepColBiDi(6,400,440);
-  SetRepColBiDi(7,440,480);
-  SetRepColBiDi(8,480,515);
+  SetRepColBiDi(3,280,310);
+  SetRepColBiDi(4,310,340);
+  SetRepColBiDi(5,340,370);
+  SetRepColBiDi(6,370,400);
+  SetRepColBiDi(7,400,430);
+  SetRepColBiDi(8,440,450);
+	SetRepColBiDi(9,450,500);
 
   StartFormat(15);
   OutString(0,0,USetStr(2762),false);
@@ -148,6 +154,7 @@ begin
   OutStringAdjust(6,0,USetStr(10915),true,M4Val);
   OutStringAdjust(7,0,"1->2",true,M4Val);
   OutStringAdjust(8,0,USetStr(10916),true,M4Val);
+	OutString(9,0,"Вос.произ.",false);
   EndFormat;
   Gray_Divider(0,1);
   to1 = 0;
@@ -218,7 +225,22 @@ begin
               end;
             end;
           end;
-        end; 
+        end;
+				//Edit **********************************************Vas-P 02/07/2021
+				if(RepSpec.flags[3]==1)then begin
+					tmpmaxp = blankval;
+					if(HasSubStructure(INr))then begin
+						maxp = blankval;
+						t = -1;
+						ExpandProduction(INr.Code,"",INr.Recepy,1,maxp,t,false,1);
+						tmpmaxp = maxp;
+					end;
+					maxp = blankval;
+					t = -1;
+					ExpandProduction(INr.Code,"",INr.Recepy,1,maxp,t,false,0);
+					tmpmaxp = tmpmaxp + maxp;
+				end;				
+				
         if ((dif<>0) and (RepSpec.flags[2]==1)) or (RepSpec.flags[2]==0) then begin
           StartFormat(15);
           OutString(0,"DblINVc",INr.Code,false);
@@ -259,6 +281,10 @@ begin
           end else begin
           	OutString(8,0,"",false);
           end;
+					//Edit **********************************************Vas-P	02/07/2021
+					if(RepSpec.flags[3]==1)then begin
+						OutVal(9,0,tmpmaxp,M4Val,false);
+					end;
           EndFormat;
         end;
       end; 

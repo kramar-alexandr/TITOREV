@@ -6551,3 +6551,27 @@ begin
   EditField(h,v+=vs ,l,"Item",Normal,f1,false,0);
 EndWindow;
 end;
+
+//Edit **********************************************Vas-P	02/07/2021
+window StDifRClass:1
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs;
+  WindowBegin("Определите сравнение отчетов по складу",StDifRClass,CGRcW,RcType);
+  SetWRect(20,80,400,200);
+  v = 6; vs = 20; h = 130;
+  EditFieldTL(h,v, 150,"Товар",   M4UStr,Normal,50,f1,false,INSClass);
+  if (HasItemGroups) then begin
+  EditFieldTL(h,v+=vs, 150,"Группа",   M4UStr,Normal,5,f3,false,ITSClass);
+  end;
+  if (HasItemClassification) then begin
+    EditFieldTL(h,v+=vs,150,"Классификация товара",M4UStr,Normal,100,f4,false,DISClass);
+  end;
+  EditFieldTL(h,v+=vs, 150,"Склад 1",   M4UStr,Normal,10,AccStr,false,LocationSClass);
+  EditFieldTL(h,v+=vs, 150,"Склад 2",   M4UStr,Normal,10,LastAcc,false,LocationSClass);
+  CheckBox(h,v+=vs,0,"Только остатки",flags[2]);
+  CheckBox(h,v+=vs,0,"Проверить историю счетов клиентам",flags[1]);
+	CheckBox(h,v+=vs,0,"Возможность производства",flags[3]);
+  EditFieldTL(h, v+=vs, 150, "Дата",   M4Date,Normal,0,d1,false,0);
+  EndWindow;
+end;
